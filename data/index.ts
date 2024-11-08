@@ -72,11 +72,11 @@ export const navItems = [
   export const projects = [
     {
       id: 1,
-      title: "Blogging App",
-      des: "This AI-powered blog app streamlines the writing process and ignites creativity. Advanced AI integration allows you to generate ideas, suggest topics, and enhance your writing effortlessly.",
-      img: "/p1.svg",
-      iconLists: ["/re.svg", "/tail.svg", ],
-      // link: "https://github.com/adrianhajdin?tab=repositories",
+      title: "Real-time Tracker",
+      des: "A real-time tracker is a tool or system that provides live, up-to-date information about the status or location of an object, person, or event. It typically uses technologies like GPS, RFID, or internet connectivity to monitor and display data continuously. Real-time trackers are commonly used for fleet management, logistics, asset tracking, and personal safety applications.",
+      img: "/realtime-tracker.jpg",
+      iconLists: ["/re.svg", "/tail.svg" ],
+      link: "https://github.com/shreyam91/Realtime-Tracker",
     },
     {
       id: 2,
@@ -84,7 +84,7 @@ export const navItems = [
       des: "This intuitive app enables seamless task organization by allowing you to create to-do lists and prioritize daily activities. With a built-in notes feature, you can capture ideas, reminders, and detailed task descriptions in one convenient location. The integrated AI also offers helpful suggestions for various tasks.",
       img: "/p2.svg",
       iconLists: ["/next.svg", "/tail.svg", "/ts.svg", ],
-      // link: "https://github.com/adrianhajdin/zoom-clone",
+      link: "https://github.com/shreyam91/TaskScribe",
     },
     // {
     //   id: 3,
@@ -104,71 +104,71 @@ export const navItems = [
     // },
   ];
   
-  export const testimonials = [
-    {
-      quote:
-        "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-      name: "Michael Johnson",
-      title: "Director of AlphaStream Technologies",
-    },
-    {
-      quote:
-        "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-      name: "Michael Johnson",
-      title: "Director of AlphaStream Technologies",
-    },
-    {
-      quote:
-        "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-      name: "Michael Johnson",
-      title: "Director of AlphaStream Technologies",
-    },
-    {
-      quote:
-        "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-      name: "Michael Johnson",
-      title: "Director of AlphaStream Technologies",
-    },
-    {
-      quote:
-        "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-      name: "Michael Johnson",
-      title: "Director of AlphaStream Technologies",
-    },
-  ];
+  // export const testimonials = [
+  //   {
+  //     quote:
+  //       "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
+  //     name: "Michael Johnson",
+  //     title: "Director of AlphaStream Technologies",
+  //   },
+  //   {
+  //     quote:
+  //       "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
+  //     name: "Michael Johnson",
+  //     title: "Director of AlphaStream Technologies",
+  //   },
+  //   {
+  //     quote:
+  //       "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
+  //     name: "Michael Johnson",
+  //     title: "Director of AlphaStream Technologies",
+  //   },
+  //   {
+  //     quote:
+  //       "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
+  //     name: "Michael Johnson",
+  //     title: "Director of AlphaStream Technologies",
+  //   },
+  //   {
+  //     quote:
+  //       "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
+  //     name: "Michael Johnson",
+  //     title: "Director of AlphaStream Technologies",
+  //   },
+  // ];
   
-  export const companies = [
-    {
-      id: 1,
-      name: "cloudinary",
-      img: "/cloud.svg",
-      nameImg: "/cloudName.svg",
-    },
-    {
-      id: 2,
-      name: "appwrite",
-      img: "/app.svg",
-      nameImg: "/appName.svg",
-    },
-    {
-      id: 3,
-      name: "HOSTINGER",
-      img: "/host.svg",
-      nameImg: "/hostName.svg",
-    },
-    {
-      id: 4,
-      name: "stream",
-      img: "/s.svg",
-      nameImg: "/streamName.svg",
-    },
-    {
-      id: 5,
-      name: "docker.",
-      img: "/dock.svg",
-      nameImg: "/dockerName.svg",
-    },
-  ];
+  // export const companies = [
+  //   {
+  //     id: 1,
+  //     name: "cloudinary",
+  //     img: "/cloud.svg",
+  //     nameImg: "/cloudName.svg",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "appwrite",
+  //     img: "/app.svg",
+  //     nameImg: "/appName.svg",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "HOSTINGER",
+  //     img: "/host.svg",
+  //     nameImg: "/hostName.svg",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "stream",
+  //     img: "/s.svg",
+  //     nameImg: "/streamName.svg",
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "docker.",
+  //     img: "/dock.svg",
+  //     nameImg: "/dockerName.svg",
+  //   },
+  // ];
   
   export const workExperience = [
     {

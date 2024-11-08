@@ -60,7 +60,7 @@ const Hero = () => {
             Hi! I&apos;m Shreyam, a Next.js Developer based in India.
           </p>
 
-          <a download= '' href="../public/Shreyam_Resume_Java .pdf">
+          <a download= '' href="../public/Shreyam.pdf">
             <MagicButton
               title="Download my Resume"
               icon={<FaLocationArrow />}
