@@ -5,12 +5,18 @@ import { FaLocationArrow } from "react-icons/fa6";
 import { projects } from "@/data";
 import { PinContainer } from "./ui/Pin";
 
-const RecentProjects = () => {
+const Projects = () => {
+  // const handleProjectClick = (id: string) => {
+  //   const projectSection = document.getElementById(id);
+  //   if (projectSection) {
+  //     projectSection.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  // };
   return (
-    <div className="py-20">
+    <div id="projects" className="py-20">
       <h1 className="heading">
         A small section of{" "}
-        <span className="text-purple">recent projects</span>
+        <span className="text-purple"> Projects</span>
       </h1>
       <div className="flex flex-wrap items-center justify-center p-4 gap-16 mt-10">
         {projects.map((item) => (
@@ -66,14 +72,13 @@ const RecentProjects = () => {
 
                 <div className="flex justify-center items-center">
                 <a
-                    href={item.link} // Use the `link` from the data
-                    target="_blank" // Open in a new tab
-                    rel="noopener noreferrer" // Security feature to prevent vulnerabilities
+                    href={item.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
                    >
                   <p className="flex lg:text-xl md:text-xs text-sm text-purple">
                     Check Live Code
                   </p>
-                  {/* <FaLocationArrow className="ms-3" color="#CBACF9" /> */}
                   </a>
                 </div>
               </div>
@@ -85,4 +90,4 @@ const RecentProjects = () => {
   );
 };
 
-export default RecentProjects;
+export default Projects;
