@@ -13,18 +13,20 @@ import { FloatingNav } from "@/components/ui/FloatingNav";
 
 const Home = () => {
   return (
-    <main className="relative bg-black-100 flex justify-center items-center flex-col  mx-auto sm:px-10 px-5"> //overflow-hidden
+    <main className="relative bg-black-100 flex justify-center items-center     flex-col  mx-auto sm:px-10 px-5">
+      {/* overflow-hidden */}
       <div className="max-w-7xl w-full">
         <FloatingNav navItems={navItems} />
         <Hero />
         <Grid />
         <Projects />
-        {/* <Clients /> */}
+          {/* <Clients /> */}
         <Experience />
         <Approach />
         <Footer />
       </div>
     </main>
+
   );
 };
 
