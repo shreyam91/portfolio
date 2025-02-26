@@ -7,12 +7,6 @@ import { projects } from "@/data";
 import { PinContainer } from "./ui/Pin";
 
 const Projects = () => {
-  // const handleProjectClick = (id: string) => {
-  //   const projectSection = document.getElementById(id);
-  //   if (projectSection) {
-  //     projectSection.scrollIntoView({ behavior: 'smooth' });
-  //   }
-  // };
   return (
     <div id="projects" className="py-20">
       <h1 className="heading">
