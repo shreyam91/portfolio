@@ -6,6 +6,7 @@ import Image from "next/image";  // Import the Image component
 import { projects } from "@/data";
 import { PinContainer } from "./ui/Pin";
 
+
 const Projects = () => {
   return (
     <div id="projects" className="py-20">
