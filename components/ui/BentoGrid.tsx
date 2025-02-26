@@ -1,8 +1,15 @@
-import { useState } from "react";
-import { IoCopyOutline } from "react-icons/io5";
+'use client'
 
-// Also install this npm i --save-dev @types/react-lottie
-import Lottie from "react-lottie";
+import { useState, useEffect } from "react";
+import { IoCopyOutline } from "react-icons/io5";
+import dynamic from 'next/dynamic'
+import Image from 'next/image'
+
+// Replace react-lottie with react-lottie-player
+const Lottie = dynamic(() => import('react-lottie-player'), {
+  ssr: false,
+  loading: () => <div>Loading...</div>
+});
 
 import { cn } from "@/lib/utils";
 
@@ -19,6 +26,17 @@ export const BentoGrid = ({
   className?: string;
   children?: React.ReactNode;
 }) => {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  // Only render content after component is mounted on client
+  if (!isMounted) {
+    return null // or a loading state
+  }
+
   return (
     <div
       className={cn(
@@ -55,22 +73,24 @@ export const BentoGridItem = ({
   const leftLists = ["ReactJS", "Express", "Typescript"];
   const rightLists = ["MongoDB", "NextJS", "AWS"];
 
+  const [mounted, setMounted] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const defaultOptions = {
-    loop: copied,
-    autoplay: copied,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleCopy = () => {
-    const text = "shreyam91183@gmail.com";
-    navigator.clipboard.writeText(text);
-    setCopied(true);
+    if (typeof navigator !== 'undefined') {
+      const text = "shreyam91183@gmail.com";
+      navigator.clipboard.writeText(text);
+      setCopied(true);
+    }
   };
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div
@@ -91,9 +111,11 @@ export const BentoGridItem = ({
       <div className={`${id === 6 && "flex justify-center"} h-full`}>
         <div className="w-full h-full absolute">
           {img && (
-            <img
+            <Image
               src={img}
               alt={img}
+              fill={true}
+              style={{ objectFit: "cover" }}
               className={cn(imgClassName, "object-cover object-center ")}
             />
           )}
@@ -103,10 +125,11 @@ export const BentoGridItem = ({
             } `}
         >
           {spareImg && (
-            <img
+            <Image
               src={spareImg}
               alt={spareImg}
-              //   width={220}
+              fill={true}
+              style={{ objectFit: "cover" }}
               className="object-cover object-center w-full h-full"
             />
           )}
@@ -176,11 +199,16 @@ export const BentoGridItem = ({
               {/* remove focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 */}
               {/* add handleCopy() for the copy the text */}
               <div
-                className={`absolute -bottom-5 right-0 ${copied ? "block" : "block"
-                  }`}
+                className={`absolute -bottom-5 right-0 ${copied ? "block" : "block"}`}
               >
-                {/* <img src="/confetti.gif" alt="confetti" /> */}
-                <Lottie options={defaultOptions} height={200} width={400} />
+                {copied && (
+                  <Lottie
+                    loop
+                    play
+                    animationData={animationData}
+                    style={{ width: 400, height: 200 }}
+                  />
+                )}
               </div>
 
               <MagicButton

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Image from "next/image"; // Import the Image component from Next.js
 import { companies, testimonials } from "@/data";
