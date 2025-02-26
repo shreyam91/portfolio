@@ -86,22 +86,22 @@ export const navItems = [
       iconLists: ["/next.svg", "/tail.svg", "/ts.svg", ],
       link: "https://github.com/shreyam91/TaskScribe",
     },
-    // {
-    //   id: 3,
-    //   title: "AI Image SaaS - Canva Application",
-    //   des: "A REAL Software-as-a-Service app with AI features and a payments and credits system using the latest tech stack.",
-    //   img: "/p3.svg",
-    //   iconLists: ["/re.svg", "/tail.svg", "/ts.svg", "/three.svg", "/c.svg"],
-    //   link: "https://github.com/adrianhajdin/ai_saas_app",
-    // },
-    // {
-    //   id: 4,
-    //   title: "Animated Apple Iphone 3D Website",
-    //   des: "Recreated the Apple iPhone 15 Pro website, combining GSAP animations and Three.js 3D effects..",
-    //   img: "/p4.svg",
-    //   iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/three.svg", "/gsap.svg"],
-    //   link: "https://github.com/adrianhajdin/iphone",
-    // },
+    {
+      id: 3,
+      title: "Algo-Visualizer",
+      des: "Welcome to the Algorithm Visualizer project! This is an interactive web-based tool designed to help users visualize various algorithms in computer science. The goal of this project is to provide an intuitive and engaging way to understand how different algorithms work by animating their steps and processes.",
+      img: "/algo.webp",
+      iconLists: ["/java.svg"],
+      link: "https://github.com/shreyam91/Algo-Visualizer",
+    },
+    {
+      id: 4,
+      title: "Remote Patient Management System",
+      des: "The Remote Patient Management System (RPMS) is a web-based platform designed to manage and monitor patient health remotely. This system allows healthcare providers to monitor patient conditions, track vitals, schedule appointments, and communicate with patients from a distance. It is particularly useful for telemedicine, remote consultations, and managing chronic conditions where regular in-person visits are not feasible.",
+      img: "/remote.png",
+      iconLists: ["/re.svg", "/tail.svg", "/ts.svg", ],
+      link: "https://github.com/shreyam91/Remote-patient-management-system",
+    },
   ];
   
   export const testimonials = [
@@ -207,12 +207,8 @@ export const navItems = [
       img: "/git.svg",
       link:"https://github.com/shreyam91",
     },
-    // {
-    //   id: 2,
-    //   img: "/twit.svg",
-    // },
     {
-      id: 3,
+      id: 2,
       img: "/link.svg",
       link:"https://www.linkedin.com/in/shreyam-kanaujiya/",
     },
