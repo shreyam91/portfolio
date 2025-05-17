@@ -14,6 +14,7 @@ export function PointerHighlight({
   rectangleClassName?: string;
   pointerClassName?: string;
   containerClassName?: string;
+  inline?: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
