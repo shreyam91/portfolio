@@ -1,23 +1,28 @@
 "use client";
 
 import { FaLocationArrow } from "react-icons/fa6";
-import Image from "next/image";  // Import the Image component
+import Image from "next/image"; // Import the Image component
 
 import { projects } from "@/data";
 import { PinContainer } from "./ui/Pin";
-
+import { ExpandableCardDemo } from "./ExpandableCardDemo";
+import { PointerHighlight } from "./ui/pointer-highlight";
 
 const Projects = () => {
   return (
-    <div id="projects" className="py-20">
-      <h1 className="heading">
-        A small section of{" "}
-        <span className="text-purple"> Projects</span>
-      </h1>
-      <div className="flex flex-wrap items-center justify-center p-4 gap-16 mt-10">
+    <>
+      <div id="projects" className="py-20">
+        <h1 className="heading mb-10">
+          A small section of{" "}
+          <PointerHighlight inline>
+            <span className="text-purple">Projects</span>
+          </PointerHighlight>
+        </h1>
+
+        {/* <div className="flex flex-wrap items-center justify-center p-4 gap-16 mt-10">
         {projects.map((item) => (
           <div
-            className="lg:min-h-[32.5rem] h-[25rem] flex items-center justify-center sm:w-96 w-[80vw]"
+            className="lg:min-h-[32.5rem] h-[25rem] flex items-center justify-center sm:w-[48%] lg:w-[30%]"
             key={item.id}
           >
             <PinContainer title="https://github.com/shreyam91">
@@ -93,8 +98,10 @@ const Projects = () => {
             </PinContainer>
           </div>
         ))}
+      </div> */}
+        <ExpandableCardDemo />
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 "use client";
 import { gridItems } from "@/data";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
+import { PointerHighlight } from "@/components/ui/pointer-highlight";
 
 const Grid = () => {
   return (
@@ -10,7 +11,22 @@ const Grid = () => {
           <BentoGridItem
             id={item.id}
             key={i}
-            title={item.title}
+            title={
+              item.id === 6 ? (
+                <>
+                <p> The best way to grow is to </p>
+                <PointerHighlight
+            rectangleClassName=" border-neutral-300 dark:border-neutral-600 leading-loose"
+            pointerClassName="text-yellow-500 h-3 w-3"
+            containerClassName="inline-block mr-1"
+          >
+                  <span>{item.title}</span>
+                </PointerHighlight>
+                </>
+              ) : (
+                item.title
+              )
+            }
             description={item.description}
             className={item.className}
             img={item.img}
