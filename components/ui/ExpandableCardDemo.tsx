@@ -4,6 +4,7 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useClickOutside } from "@react-hookz/web";
 import { projects } from "@/data"; // Your updated projects data
+import Image from 'next/image';
 
 export function ExpandableCardDemo() {
   const id = useId();
@@ -25,7 +26,14 @@ export function ExpandableCardDemo() {
         <p>{proj.tech}</p>
         <div className="flex gap-2 mt-4">
           {proj.iconLists.map((icon, idx) => (
-            <img key={idx} src={icon} alt="tech icon" className="w-6 h-6" />
+            <Image
+              key={idx}
+              src={icon}
+              alt="tech icon"
+              width={24}
+              height={24}
+              className="w-6 h-6"
+            />
           ))}
         </div>
       </div>
@@ -85,12 +93,12 @@ export function ExpandableCardDemo() {
             >
               {/* Expanded Image */}
               <motion.div layoutId={`image-${active.title}-${id}`}>
-                <img
-                  width={200}
-                  height={200}
+                <Image
                   src={active.src}
                   alt={active.title}
-                  className="w-full h-60 object-cover object-top"
+                  width={300}
+                  height={200}
+                  className="w-full h-auto rounded-lg"
                 />
               </motion.div>
 

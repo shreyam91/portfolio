@@ -6,12 +6,35 @@ import { FloatingNav } from '@/components/FloatingNav';
 import { DotBackgroundDemo } from '@/components/ui/DotBackgroundDemo';
 import { ShareButton } from '@/components/ShareButton';
 import { CodeBlockWrapper } from '@/components/CodeBlockWrapper';
+import { Metadata } from 'next';
+import Image from 'next/image';
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  return posts
+    .filter((post): post is NonNullable<typeof post> => post !== null)
+    .map((post) => ({
+      slug: post.slug,
+    }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const post = await getPostBySlug(params.slug);
+
+  if (!post) {
+    return {
+      title: "Post Not Found",
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.description,
+  };
 }
 
 export default async function BlogDetailPage({ params }: { params: { slug: string } }) {
@@ -19,6 +42,8 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
   const otherPosts = (await getAllPosts()).filter((p) => p.slug !== params.slug);
 
   if (!post) notFound();
+
+  console.log('Blog post author:', post.author);
 
   // Process code blocks in the content
   const processedContent = post.contentHtml.replace(
@@ -45,18 +70,20 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
           <div className="md:col-span-3">
             <h1 className="text-4xl font-bold mb-4 text-foreground">{post.title}</h1>
             <div className="flex flex-wrap items-center text-sm text-muted-foreground mb-6">
-              <span className="mr-4">By <span className="font-medium">{post.author}</span></span>
-              <span className="mr-4">Published on {new Date(post.date).toLocaleDateString()}</span>
+              <span className="mr-4">By : <span className="font-medium">{post.author?.name || 'Shreyam'}</span></span>
+              <span className="mr-4 font-medium">Published on {new Date(post.date).toLocaleDateString()}</span>
               <ShareButton 
                 url={`${process.env.NEXT_PUBLIC_SITE_URL || ''}/blog/${post.slug}`}
                 title={post.title}
               />
             </div>
 
-            <img
+            <Image
               src={post.image}
               alt={post.title}
-              className="w-full max-h-[500px] object-cover rounded-lg mb-8 shadow-lg"
+              width={800}
+              height={400}
+              className="w-full h-auto rounded-lg mb-8 shadow-lg"
             />
 
             <article 
@@ -80,7 +107,13 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
               {otherPosts.map((b) => (
                 <li key={b.slug} className="flex space-x-4">
                   <div className="flex-shrink-0 w-24 h-24 overflow-hidden rounded-md">
-                    <img src={b.image} alt={b.title} className="object-cover w-full h-full" />
+                    <Image 
+                      src={b.image} 
+                      alt={b.title} 
+                      width={96}
+                      height={96}
+                      className="object-cover w-full h-full" 
+                    />
                   </div>
                   <div className="flex flex-col justify-between">
                     <Link href={`/blog/${b.slug}`} className="hover:text-primary">

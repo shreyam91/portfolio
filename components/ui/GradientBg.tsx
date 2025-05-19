@@ -34,6 +34,7 @@ export const BackgroundGradientAnimation = ({
   containerClassName?: string;
 }) => {
   const interactiveRef = useRef<HTMLDivElement>(null);
+  const positionRef = useRef({ x: 0, y: 0 });
 
   const [curX, setCurX] = useState(0);
   const [curY, setCurY] = useState(0);
@@ -60,26 +61,35 @@ export const BackgroundGradientAnimation = ({
 
   useEffect(() => {
     function move() {
-      if (!interactiveRef.current) {
-        return;
-      }
-      setCurX(curX + (tgX - curX) / 20);
-      setCurY(curY + (tgY - curY) / 20);
+      if (!interactiveRef.current) return;
+      
+      positionRef.current.x += (tgX - positionRef.current.x) / 20;
+      positionRef.current.y += (tgY - positionRef.current.y) / 20;
+      
+      setCurX(positionRef.current.x);
+      setCurY(positionRef.current.y);
+      
       interactiveRef.current.style.transform = `translate(${Math.round(
-        curX
-      )}px, ${Math.round(curY)}px)`;
+        positionRef.current.x
+      )}px, ${Math.round(positionRef.current.y)}px)`;
     }
 
     move();
   }, [tgX, tgY]);
 
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (interactiveRef.current) {
-      const rect = interactiveRef.current.getBoundingClientRect();
-      setTgX(event.clientX - rect.left);
-      setTgY(event.clientY - rect.top);
-    }
-  };
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      const x = (clientX / innerWidth) * 2 - 1;
+      const y = -(clientY / innerHeight) * 2 + 1;
+      setCurX(x);
+      setCurY(y);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   const [isSafari, setIsSafari] = useState(false);
   useEffect(() => {
@@ -172,7 +182,6 @@ export const BackgroundGradientAnimation = ({
         {interactive && (
           <div
             ref={interactiveRef}
-            onMouseMove={handleMouseMove}
             className={cn(
               `absolute [background:radial-gradient(circle_at_center,_rgba(var(--pointer-color),_0.8)_0,_rgba(var(--pointer-color),_0)_50%)_no-repeat]`,
               `[mix-blend-mode:var(--blending-value)] w-full h-full -top-1/2 -left-1/2`,

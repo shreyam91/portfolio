@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
+import Image from 'next/image';
 
 export const InfiniteMovingCards = ({
   items,
@@ -24,8 +25,16 @@ export const InfiniteMovingCards = ({
   const scrollerRef = React.useRef<HTMLUListElement>(null);
 
   useEffect(() => {
+    const addAnimation = () => {
+      const scrollerContent = document.querySelector(".scroller-content");
+      if (scrollerContent) {
+        const scrollerContent2 = scrollerContent.cloneNode(true);
+        document.querySelector(".scroller")?.appendChild(scrollerContent2);
+      }
+    };
+
     addAnimation();
-  }, [addAnimation]);
+  }, []);
   const [start, setStart] = useState(false);
   function addAnimation() {
     if (containerRef.current && scrollerRef.current) {
@@ -116,7 +125,13 @@ export const InfiniteMovingCards = ({
               <div className="relative z-20 mt-6 flex flex-row items-center">
                 {/* add this div for the profile img */}
                 <div className="me-3">
-                  <img src="/profile.svg" alt="profile" />
+                  <Image
+                    src="/path/to/image.jpg"
+                    alt="Card image"
+                    width={300}
+                    height={200}
+                    className="w-full h-auto rounded-lg"
+                  />
                 </div>
                 <span className="flex flex-col gap-1">
                   {/* change text color, font-normal to font-bold, text-xl */}

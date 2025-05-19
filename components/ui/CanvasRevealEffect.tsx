@@ -243,18 +243,30 @@ const ShaderContent = ({ source, uniforms, maxFps = 60 }: ShaderProps) => {
           baseUniforms[uniformName] = { value: uniform.value };
           break;
         case "uniform3f":
-          baseUniforms[uniformName] = { value: new THREE.Vector3().fromArray(uniform.value) };
+          if (Array.isArray(uniform.value) && typeof uniform.value[0] === "number") {
+            baseUniforms[uniformName] = { value: new THREE.Vector3().fromArray(uniform.value as number[]) };
+          } else {
+            baseUniforms[uniformName] = { value: new THREE.Vector3() };
+          }
           break;
         case "uniform1fv":
           baseUniforms[uniformName] = { value: uniform.value };
           break;
         case "uniform3fv":
-          baseUniforms[uniformName] = {
-            value: uniform.value.map((v: number[]) => new THREE.Vector3().fromArray(v))
-          };
+          if (Array.isArray(uniform.value) && Array.isArray(uniform.value[0])) {
+            baseUniforms[uniformName] = {
+              value: (uniform.value as number[][]).map((v) => new THREE.Vector3().fromArray(v))
+            };
+          } else {
+            baseUniforms[uniformName] = { value: [] };
+          }
           break;
         case "uniform2f":
-          baseUniforms[uniformName] = { value: new THREE.Vector2().fromArray(uniform.value) };
+          if (Array.isArray(uniform.value) && typeof uniform.value[0] === "number") {
+            baseUniforms[uniformName] = { value: new THREE.Vector2().fromArray(uniform.value as number[]) };
+          } else {
+            baseUniforms[uniformName] = { value: new THREE.Vector2() };
+          }
           break;
         default:
           console.error(`Invalid uniform type for '${uniformName}'.`);

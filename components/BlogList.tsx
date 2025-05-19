@@ -1,22 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BlogCard from '@/components/BlogCard';
 import SkeletonCard from '@/components/SkeletonCard';
 import { FloatingNav } from '@/components/FloatingNav';
 import { DotBackgroundDemo } from '@/components/ui/DotBackgroundDemo';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { Post } from '@/lib/posts';
 
 const ITEMS_PER_PAGE = 3;
-
-interface Post {
-  slug: string;
-  title: string;
-  description: string;
-  date: string;
-  author: string;
-  image: string;
-}
 
 interface BlogListProps {
   initialPosts: Post[];
@@ -26,6 +18,11 @@ export default function BlogList({ initialPosts }: BlogListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('date');
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    console.log('Initial Posts:', initialPosts);
+    console.log('First post author:', initialPosts[0]?.author);
+  }, [initialPosts]);
 
   const filteredBlogs = initialPosts
     .filter(blog => {
@@ -37,7 +34,13 @@ export default function BlogList({ initialPosts }: BlogListProps) {
       if (sortBy === 'date') {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       }
-      return (a[sortBy] || '').localeCompare(b[sortBy] || '');
+      if (sortBy === 'title') {
+        return a.title.localeCompare(b.title);
+      }
+      if (sortBy === 'author') {
+        return a.author.name.localeCompare(b.author.name);
+      }
+      return 0;
     });
 
   const totalPages = Math.ceil(filteredBlogs.length / ITEMS_PER_PAGE);
@@ -60,8 +63,8 @@ export default function BlogList({ initialPosts }: BlogListProps) {
           <div className="flex justify-end mb-4">
             <ThemeToggle />
           </div>
-          <h1 className="text-4xl font-bold mb-4">Blog</h1>
-          <p className="text-lg text-muted-foreground">
+          <h1 className="text-4xl font-bold mb-4 font-cursive">Build. Break. Blog</h1>
+          <p className="text-lg text-muted-foreground font-fantasy">
             Thoughts, tutorials, and insights from my journey in tech
           </p>
           <div className="flex justify-center gap-2">
@@ -94,14 +97,14 @@ export default function BlogList({ initialPosts }: BlogListProps) {
 
         {/* Blog List */}
         <div className="flex flex-col gap-6">
-          {paginatedBlogs.map((blog) => (
+          {paginatedBlogs.map((blog: Post) => (
             <BlogCard
               key={blog.slug}
               slug={blog.slug}
               image={blog.image}
               title={blog.title}
               description={blog.description}
-              author={blog.author}
+              author={blog.author.name}
               date={blog.date}
             />
           ))}

@@ -18,6 +18,7 @@ export function PointerHighlight({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     if (containerRef.current) {
@@ -36,19 +37,22 @@ export function PointerHighlight({
       resizeObserver.observe(containerRef.current);
     }
 
-    const container = containerRef.current
-    if (!container) return
+    const container = containerRef.current;
+    if (!container) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      // ... existing code ...
-    }
+      const { clientX, clientY } = e;
+      const { left, top, width, height } = container.getBoundingClientRect();
+      const x = (clientX - left) / width;
+      const y = (clientY - top) / height;
+      setPosition({ x, y });
+    };
 
-    container.addEventListener('mousemove', handleMouseMove)
+    container.addEventListener("mousemove", handleMouseMove);
     return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
+      if (container) {
+        container.removeEventListener("mousemove", handleMouseMove);
       }
-      container.removeEventListener('mousemove', handleMouseMove)
     };
   }, []);
 

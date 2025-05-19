@@ -7,6 +7,20 @@ import html from 'remark-html';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
+export interface Post {
+  slug: string;
+  contentHtml: string;
+  title: string;
+  description: string;
+  excerpt: string;
+  date: string;
+  author: {
+    name: string;
+    avatar: string;
+  };
+  image: string;
+}
+
 export async function getAllPostSlugs() {
   try {
     const fileNames = fs.readdirSync(postsDirectory);
@@ -19,7 +33,7 @@ export async function getAllPostSlugs() {
   }
 }
 
-export async function getPostBySlug(slug: string) {
+export async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
     const fullPath = path.join(postsDirectory, `${slug}.md`);
     
@@ -36,7 +50,12 @@ export async function getPostBySlug(slug: string) {
 
     // Validate required fields
     if (!data.title || !data.date || !data.author) {
-      console.error(`Post ${slug} is missing required frontmatter fields`);
+      console.error(`Post ${slug} is missing required frontmatter fields:`, {
+        title: !!data.title,
+        date: !!data.date,
+        author: !!data.author,
+        authorData: data.author
+      });
       return null;
     }
 
@@ -46,31 +65,51 @@ export async function getPostBySlug(slug: string) {
       .process(content);
     const contentHtml = processedContent.toString();
 
-    return {
+    const post = {
       slug,
       contentHtml,
       title: data.title,
       description: data.description || '',
+      excerpt: data.excerpt || '',
       date: data.date,
       author: data.author,
       image: data.image || 'https://dummyimage.com/600x400/70c6eb/dadced&text=Blog+Image',
     };
+
+    console.log(`Processed post ${slug}:`, {
+      title: post.title,
+      author: post.author
+    });
+
+    return post;
   } catch (error) {
     console.error(`Error reading post ${slug}:`, error);
     return null;
   }
 }
 
-export async function getAllPosts() {
+export async function getAllPosts(): Promise<Post[]> {
   try {
     const slugs = await getAllPostSlugs();
+    console.log('Found slugs:', slugs);
+    
     const posts = await Promise.all(
       slugs.map(async ({ slug }) => {
         const post = await getPostBySlug(slug);
         return post;
       })
     );
-    return posts.filter(Boolean).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    
+    const validPosts = posts
+      .filter((post): post is Post => post !== null)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    console.log('Processed posts:', validPosts.map(p => ({
+      title: p.title,
+      author: p.author
+    })));
+
+    return validPosts;
   } catch (error) {
     console.error('Error getting all posts:', error);
     return [];

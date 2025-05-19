@@ -5,6 +5,29 @@ import { CodeBlock } from './CodeBlock';
 
 export function CodeBlockWrapper() {
   useEffect(() => {
+    // Add the copy function to the window object
+    const copyCode = async (button: HTMLButtonElement) => {
+      const code = button.parentElement?.querySelector('code')?.textContent || '';
+      await navigator.clipboard.writeText(code);
+      
+      // Show copied state
+      const originalHTML = button.innerHTML;
+      button.innerHTML = `
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 6L9 17l-5-5"></path>
+        </svg>
+      `;
+      
+      setTimeout(() => {
+        button.innerHTML = originalHTML;
+      }, 2000);
+    };
+
+    // Add the copy function to the window object
+    if (typeof window !== 'undefined') {
+      window.copyCode = copyCode;
+    }
+
     const codeBlocks = document.querySelectorAll('.code-block');
     codeBlocks.forEach((block) => {
       const language = block.getAttribute('data-language');
@@ -29,31 +52,21 @@ export function CodeBlockWrapper() {
       // Replace the placeholder with the actual code block
       block.parentNode?.replaceChild(codeBlockElement, block);
     });
+
+    // Cleanup
+    return () => {
+      if (typeof window !== 'undefined') {
+        delete window.copyCode;
+      }
+    };
   }, []);
 
   return null;
 }
 
-// Add the copy function to the window object
+// Add type declaration for the window object
 declare global {
   interface Window {
-    copyCode: (button: HTMLButtonElement) => void;
+    copyCode?: (button: HTMLButtonElement) => void;
   }
-}
-
-window.copyCode = async (button: HTMLButtonElement) => {
-  const code = button.parentElement?.querySelector('code')?.textContent || '';
-  await navigator.clipboard.writeText(code);
-  
-  // Show copied state
-  const originalHTML = button.innerHTML;
-  button.innerHTML = `
-    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M20 6L9 17l-5-5"></path>
-    </svg>
-  `;
-  
-  setTimeout(() => {
-    button.innerHTML = originalHTML;
-  }, 2000);
-}; 
+} 

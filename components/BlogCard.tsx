@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 interface BlogCardProps {
@@ -32,6 +32,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
 }) => {
   const [imgSrc, setImgSrc] = useState(image && image.trim() !== '' ? image : DUMMY_IMAGE);
 
+  useEffect(() => {
+    console.log('BlogCard author:', author);
+  }, [author]);
+
   return (
     <div className="w-full bg-card text-card-foreground shadow-md rounded-lg overflow-hidden flex flex-col md:flex-row transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
       {/* Image */}
@@ -60,9 +64,9 @@ const BlogCard: React.FC<BlogCardProps> = ({
           </Link>
           <div className="text-sm text-muted-foreground flex items-center gap-4 flex-wrap">
             <span>
-              Published by: <span className="font-medium text-foreground">{author}</span>
+              Written by: <span className="font-medium text-foreground">{author || 'Shreyam'}</span>
             </span>
-            <span>on {new Date(date).toLocaleDateString()}</span>
+            <span> Published on: {new Date(date).toLocaleDateString()}</span>
           </div>
         </div>
       </div>
