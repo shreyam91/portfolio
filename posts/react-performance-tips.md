@@ -1,8 +1,8 @@
 ---
 title: 'React Performance Tips: Boost Your App'
 description: 'Learn practical strategies to optimize your React application'
-date: '2024-05-01'
-author: 'John Doe'
+date: '2025-05-10'
+author: 'Shreyam'
 image: 'https://dummyimage.com/600x400/70c6eb/dadced&text=React+Performance'
 ---
 

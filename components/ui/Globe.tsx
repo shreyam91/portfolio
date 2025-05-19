@@ -60,6 +60,54 @@ interface WorldProps {
 
 let numbersOfRings = [0];
 
+const _buildMaterial = () => {
+  if (!globeRef.current) return;
+  const globeMaterial = globeRef.current.globeMaterial() as unknown as {
+    color: Color;
+    emissive: Color;
+    emissiveIntensity: number;
+    shininess: number;
+  };
+  globeMaterial.color = new Color(globeConfig.globeColor);
+  globeMaterial.emissive = new Color(globeConfig.emissive);
+  globeMaterial.emissiveIntensity = globeConfig.emissiveIntensity || 0.1;
+  globeMaterial.shininess = globeConfig.shininess || 0.9;
+};
+
+const _buildData = () => {
+  if (!data) return;
+  const arcs = data;
+  let points = [];
+  for (let i = 0; i < arcs.length; i++) {
+    const arc = arcs[i];
+    const rgb = hexToRgb(arc.color) as { r: number; g: number; b: number };
+    points.push({
+      size: defaultProps.pointSize,
+      order: arc.order,
+      color: (t: number) => `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${1 - t})`,
+      lat: arc.startLat,
+      lng: arc.startLng,
+    });
+    points.push({
+      size: defaultProps.pointSize,
+      order: arc.order,
+      color: (t: number) => `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${1 - t})`,
+      lat: arc.endLat,
+      lng: arc.endLng,
+    });
+  }
+  // remove duplicates for same lat and lng
+  const filteredPoints = points.filter(
+    (v, i, a) =>
+      a.findIndex((v2) =>
+        ["lat", "lng"].every(
+          (k) => v2[k as "lat" | "lng"] === v[k as "lat" | "lng"]
+        )
+      ) === i
+  );
+  setGlobeData(filteredPoints);
+};
+
 export function Globe({ globeConfig, data }: WorldProps) {
   const [globeData, setGlobeData] = useState<
     | {
@@ -91,29 +139,8 @@ export function Globe({ globeConfig, data }: WorldProps) {
     ...globeConfig,
   };
 
-  useEffect(() => {
-    if (globeRef.current) {
-      _buildData();
-      _buildMaterial();
-    }
-  }, [globeRef.current]);
-
-  const _buildMaterial = () => {
-    if (!globeRef.current) return;
-
-    const globeMaterial = globeRef.current.globeMaterial() as unknown as {
-      color: Color;
-      emissive: Color;
-      emissiveIntensity: number;
-      shininess: number;
-    };
-    globeMaterial.color = new Color(globeConfig.globeColor);
-    globeMaterial.emissive = new Color(globeConfig.emissive);
-    globeMaterial.emissiveIntensity = globeConfig.emissiveIntensity || 0.1;
-    globeMaterial.shininess = globeConfig.shininess || 0.9;
-  };
-
   const _buildData = () => {
+    if (!data) return;
     const arcs = data;
     let points = [];
     for (let i = 0; i < arcs.length; i++) {
@@ -148,24 +175,23 @@ export function Globe({ globeConfig, data }: WorldProps) {
     setGlobeData(filteredPoints);
   };
 
-  useEffect(() => {
-    if (globeRef.current && globeData) {
-      globeRef.current
-        .hexPolygonsData(countries.features)
-        .hexPolygonResolution(3)
-        .hexPolygonMargin(0.7)
-        .showAtmosphere(defaultProps.showAtmosphere)
-        .atmosphereColor(defaultProps.atmosphereColor)
-        .atmosphereAltitude(defaultProps.atmosphereAltitude)
-        .hexPolygonColor((e) => {
-          return defaultProps.polygonColor;
-        });
-      startAnimation();
-    }
-  }, [globeData]);
+  const _buildMaterial = () => {
+    if (!globeRef.current) return;
+
+    const globeMaterial = globeRef.current.globeMaterial() as unknown as {
+      color: Color;
+      emissive: Color;
+      emissiveIntensity: number;
+      shininess: number;
+    };
+    globeMaterial.color = new Color(globeConfig.globeColor);
+    globeMaterial.emissive = new Color(globeConfig.emissive);
+    globeMaterial.emissiveIntensity = globeConfig.emissiveIntensity || 0.1;
+    globeMaterial.shininess = globeConfig.shininess || 0.9;
+  };
 
   const startAnimation = () => {
-    if (!globeRef.current || !globeData) return;
+    if (!globeRef.current || !globeData || !data) return;
 
     globeRef.current
       .arcsData(data)
@@ -203,10 +229,33 @@ export function Globe({ globeConfig, data }: WorldProps) {
   };
 
   useEffect(() => {
-    if (!globeRef.current || !globeData) return;
+    if (globeRef.current) {
+      _buildData();
+      _buildMaterial();
+    }
+  }, [data, globeConfig]);
+
+  useEffect(() => {
+    if (globeRef.current && globeData) {
+      globeRef.current
+        .hexPolygonsData(countries.features)
+        .hexPolygonResolution(3)
+        .hexPolygonMargin(0.7)
+        .showAtmosphere(defaultProps.showAtmosphere)
+        .atmosphereColor(defaultProps.atmosphereColor)
+        .atmosphereAltitude(defaultProps.atmosphereAltitude)
+        .hexPolygonColor((e) => {
+          return defaultProps.polygonColor;
+        });
+      startAnimation();
+    }
+  }, [globeData]);
+
+  useEffect(() => {
+    if (!globeRef.current || !globeData || !data) return;
 
     const interval = setInterval(() => {
-      if (!globeRef.current || !globeData) return;
+      if (!globeRef.current || !globeData || !data) return;
       numbersOfRings = genRandomNumbers(
         0,
         data.length,
@@ -221,7 +270,13 @@ export function Globe({ globeConfig, data }: WorldProps) {
     return () => {
       clearInterval(interval);
     };
-  }, [globeRef.current, globeData]);
+  }, [globeData, data]);
+
+  useEffect(() => {
+    if (globeRef.current) {
+      startAnimation();
+    }
+  }, [defaultProps.atmosphereAltitude, defaultProps.atmosphereColor, defaultProps.polygonColor, defaultProps.showAtmosphere]);
 
   return (
     <>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 interface BlogCardProps {
   slug: string;
@@ -34,12 +35,13 @@ const BlogCard: React.FC<BlogCardProps> = ({
   return (
     <div className="w-full bg-card text-card-foreground shadow-md rounded-lg overflow-hidden flex flex-col md:flex-row transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
       {/* Image */}
-      <div className="md:w-1/3 w-full aspect-[3/2] relative overflow-hidden">
-        <img
-          src={imgSrc}
+      <div className="relative h-48 w-60 overflow-hidden rounded-t-lg">
+        <Image
+          src={image}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-          onError={() => setImgSrc(DUMMY_IMAGE)}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
 

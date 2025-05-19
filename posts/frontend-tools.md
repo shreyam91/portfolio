@@ -1,9 +1,9 @@
 ---
 title: 'The Tools I Use Daily as a MERN Developer'
 description: 'As a MERN stack developer, my workflow is powered by a collection of tools that streamline development, boost productivity, and help me stay organized.'
-date: '2024-04-27'
-author: 'Jane Smith'
-image: 'https://dummyimage.com/600x400/70c6eb/dadced&text=JavaScript'
+date: '2025-05-19'
+author: 'Shreyam'
+image: 'https://dummyimage.com/600x400/70c6eb/dadced&text=Tools'
 ---
 
 # The Tools I Use Daily as a MERN Developer

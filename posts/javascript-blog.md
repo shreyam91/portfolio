@@ -1,8 +1,8 @@
 ---
 title: 'Modern JavaScript Features You Should Know'
 description: 'Explore the latest JavaScript features that can make your code more efficient and readable.'
-date: '2024-04-27'
-author: 'Jane Smith'
+date: '2025-05-18'
+author: 'Shreyam '
 image: 'https://dummyimage.com/600x400/70c6eb/dadced&text=JavaScript'
 ---
 

@@ -36,10 +36,19 @@ export function PointerHighlight({
       resizeObserver.observe(containerRef.current);
     }
 
+    const container = containerRef.current
+    if (!container) return
+
+    const handleMouseMove = (e: MouseEvent) => {
+      // ... existing code ...
+    }
+
+    container.addEventListener('mousemove', handleMouseMove)
     return () => {
       if (containerRef.current) {
         resizeObserver.unobserve(containerRef.current);
       }
+      container.removeEventListener('mousemove', handleMouseMove)
     };
   }, []);
 

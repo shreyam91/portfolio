@@ -60,8 +60,10 @@ export default function BlogList({ initialPosts }: BlogListProps) {
           <div className="flex justify-end mb-4">
             <ThemeToggle />
           </div>
-          <h1 className="text-4xl font-bold mb-2 font-cursive text-foreground">Discover Stories, Insights, and Ideas That Matter</h1>
-          <p className="text-muted-foreground mb-4 font-fantasy">Welcome to my blog — a space where I share what I'm learning, building, and thinking about. From quick dev tips and personal reflections to creative experiments, this is where I document my journey beyond the portfolio. Have a scroll — you might find something useful or inspiring!</p>
+          <h1 className="text-4xl font-bold mb-4">Blog</h1>
+          <p className="text-lg text-muted-foreground">
+            Thoughts, tutorials, and insights from my journey in tech
+          </p>
           <div className="flex justify-center gap-2">
             <input
               type="text"
