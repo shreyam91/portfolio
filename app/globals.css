@@ -83,10 +83,13 @@
 
 @layer base {
   * {
-    @apply border-border !scroll-smooth;
+    @apply border-border;
+  }
+  html {
+    @apply overflow-x-hidden;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground min-h-screen w-full overflow-x-hidden;
   }
   button {
     @apply active:outline-none;

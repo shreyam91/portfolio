@@ -11,23 +11,25 @@ import Approach from "@/components/Approach";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
 import { FloatingNav } from "@/components/ui/FloatingNav";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Home = () => {
   return (
-    <main className="relative bg-black-100 flex justify-center items-center     flex-col  mx-auto sm:px-10 px-5">
-      {/* overflow-hidden */}
-      <div className="max-w-7xl w-full">
+    <main className="relative bg-background min-h-screen w-full overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col min-h-screen">
+        <ThemeToggle />
         <FloatingNav navItems={navItems} />
-        <Hero />
-        <Grid />
-        <Projects />
+        <div className="flex-grow">
+          <Hero />
+          <Grid />
+          <Projects />
           {/* <Clients /> */}
-        <Experience />
-        <Approach />
+          <Experience />
+          <Approach />
+        </div>
         <Footer />
       </div>
     </main>
-
   );
 };
 
