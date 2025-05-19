@@ -53,6 +53,7 @@ const flat = nested.flat(2); // [1, 2, 3, 4, 5, 6]
 const sentences = ['Hello world', 'How are you'];
 const words = sentences.flatMap(s => s.split(' '));
 ```
+image: 'https://dummyimage.com/600x400/70c6eb/dadced&text=JavaScript'
 
 ## 4. Template Literals
 

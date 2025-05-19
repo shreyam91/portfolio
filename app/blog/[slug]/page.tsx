@@ -4,6 +4,8 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { notFound } from 'next/navigation';
 import { FloatingNav } from '@/components/FloatingNav';
 import { DotBackgroundDemo } from '@/components/ui/DotBackgroundDemo';
+import { ShareButton } from '@/components/ShareButton';
+import { CodeBlockWrapper } from '@/components/CodeBlockWrapper';
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -18,8 +20,17 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
 
   if (!post) notFound();
 
+  // Process code blocks in the content
+  const processedContent = post.contentHtml.replace(
+    /<pre><code class="language-(\w+)">([\s\S]*?)<\/code><\/pre>/g,
+    (match, language, code) => {
+      return `<div class="code-block" data-language="${language}" data-code="${encodeURIComponent(code)}"></div>`;
+    }
+  );
+
   return (
     <div className="relative min-h-screen bg-background">
+      <CodeBlockWrapper />
       {/* Dot Background */}
       <div className="fixed inset-0 -z-10 pointer-events-none">
         <DotBackgroundDemo />
@@ -36,17 +47,30 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
             <div className="flex flex-wrap items-center text-sm text-muted-foreground mb-6">
               <span className="mr-4">By <span className="font-medium">{post.author}</span></span>
               <span className="mr-4">Published on {new Date(post.date).toLocaleDateString()}</span>
+              <ShareButton 
+                url={`${process.env.NEXT_PUBLIC_SITE_URL || ''}/blog/${post.slug}`}
+                title={post.title}
+              />
             </div>
 
             <img
               src={post.image}
               alt={post.title}
-              className="w-full max-h-[500px] object-cover rounded mb-6"
+              className="w-full max-h-[500px] object-cover rounded-lg mb-8 shadow-lg"
             />
 
-            <div 
-              className="prose prose-lg dark:prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+            <article 
+              className="prose prose-lg dark:prose-invert max-w-none
+                prose-headings:text-foreground
+                prose-p:text-muted-foreground
+                prose-a:text-primary hover:prose-a:text-primary/80
+                prose-strong:text-foreground
+                prose-code:text-primary
+                prose-pre:bg-muted prose-pre:text-foreground
+                prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground
+                prose-img:rounded-lg prose-img:shadow-lg
+                prose-hr:border-border"
+              dangerouslySetInnerHTML={{ __html: processedContent }}
             />
           </div>
 
