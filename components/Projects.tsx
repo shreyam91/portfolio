@@ -5,7 +5,7 @@ import Image from "next/image"; // Import the Image component
 
 import { projects } from "@/data";
 import { PinContainer } from "./ui/Pin";
-import { ExpandableCardDemo } from "./ExpandableCardDemo";
+import { ExpandableCardDemo } from "./ui/ExpandableCardDemo";
 import { PointerHighlight } from "./ui/pointer-highlight";
 
 const Projects = () => {

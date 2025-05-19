@@ -22,6 +22,7 @@ export const DraggableCardBody = ({
   const mouseY = useMotionValue(0);
   const cardRef = useRef<HTMLDivElement>(null);
   const controls = useAnimationControls();
+  const [isDragging, setIsDragging] = useState(false);
   const [constraints, setConstraints] = useState({
     top: 0,
     left: 0,
@@ -111,9 +112,11 @@ export const DraggableCardBody = ({
       dragConstraints={constraints}
       onDragStart={() => {
         document.body.style.cursor = "grabbing";
+        setIsDragging(true);
       }}
       onDragEnd={(event, info) => {
         document.body.style.cursor = "default";
+        setIsDragging(false);
 
         controls.start({
           rotateX: 0,
@@ -157,6 +160,7 @@ export const DraggableCardBody = ({
         rotateY,
         opacity,
         willChange: "transform",
+        zIndex: isDragging ? 50 : 30,
       }}
       animate={controls}
       whileHover={{ scale: 1.02 }}
