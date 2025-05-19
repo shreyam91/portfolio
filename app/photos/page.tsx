@@ -26,7 +26,7 @@ const Photos = () => {
         {/* Heading and Paragraph */}
         <div className="relative z-10">
           <h1 className="text-4xl font-bold mb-4 text-center font-cursive">
-            📸 Welcome to My Lens View!
+            Welcome to My Lens View!
           </h1>
           <p className="text-lg text-muted-foreground  text-center max-w-2l font-fantasy">
             Step into my world of captured moments — a place where every photo tells a story. From spontaneous street shots to serene landscapes, here's where I share the world as seen through my camera. Dive in, get inspired, and see what caught my eye!
