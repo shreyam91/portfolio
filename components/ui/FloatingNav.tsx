@@ -7,6 +7,7 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 export const FloatingNav = ({
@@ -21,6 +22,7 @@ export const FloatingNav = ({
   className?: string;
 }) => {
   const { scrollYProgress } = useScroll();
+  const router = useRouter();
 
   // set true for the initial state so that nav bar is visible in the hero section
   const [visible, setVisible] = useState(true);
@@ -76,6 +78,8 @@ export const FloatingNav = ({
                 if (targetElement) {
                   targetElement.scrollIntoView({ behavior: "smooth" });
                   window.history.pushState(null, "", navItem.link);
+                } else {
+                  router.push("/" + navItem.link);
                 }
               }
             }}

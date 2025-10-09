@@ -37,9 +37,9 @@ export default function BlogList({ initialPosts }: BlogListProps) {
       if (sortBy === 'title') {
         return a.title.localeCompare(b.title);
       }
-      if (sortBy === 'author') {
-        return a.author.name.localeCompare(b.author.name);
-      }
+      // if (sortBy === 'author') {
+      //   return a.author.name.localeCompare(b.author.name);
+      // }
       return 0;
     });
 
@@ -63,9 +63,9 @@ export default function BlogList({ initialPosts }: BlogListProps) {
           <div className="flex justify-end mb-4">
             <ThemeToggle />
           </div>
-          <h1 className="text-4xl font-bold mb-4 font-cursive">Build. Break. Blog</h1>
-          <p className="text-lg text-muted-foreground font-fantasy">
-            Thoughts, tutorials, and insights from my journey in tech
+          {/* <h1 className="text-4xl font-bold mb-4 font-cursive">Build. Break. Blog</h1> */}
+          <p className="text-2xl text-muted-foreground font-fantasy mt-10">
+            Thoughts, tutorials, and insights from my journey in technology — sharing what I learn, build, and explore along the way.
           </p>
           <div className="flex justify-center gap-2">
             <input
@@ -90,7 +90,7 @@ export default function BlogList({ initialPosts }: BlogListProps) {
             onChange={(e) => setSortBy(e.target.value)}
           >
             <option value="title">Sort by Title</option>
-            <option value="author">Sort by Author</option>
+            {/* <option value="author">Sort by Author</option> */}
             <option value="date">Sort by Date</option>
           </select>
         </div>
@@ -131,7 +131,7 @@ export default function BlogList({ initialPosts }: BlogListProps) {
           </button>
         </div>
 
-        <FloatingNav />
+        {/* <FloatingNav /> */}
       </div>
     </div>
   );

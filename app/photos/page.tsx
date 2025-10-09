@@ -3,7 +3,8 @@
 import { DraggableCardDemo } from '@/components/ui/DraggableCardDemo'
 import { FocusCardsDemo } from '@/components/ui/FocusCardsDemo'
 import { GridBackgroundDemo } from '@/components/ui/GridBackgroundDemo'
-import { FloatingNav } from '@/components/FloatingNav'
+import { FloatingNav } from '@/components/ui/FloatingNav'
+import { navItems } from '@/data'
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 
@@ -25,16 +26,17 @@ const Photos = () => {
       <div className="relative z-10 px-4 py-8 flex flex-col items-center ">
         {/* Heading and Paragraph */}
         <div className="relative z-10">
-          <h1 className="text-4xl font-bold mb-4 text-center font-cursive">
+          {/* <h1 className="text-4xl font-bold mb-4 text-center font-cursive">
             Welcome to My Lens View!
-          </h1>
-          <p className="text-lg text-muted-foreground  text-center max-w-2l font-fantasy">
-            Step into my world of captured moments — a place where every photo tells a story. From spontaneous street shots to serene landscapes, here&apos;s where I share the world as seen through my camera. Dive in, get inspired, and see what caught my eye!
+          </h1> */}
+          <p className="text-2xl text-muted-foreground  text-center max-w-2l font-fantasy mt-20 ">
+            From fleeting city lights to calm horizons, my photography reflects the way I see the world — vibrant, curious, and full of detail.
+            <br /> Discover the world through my lens and experience the beauty in everyday scenes.
           </p>
         </div>
 
         {/* Toggle Button */}
-        <div className="w-full flex justify-end mb-8 relative z-10">
+        {/* <div className="w-full flex justify-end mb-8 relative z-10">
           <Button
             onClick={toggleComponent}
             variant="outline"
@@ -42,15 +44,15 @@ const Photos = () => {
           >
             {showDraggable ? 'Switch to Focus View' : 'Switch to Grid View'}
           </Button>
-        </div>
+        </div> */}
 
         {/* Draggable/Focus Cards Container */}
         <div className="relative z-20 w-full">
-          {showDraggable ? <DraggableCardDemo /> : <FocusCardsDemo />}
+          {showDraggable ? <FocusCardsDemo /> : <DraggableCardDemo />} 
         </div>
       </div>
 
-      <FloatingNav />
+      <FloatingNav navItems={navItems} />
     </div>
   )
 }

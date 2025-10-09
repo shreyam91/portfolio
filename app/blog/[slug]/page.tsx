@@ -2,7 +2,8 @@ import { getPostBySlug, getAllPosts } from '@/lib/posts';
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { notFound } from 'next/navigation';
-import { FloatingNav } from '@/components/FloatingNav';
+import { FloatingNav } from '@/components/ui/FloatingNav';
+import { navItems } from '@/data';
 import { DotBackgroundDemo } from '@/components/ui/DotBackgroundDemo';
 import { ShareButton } from '@/components/ShareButton';
 import { CodeBlockWrapper } from '@/components/CodeBlockWrapper';
@@ -130,7 +131,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
           </aside>
         </div>
       </div>
-      <FloatingNav />
+      <FloatingNav navItems={navItems} />
     </div>
   );
 }
