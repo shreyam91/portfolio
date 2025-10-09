@@ -51,7 +51,7 @@ const Hero = () => {
 
           </p>
 
-          <a download='' href="/Shreyam.pdf">
+          <a download='' href="/Shreyam_Kanaujiya.pdf">
             <MagicButton
               title="Download my Resume"
               icon={<FaLocationArrow />}
