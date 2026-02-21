@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import BlogCard from '@/components/BlogCard';
-import SkeletonCard from '@/components/SkeletonCard';
 import { FloatingNav } from '@/components/FloatingNav';
 import { DotBackgroundDemo } from '@/components/ui/DotBackgroundDemo';
 import { Post } from '@/lib/posts';

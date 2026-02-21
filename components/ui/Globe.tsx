@@ -2,14 +2,9 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
 import ThreeGlobe from "three-globe";
-import { useThree, Object3DNode, Canvas, extend } from "@react-three/fiber";
+import { useThree, Canvas, extend } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import countries from "@/data/globe.json";
-declare module "@react-three/fiber" {
-  interface ThreeElements {
-    threeGlobe: Object3DNode<ThreeGlobe, typeof ThreeGlobe>;
-  }
-}
 
 extend({ ThreeGlobe });
 
@@ -73,6 +68,12 @@ export function Globe({ globeConfig, data }: WorldProps) {
   >(null);
 
   const globeRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!globeRef.current) {
+      globeRef.current = new ThreeGlobe();
+    }
+  }, []);
 
   const defaultProps = {
     pointSize: 1,
@@ -227,7 +228,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
   return (
     <>
-      <threeGlobe ref={globeRef} />
+      <primitive object={globeRef.current} />
     </>
   );
 }

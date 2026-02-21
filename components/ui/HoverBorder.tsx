@@ -10,13 +10,11 @@ export function HoverBorderGradient({
   children,
   containerClassName,
   className,
-  as: Tag = "button",
   duration = 1,
   clockwise = true,
   ...props
 }: React.PropsWithChildren<
   {
-    as?: React.ElementType;
     containerClassName?: string;
     className?: string;
     duration?: number;
@@ -66,7 +64,7 @@ export function HoverBorderGradient({
   }, [duration, hovered, clockwise]);
 
   return (
-    <Tag
+    <div
       onMouseEnter={(event: React.MouseEvent<HTMLDivElement>) => {
         setHovered(true);
       }}
@@ -104,6 +102,6 @@ export function HoverBorderGradient({
         transition={{ ease: "linear", duration: duration ?? 1 }}
       />
       <div className="bg-black absolute z-1 flex-none inset-[2px] rounded-[100px]" />
-    </Tag>
+    </div>
   );
 }
