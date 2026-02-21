@@ -71,7 +71,11 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
   useEffect(() => {
     if (!globeRef.current) {
-      globeRef.current = new ThreeGlobe();
+      globeRef.current = new ThreeGlobe()
+        .globeImageUrl("//unpkg.com/three-globe/example/img/earth-blue-marble.jpg")
+        .showAtmosphere(true)
+        .atmosphereColor("#3a82a6")
+        .atmosphereAltitude(0.25);
     }
   }, []);
 
@@ -228,7 +232,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
   return (
     <>
-      <primitive object={globeRef.current} />
+      {globeRef.current && <primitive object={globeRef.current} />}
     </>
   );
 }
