@@ -5,7 +5,6 @@ import BlogCard from '@/components/BlogCard';
 import SkeletonCard from '@/components/SkeletonCard';
 import { FloatingNav } from '@/components/FloatingNav';
 import { DotBackgroundDemo } from '@/components/ui/DotBackgroundDemo';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { Post } from '@/lib/posts';
 
 const ITEMS_PER_PAGE = 3;
@@ -61,8 +60,7 @@ export default function BlogList({ initialPosts }: BlogListProps) {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex justify-end mb-4">
-            <ThemeToggle />
-          </div>
+        </div>
           {/* <h1 className="text-4xl font-bold mb-4 font-cursive">Build. Break. Blog</h1> */}
           <p className="text-2xl text-muted-foreground font-fantasy mt-10">
             Thoughts, tutorials, and insights from my journey in technology — sharing what I learn, build, and explore along the way.

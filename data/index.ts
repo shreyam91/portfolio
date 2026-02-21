@@ -98,7 +98,7 @@ export const navItems = [
       title: "Task Scribe - ToDo & Note taking App",
       tech:"React,JS,Express",
       des: "This intuitive app enables seamless task organization by allowing you to create to-do lists and prioritize daily activities. With a built-in notes feature, you can capture ideas, reminders, and detailed task descriptions in one convenient location. The integrated AI also offers helpful suggestions for various tasks.",
-      img: "/p2.svg",
+      img: "/task.jpg",
       iconLists: ["/next.svg", "/tail.svg", "/ts.svg", ],
       github: "https://github.com/shreyam91/TaskScribe",
       liveLink:"",
