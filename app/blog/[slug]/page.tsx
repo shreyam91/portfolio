@@ -44,7 +44,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
 
   if (!post) notFound();
 
-  console.log('Blog post author:', post.author);
+  // console.log('Blog post author:', post.author);
 
   // Process code blocks in the content
   const processedContent = post.contentHtml.replace(
@@ -62,7 +62,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
         <DotBackgroundDemo />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-10">
+      <div className="max-w-7xl mx-auto px-4 pt-24 pb-10">
         <div className="flex justify-end mb-6">
           <ThemeToggle />
         </div>
@@ -72,11 +72,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
             <h1 className="text-4xl font-bold mb-4 text-foreground">{post.title}</h1>
             <div className="flex flex-wrap items-center text-sm text-muted-foreground mb-6">
               <span className="mr-4">By : <span className="font-medium">{post.author?.name || 'Shreyam'}</span></span>
-              <span className="mr-4 font-medium">Published on {new Date(post.date).toLocaleDateString()}</span>
-              <ShareButton 
-                url={`${process.env.NEXT_PUBLIC_SITE_URL || ''}/blog/${post.slug}`}
-                title={post.title}
-              />
+              <span className="mr-4 font-medium">Published on : {new Date(post.date).toLocaleDateString()}</span>
             </div>
 
             <Image

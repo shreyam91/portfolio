@@ -1,8 +1,8 @@
 export const navItems = [
-    { name: "Home", link: "/" },
-    { name: "About", link: "/#about" },
+    { name: "Home", link: "#home" },
+    { name: "About", link: "#about" },
     { name: "Projects", link: "#projects" },
-    // { name: "Testimonials", link: "#testimonials" },
+    { name: "Testimonials", link: "#testimonials" },
     { name: "Contact", link: "#contact" },
     { name: "Blog", link: "/blog" },
     { name: "Photos", link: "/photos" },
@@ -75,16 +75,26 @@ export const navItems = [
   export const projects = [
     {
       id: 1,
-      title: "Real-time Tracker",
-      tech:"Javascript, Socket.io",
-      des: "A real-time tracker is a tool or system that provides live, up-to-date information about the status or location of an object, person, or event. It typically uses technologies like GPS, RFID, or internet connectivity to monitor and display data continuously. Real-time trackers are commonly used for fleet management, logistics, asset tracking, and personal safety applications.",
-      img: "/realtime-tracker.jpg",
-      iconLists: ["/re.svg", "/tail.svg" ],
-      github: "https://github.com/shreyam91/Realtime-Tracker",
-      liveLink:"",
+      title: "HerbalMG - Medical eCommerce Platform",
+      tech:"Javascript, React, Node.js, Express, PostgreSQL",
+      des: "HerbalMG is a full-stack medical eCommerce platform designed to provide users with a seamless and secure way to purchase healthcare and herbal products online. The platform focuses on performance, scalability, and user-friendly design while ensuring secure transactions and smooth order management. I developed the complete system from frontend to backend, including payment processing and third-party service integrations.",
+      img: "/herbalmgName.png",
+      iconLists: ["/re.svg", "/tail.svg", "/ts.svg"],
+      github: "https://github.com/shreyam91/herbal-mg",
+      liveLink:"https://herbalmg.com/",
     },
+    // {
+    //   id: 2,
+    //   title: "Real-time Tracker",
+    //   tech:"Javascript, Socket.io",
+    //   des: "A real-time tracker is a tool or system that provides live, up-to-date information about the status or location of an object, person, or event. It typically uses technologies like GPS, RFID, or internet connectivity to monitor and display data continuously. Real-time trackers are commonly used for fleet management, logistics, asset tracking, and personal safety applications.",
+    //   img: "/realtime-tracker.jpg",
+    //   iconLists: ["/re.svg", "/tail.svg" ],
+    //   github: "https://github.com/shreyam91/Realtime-Tracker",
+    //   liveLink:"",
+    // },
     {
-      id: 2,
+      id: 3,
       title: "Task Scribe - ToDo & Note taking App",
       tech:"React,JS,Express",
       des: "This intuitive app enables seamless task organization by allowing you to create to-do lists and prioritize daily activities. With a built-in notes feature, you can capture ideas, reminders, and detailed task descriptions in one convenient location. The integrated AI also offers helpful suggestions for various tasks.",
@@ -94,7 +104,7 @@ export const navItems = [
       liveLink:"",
     },
     {
-      id: 3,
+      id: 4,
       title: "Algo-Visualizer",
       tech:"JAVA,Apache POI",
       des: "Welcome to the Algorithm Visualizer project! This is an interactive web-based tool designed to help users visualize various algorithms in computer science. The goal of this project is to provide an intuitive and engaging way to understand how different algorithms work by animating their steps and processes.",
@@ -104,7 +114,7 @@ export const navItems = [
       liveLink:"",
     },
     {
-      id: 4,
+      id: 5,
       title: "Remote Patient Management System",
       tech:"React,JS,Express, MongoDB",
       des: "The Remote Patient Management System (RPMS) is a web-based platform designed to manage and monitor patient health remotely. This system allows healthcare providers to monitor patient conditions, track vitals, schedule appointments, and communicate with patients from a distance. It is particularly useful for remote consultations, and managing chronic conditions where regular in-person visits are not feasible.",
@@ -114,9 +124,9 @@ export const navItems = [
       liveLink:"",
     },
     {
-      id: 5,
+      id: 6,
       title: "E-Commerce Website",
-      tech:"React,JS,Express, MongoDB",
+      tech:"React, JS, Express, MongoDB",
       des: "An eCommerce website is an online platform that allows businesses or individuals to buy and sell products or services over the internet. It typically includes features like product listings, a shopping cart, secure checkout, and payment processing. Users can browse items, compare prices, read reviews, and make purchases from the comfort of their home.",
       img: "/e-commerce.jpg",
       iconLists: ["/re.svg", "/tail.svg", "/ts.svg", ],
@@ -124,72 +134,25 @@ export const navItems = [
       liveLink:"https://exploreattire-frontend.vercel.app/",
     },
   ];
-  
-  export const testimonials = [
-    {
-      quote:
-        "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-      name: "Michael Johnson",
-      title: "Director of AlphaStream Technologies",
-    },
-    {
-      quote:
-        "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-      name: "Michael Johnson",
-      title: "Director of AlphaStream Technologies",
-    },
-    {
-      quote:
-        "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-      name: "Michael Johnson",
-      title: "Director of AlphaStream Technologies",
-    },
-    {
-      quote:
-        "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-      name: "Michael Johnson",
-      title: "Director of AlphaStream Technologies",
-    },
-    {
-      quote:
-        "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-      name: "Michael Johnson",
-      title: "Director of AlphaStream Technologies",
-    },
-  ];
-  
+
   export const companies = [
     {
       id: 1,
-      name: "cloudinary",
-      img: "/cloud.svg",
-      nameImg: "/cloudName.svg",
-    },
+      name: "herbalmg",
+      img: "/herbalmg.png",
+      nameImg: "/herbalmgName.png",
+    }
+  ]
+  
+  export const testimonials = [
     {
-      id: 2,
-      name: "appwrite",
-      img: "/app.svg",
-      nameImg: "/appName.svg",
-    },
-    {
-      id: 3,
-      name: "HOSTINGER",
-      img: "/host.svg",
-      nameImg: "/hostName.svg",
-    },
-    {
-      id: 4,
-      name: "stream",
-      img: "/s.svg",
-      nameImg: "/streamName.svg",
-    },
-    {
-      id: 5,
-      name: "docker.",
-      img: "/dock.svg",
-      nameImg: "/dockerName.svg",
-    },
+  quote:
+    "Working with Shreyam on HerbalMG was a great experience. He delivered a fully functional medical eCommerce platform with a seamless user experience and a secure, scalable backend architecture. From building the React frontend to developing the Node.js and Express backend with PostgreSQL, and integrating the payment gateway, SMS API, delivery API, and ImageKit — everything was executed with professionalism and precision. His technical expertise, problem-solving skills, and attention to detail made the entire process smooth and efficient. I highly recommend him for any full-stack development project.",
+  name: "Mohit Sharma",
+  title: "Founder, HerbalMG (Medical eCommerce Platform)",
+}
   ];
+  
   
   export const workExperience = [
     {

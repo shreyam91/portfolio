@@ -22,7 +22,7 @@ const Hero = () => {
       </div>
 
       <div
-        className="h-screen w-full bg-background bg-grid-white/[0.03] bg-grid-black-100/[0.2]
+        className="h-screen w-full bg-background bg-grid-white/[0.03]
        absolute top-0 left-0 flex items-center justify-center"
       >
         <div
