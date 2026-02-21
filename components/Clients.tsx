@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { testimonials, companies } from "@/data";
 
 const Clients = () => {
@@ -30,7 +31,7 @@ const Clients = () => {
 
                 {/* Testimonial content */}
                 <blockquote className="text-lg md:text-xl text-gray-300 leading-relaxed mb-8 font-light">
-                  "{testimonials[0].quote}"
+                  &ldquo;{testimonials[0].quote}&rdquo;
                 </blockquote>
 
                 {/* Author info */}
@@ -51,10 +52,11 @@ const Clients = () => {
                         {testimonials[0].name.charAt(0)}
                       </span> */}
                       {companies[0] && (
-                        <img 
+                        <Image 
                           src={companies[0].img} 
                           alt={companies[0].name}
-                          className="absolute inset-0 w-full h-full object-cover opacity-90"
+                          fill
+                          className="object-cover opacity-90"
                         />
                       )}
                     </div>
@@ -72,7 +74,7 @@ const Clients = () => {
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300" />
                   <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm border border-white/10 rounded-2xl p-8 h-full hover:border-white/20 transition-all duration-300">
                     <blockquote className="text-gray-300 leading-relaxed mb-6">
-                      "{testimonial.quote}"
+                      &ldquo;{testimonial.quote}&rdquo;
                     </blockquote>
                     <div>
                       <cite className="text-white font-semibold not-italic">
