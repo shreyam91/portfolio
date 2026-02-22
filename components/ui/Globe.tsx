@@ -98,16 +98,17 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
   const _buildMaterial = useCallback(() => {
     if (!globeRef.current) return;
-    const globeMaterial = globeRef.current.globeMaterial() as unknown as {
-      color: Color;
-      emissive: Color;
-      emissiveIntensity: number;
-      shininess: number;
-    };
-    globeMaterial.color = new Color(globeConfig.globeColor);
-    globeMaterial.emissive = new Color(globeConfig.emissive);
-    globeMaterial.emissiveIntensity = globeConfig.emissiveIntensity || 0.1;
-    globeMaterial.shininess = globeConfig.shininess || 0.9;
+    
+    try {
+      // Set globe properties instead of material properties
+      globeRef.current
+        .globeColor(globeConfig.globeColor)
+        .showAtmosphere(globeConfig.showAtmosphere)
+        .atmosphereColor(globeConfig.atmosphereColor)
+        .atmosphereAltitude(globeConfig.atmosphereAltitude);
+    } catch (error) {
+      console.warn('Error building globe material:', error);
+    }
   }, [globeConfig]);
 
   const _buildData = useCallback(() => {
@@ -117,20 +118,26 @@ export function Globe({ globeConfig, data }: WorldProps) {
     for (let i = 0; i < arcs.length; i++) {
       const arc = arcs[i];
       const rgb = hexToRgb(arc.color) as { r: number; g: number; b: number };
-      points.push({
-        size: defaultProps.pointSize,
-        order: arc.order,
-        color: (t: number) => `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${1 - t})`,
-        lat: arc.startLat,
-        lng: arc.startLng,
-      });
-      points.push({
-        size: defaultProps.pointSize,
-        order: arc.order,
-        color: (t: number) => `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${1 - t})`,
-        lat: arc.endLat,
-        lng: arc.endLng,
-      });
+      
+      // Validate rgb values
+      if (rgb && rgb.r !== undefined && rgb.g !== undefined && rgb.b !== undefined) {
+        const colorFunc = (t: number) => `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${0.8 * (1 - t * 0.5)})`;
+        
+        points.push({
+          size: defaultProps.pointSize,
+          order: arc.order,
+          color: colorFunc,
+          lat: arc.startLat,
+          lng: arc.startLng,
+        });
+        points.push({
+          size: defaultProps.pointSize,
+          order: arc.order,
+          color: colorFunc,
+          lat: arc.endLat,
+          lng: arc.endLng,
+        });
+      }
     }
 
     // remove duplicates for same lat and lng
@@ -149,37 +156,48 @@ export function Globe({ globeConfig, data }: WorldProps) {
   const startAnimation = useCallback(() => {
     if (!globeRef.current || !globeData || !data) return;
 
-    globeRef.current
-      .arcsData(data)
-      .arcStartLat((d: Position) => d.startLat * 1)
-      .arcStartLng((d: Position) => d.startLng * 1)
-      .arcEndLat((d: Position) => d.endLat * 1)
-      .arcEndLng((d: Position) => d.endLng * 1)
-      .arcColor((e: Position) => e.color)
-      .arcAltitude((e: Position) => e.arcAlt * 1)
-      .arcStroke((e: Position) => {
-        return [0.32, 0.28, 0.3][Math.round(Math.random() * 2)];
-      })
-      .arcDashLength(defaultProps.arcLength)
-      .arcDashInitialGap((e: Position) => e.order * 1)
-      .arcDashGap(15)
-      .arcDashAnimateTime((e: Position) => defaultProps.arcTime);
+    try {
+      // Simplify arc color to avoid alpha issues
+      globeRef.current
+        .arcsData(data)
+        .arcStartLat((d: Position) => d.startLat * 1)
+        .arcStartLng((d: Position) => d.startLng * 1)
+        .arcEndLat((d: Position) => d.endLat * 1)
+        .arcEndLng((d: Position) => d.endLng * 1)
+        .arcColor((e: Position) => {
+          const rgb = hexToRgb(e.color) as { r: number; g: number; b: number };
+          return rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.8)` : 'rgba(255,255,255,0.8)';
+        })
+        .arcAltitude((e: Position) => e.arcAlt * 1)
+        .arcStroke(() => 0.3)
+        .arcDashLength(defaultProps.arcLength)
+        .arcDashInitialGap((e: Position) => e.order * 1)
+        .arcDashGap(15)
+        .arcDashAnimateTime((e: Position) => defaultProps.arcTime);
 
-    globeRef.current
-      .pointsData(data)
-      .pointColor((e: Position) => e.color)
-      .pointsMerge(true)
-      .pointAltitude(0.0)
-      .pointRadius(2);
+      globeRef.current
+        .pointsData(globeData)
+        .pointColor((e: Position) => {
+          if (typeof e.color === 'string') {
+            return e.color;
+          }
+          return 'rgba(255,255,255,0.8)';
+        })
+        .pointsMerge(true)
+        .pointAltitude(0.0)
+        .pointRadius(2);
 
-    globeRef.current
-      .ringsData([])
-      .ringColor((e: Position) => (t: number) => e.color)
-      .ringMaxRadius(defaultProps.maxRings)
-      .ringPropagationSpeed(RING_PROPAGATION_SPEED)
-      .ringRepeatPeriod(
-        (defaultProps.arcTime * defaultProps.arcLength) / defaultProps.rings
-      );
+      globeRef.current
+        .ringsData([])
+        .ringColor(() => 'rgba(255,255,255,0.6)')
+        .ringMaxRadius(defaultProps.maxRings)
+        .ringPropagationSpeed(RING_PROPAGATION_SPEED)
+        .ringRepeatPeriod(
+          (defaultProps.arcTime * defaultProps.arcLength) / defaultProps.rings
+        );
+    } catch (error) {
+      console.warn('Error starting globe animation:', error);
+    }
   }, [globeData, data, defaultProps.arcLength, defaultProps.arcTime, defaultProps.maxRings, defaultProps.rings]);
 
   useEffect(() => {
@@ -190,7 +208,9 @@ export function Globe({ globeConfig, data }: WorldProps) {
   }, [data, globeConfig, _buildData, _buildMaterial]);
 
   useEffect(() => {
-    if (globeRef.current && globeData) {
+    if (!globeRef.current || !globeData) return;
+
+    try {
       globeRef.current
         .hexPolygonsData(countries.features)
         .hexPolygonResolution(3)
@@ -200,6 +220,8 @@ export function Globe({ globeConfig, data }: WorldProps) {
         .atmosphereAltitude(defaultProps.atmosphereAltitude)
         .hexPolygonColor((e: any) => defaultProps.polygonColor);
       startAnimation();
+    } catch (error) {
+      console.warn('Error setting up globe polygons:', error);
     }
   }, [globeData, defaultProps.showAtmosphere, defaultProps.atmosphereColor, defaultProps.atmosphereAltitude, defaultProps.polygonColor, startAnimation]);
 
@@ -208,15 +230,20 @@ export function Globe({ globeConfig, data }: WorldProps) {
 
     const interval = setInterval(() => {
       if (!globeRef.current || !globeData || !data) return;
-      numbersOfRings = genRandomNumbers(
-        0,
-        data.length,
-        Math.floor((data.length * 4) / 5)
-      );
+      
+      try {
+        numbersOfRings = genRandomNumbers(
+          0,
+          data.length,
+          Math.floor((data.length * 4) / 5)
+        );
 
-      globeRef.current.ringsData(
-        globeData.filter((d, i) => numbersOfRings.includes(i))
-      );
+        globeRef.current.ringsData(
+          globeData.filter((d, i) => numbersOfRings.includes(i))
+        );
+      } catch (error) {
+        console.warn('Error updating globe rings:', error);
+      }
     }, 2000);
 
     return () => {
