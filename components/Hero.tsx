@@ -43,11 +43,11 @@ const Hero = () => {
           />
 
           <p className="text-center md:tracking-wider mb-4 text-s md:text-sm lg:text-xl text-muted-foreground">
-            Hi! I&apos;m Shreyam, a developer who enjoys bridging the gap between front-end aesthetics and back-end logic.
-            <br />
-            <span className="text-center md:tracking-wider mb-4 text-s md:text-sm lg:text-xl text-muted-foreground">
+           Hi, I’m Shreyam — a developer passionate about crafting seamless digital experiences by blending front-end creativity with robust back-end architecture. I specialize in building dynamic, scalable, and user-focused web applications using technologies like Java, React, Next.js, Node.js, and modern web tools. I enjoy turning ideas into reliable, high-performing solutions that are as functional as they are engaging.
+            {/* <br /> */}
+            {/* <span className="text-center md:tracking-wider mb-4 text-s md:text-sm lg:text-xl text-muted-foreground">
               I use Java, React, Next.js, Node.js, and modern web tools to build dynamic, reliable, and engaging web solutions.
-            </span>
+            </span> */}
 
           </p>
 

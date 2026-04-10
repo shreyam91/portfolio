@@ -4,7 +4,7 @@ export const navItems = [
     { name: "Projects", link: "#projects" },
     { name: "Testimonials", link: "#testimonials" },
     { name: "Contact", link: "#contact" },
-    { name: "Blog", link: "/blog" },
+    // { name: "Blog", link: "/blog" },
     { name: "Photos", link: "/photos" },
   ];
   
@@ -76,6 +76,7 @@ export const navItems = [
     {
       id: 1,
       title: "HerbalMG - Medical eCommerce Platform",
+      category: "E-commerce",
       tech:"Javascript, React, Node.js, Express, PostgreSQL",
       des: "HerbalMG is a full-stack medical eCommerce platform designed to provide users with a seamless and secure way to purchase healthcare and herbal products online. The platform focuses on performance, scalability, and user-friendly design while ensuring secure transactions and smooth order management. I developed the complete system from frontend to backend, including payment processing and third-party service integrations.",
       img: "/herbalmgName.png",
@@ -86,6 +87,7 @@ export const navItems = [
     // {
     //   id: 2,
     //   title: "Real-time Tracker",
+    //   category: "Full stack",
     //   tech:"Javascript, Socket.io",
     //   des: "A real-time tracker is a tool or system that provides live, up-to-date information about the status or location of an object, person, or event. It typically uses technologies like GPS, RFID, or internet connectivity to monitor and display data continuously. Real-time trackers are commonly used for fleet management, logistics, asset tracking, and personal safety applications.",
     //   img: "/realtime-tracker.jpg",
@@ -96,6 +98,7 @@ export const navItems = [
     {
       id: 3,
       title: "Task Scribe - ToDo & Note taking App",
+      category: "Artificial Intelligence",
       tech:"React,JS,Express",
       des: "This intuitive app enables seamless task organization by allowing you to create to-do lists and prioritize daily activities. With a built-in notes feature, you can capture ideas, reminders, and detailed task descriptions in one convenient location. The integrated AI also offers helpful suggestions for various tasks.",
       img: "/task.jpg",
@@ -106,6 +109,7 @@ export const navItems = [
     {
       id: 4,
       title: "Algo-Visualizer",
+      category: "Full stack",
       tech:"JAVA,Apache POI",
       des: "Welcome to the Algorithm Visualizer project! This is an interactive web-based tool designed to help users visualize various algorithms in computer science. The goal of this project is to provide an intuitive and engaging way to understand how different algorithms work by animating their steps and processes.",
       img: "/algo.webp",
@@ -116,6 +120,7 @@ export const navItems = [
     {
       id: 5,
       title: "Remote Patient Management System",
+      category: "Full stack",
       tech:"React,JS,Express, MongoDB",
       des: "The Remote Patient Management System (RPMS) is a web-based platform designed to manage and monitor patient health remotely. This system allows healthcare providers to monitor patient conditions, track vitals, schedule appointments, and communicate with patients from a distance. It is particularly useful for remote consultations, and managing chronic conditions where regular in-person visits are not feasible.",
       img: "/remote.png",
@@ -126,6 +131,7 @@ export const navItems = [
     {
       id: 6,
       title: "E-Commerce Website",
+      category: "E-commerce",
       tech:"React, JS, Express, MongoDB",
       des: "An eCommerce website is an online platform that allows businesses or individuals to buy and sell products or services over the internet. It typically includes features like product listings, a shopping cart, secure checkout, and payment processing. Users can browse items, compare prices, read reviews, and make purchases from the comfort of their home.",
       img: "/e-commerce.jpg",
@@ -171,7 +177,7 @@ export const navItems = [
     },
     {
       id: 3,
-      title: "Freelance App Dev Project",
+      title: "Freelance Web Dev Project",
       desc: "Led the dev of a web app for a client, from initial concept to deployment on internet.",
       className: "md:col-span-2", // change to md:col-span-2
       thumbnail: "/exp3.svg",
@@ -195,5 +201,15 @@ export const navItems = [
       id: 2,
       img: "/link.svg",
       link:"https://www.linkedin.com/in/shreyam-kanaujiya/",
+    },
+    {
+      id: 3,
+      img: "/leetcode.svg",
+      link:"https://leetcode.com/u/Shrey91leet/",
+    },
+    {
+      id: 4,
+      img: "/gfg.svg",
+      link:"https://www.geeksforgeeks.org/profile/shreyam91",
     },
   ];

@@ -9,6 +9,7 @@ import { ShareButton } from '@/components/ShareButton';
 import { CodeBlockWrapper } from '@/components/CodeBlockWrapper';
 import { Metadata } from 'next';
 import Image from 'next/image';
+import DOMPurify from 'dompurify';
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -94,7 +95,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
                 prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground
                 prose-img:rounded-lg prose-img:shadow-lg
                 prose-hr:border-border"
-              dangerouslySetInnerHTML={{ __html: processedContent }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(processedContent) }}
             />
           </div>
 

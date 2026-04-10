@@ -10,22 +10,28 @@ export function ExpandableCardDemo() {
   const id = useId();
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<any>(null);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const categories = ["All", ...Array.from(new Set(projects.map((p) => p.category)))];
 
   // Adapt your data
-  const cards = projects.map((proj) => ({
-    title: proj.title,
-    tech: proj.tech,
-    src: proj.img,
-    ctaText: "Github Code",
-    ctaLink: proj.github,
-    liveLink: proj.liveLink,
-    iconLists: proj.iconLists,
-    content: () => (
-      <div>
-        <p className="text-gray-300 leading-relaxed">{proj.des}</p>
-      </div>
-    ),
-  }));
+  const cards = projects
+    .filter((proj) => selectedCategory === "All" || proj.category === selectedCategory)
+    .map((proj) => ({
+      title: proj.title,
+      tech: proj.tech,
+      category: proj.category,
+      src: proj.img,
+      ctaText: "Github Code",
+      ctaLink: proj.github,
+      liveLink: proj.liveLink,
+      iconLists: proj.iconLists,
+      content: () => (
+        <div>
+          <p className="text-gray-300 leading-relaxed">{proj.des}</p>
+        </div>
+      ),
+    }));
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -101,9 +107,14 @@ export function ExpandableCardDemo() {
               <div className="p-4 sm:p-6 flex flex-col flex-grow min-h-0 pb-20 sm:pb-24">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-4">
                   <div>
-                    <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                      {active.title}
-                    </h2>
+                    <div className="flex items-center gap-2 mb-2">
+                       <h2 className="text-xl sm:text-2xl font-bold text-white">
+                        {active.title}
+                      </h2>
+                      {/* <span className="px-2 py-0.5 rounded-full bg-purple/20 border border-purple/30 text-[10px] sm:text-xs text-purple-300">
+                        {active.category}
+                      </span> */}
+                    </div>
                     <p className="text-gray-400 text-sm">
                       {active.tech}
                     </p>
@@ -144,66 +155,122 @@ export function ExpandableCardDemo() {
           </div>
         )}
 
+      {/* Category Tabs */}
+      <div className="flex flex-wrap justify-center gap-2 mb-10 mt-10">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
+              selectedCategory === cat
+                ? "bg-purple text-white border-purple shadow-lg shadow-purple/20 scale-105"
+                : "bg-white/5 text-gray-400 border-white/10 hover:border-white/20 hover:text-white"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
       {/* Card List */}
-      <div className="max-w-4xl mx-auto w-full px-2 sm:px-0">
-        <div className="grid gap-3 sm:gap-4">
+      <div className="max-w-5xl mx-auto w-full px-4 sm:px-6">
+        <div className="grid gap-6">
           {cards.map((card) => (
             <div
               key={card.title}
-              onClick={() => setActive(card)}
-              className="group relative p-4 sm:p-6 bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-sm border border-white/10 rounded-xl sm:rounded-2xl cursor-pointer hover:border-white/20 transition-all duration-200 hover:shadow-xl hover:shadow-blue-500/10"
+              className="group relative bg-[#0a0a1a] rounded-3xl border border-white/10 hover:border-purple/30 transition-all duration-500 overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              <div className="relative flex flex-col justify-between items-start gap-3 sm:gap-4">
-                <div className="flex gap-3 sm:gap-4 items-center flex-1 w-full">
-                  {/* Modern Avatar */}
-                  <div className="relative w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 text-white font-bold text-sm sm:text-xl shadow-lg">
-                    <span className="drop-shadow-sm">{card.title.charAt(0)}</span>
-                    <div className="absolute -bottom-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded-full border-2 border-slate-800" />
-                  </div>
-
-                  {/* Project Info */}
-                  <div className="flex-1 text-left">
-                    <h3 className="font-semibold text-sm sm:text-lg text-white mb-1 group-hover:text-blue-300 transition-colors">
-                      {card.title}
-                    </h3>
-                    <p className="text-gray-400 text-xs sm:text-sm">
-                      {card.tech}
-                    </p>
+              <div className="flex flex-col lg:flex-row p-6 sm:p-8 gap-8 items-center lg:items-stretch">
+                {/* Visual Section */}
+                <div 
+                  onClick={() => setActive(card)}
+                  className="relative w-full lg:w-48 h-32 lg:h-auto rounded-2xl overflow-hidden cursor-pointer group/image flex-shrink-0"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-600/20 z-10 group-hover/image:opacity-0 transition-opacity" />
+                  <Image
+                    src={card.src}
+                    alt={card.title}
+                    fill
+                    className="object-cover group-hover/image:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover/image:opacity-100 transition-opacity z-20">
+                    <span className="text-white text-sm font-medium px-4 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/30">
+                      Expand View
+                    </span>
                   </div>
                 </div>
 
-                <button
-                  className="px-3 py-1.5 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg sm:rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 flex items-center gap-1 sm:gap-2"
-                >
-                  View Details
-                  <Github className="w-3 h-3 sm:w-4 sm:h-4" />
-                </button>
-              </div>
+                {/* Content Section */}
+                <div className="flex-1 flex flex-col justify-between w-full">
+                  <div className="text-center lg:text-left">
+                    <div className="flex flex-col lg:flex-row lg:items-center gap-2 mb-3">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-purple transition-colors">
+                        {card.title}
+                      </h3>
+                      <div className="flex justify-center lg:justify-start gap-2">
+                        <span className="px-3 py-1 rounded-full bg-purple/10 border border-purple/20 text-xs text-purple-300 font-medium whitespace-nowrap">
+                          {card.category}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-gray-400 text-sm sm:text-base mb-4 line-clamp-2">
+                      {card.tech}
+                    </p>
+                    
+                    {/* Tech Icons */}
+                    <div className="flex justify-center lg:justify-start gap-3 mb-6">
+                      {card.iconLists?.map((icon: string, idx: number) => (
+                        <div
+                          key={idx}
+                          className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:border-white/20 transition-all"
+                          title="Technology used"
+                        >
+                          <Image
+                            src={icon}
+                            alt="tech"
+                            width={16}
+                            height={16}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-              {/* Tech Icons Preview - Hidden on desktop, visible on mobile */}
-              <div className="relative mt-3 sm:mt-4 flex gap-1 sm:gap-2 md:hidden">
-                {card.iconLists?.slice(0, 4).map((icon: string, idx: number) => (
-                  <div
-                    key={idx}
-                    className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center opacity-60"
-                  >
-                    <Image
-                      src={icon}
-                      alt="tech icon"
-                      width={10}
-                      height={10}
-                      className="w-2.5 h-2.5 sm:w-3 sm:h-3"
-                    />
+                  {/* Actions Section */}
+                  <div className="flex flex-col sm:flex-row items-center gap-4 mt-auto">
+                    <button
+                      onClick={() => setActive(card)}
+                      className="w-full sm:w-auto px-6 py-3 text-sm font-semibold bg-white/5 hover:bg-white/10 text-white rounded-2xl border border-white/10 transition-all flex items-center justify-center gap-2"
+                    >
+                      View Details
+                      <ExternalLink className="w-4 h-4" />
+                    </button>
+                    
+                    <div className="flex w-full sm:w-auto items-center gap-3">
+                      <a
+                        href={card.ctaLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 sm:flex-none p-3 text-white/70 hover:text-white hover:bg-white/5 rounded-2xl border border-white/10 transition-all flex items-center justify-center"
+                        title="GitHub Repo"
+                      >
+                        <Github className="w-5 h-5" />
+                      </a>
+                      
+                      {card.liveLink?.trim() && (
+                        <a
+                          href={card.liveLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 sm:flex-none px-6 py-3 text-sm font-bold bg-gradient-to-r from-blue-600 to-purple-600 hover:scale-105 transition-all text-white rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20"
+                        >
+                          Live Site
+                          <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                        </a>
+                      )}
+                    </div>
                   </div>
-                ))}
-                {card.liveLink?.trim() && (
-                  <div className="ml-auto flex items-center gap-1 text-green-400 text-xs">
-                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-400 rounded-full animate-pulse" />
-                    <span className="hidden sm:inline">Live</span>
-                  </div>
-                )}
+                </div>
               </div>
             </div>
           ))}
