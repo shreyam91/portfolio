@@ -21,25 +21,15 @@ export default function PlacementPrepDashboardPage() {
   React.useEffect(() => {
     const loadTopics = async () => {
       try {
-        const { contentApi, submissionsApi } = await import('@/lib/api');
+        const { contentApi } = await import('@/lib/api');
         
-        const [res, submissionsRes] = await Promise.all([
-          contentApi.getPlacementPrepTopics(),
-          submissionsApi.getUserSubmissions().catch(() => ({ data: [] }))
-        ]);
-        
+        const res = await contentApi.getPlacementPrepTopics();
         const data = res.data?.data || [];
-        const submissions = submissionsRes.data?.data || [];
 
-        const completedIds = new Set(submissions.map((sub: any) => sub.problemId));
-
-        const updatedData = data.map((t: any) => {
-          const problemId = t._id || t.id;
-          return {
-            ...t,
-            status: completedIds.has(problemId?.toString()) ? 'solved' : 'unsolved'
-          };
-        });
+        const updatedData = data.map((t: any) => ({
+          ...t,
+          status: 'unsolved'
+        }));
 
         setPlacementTopicsData(updatedData);
       } catch (err) {

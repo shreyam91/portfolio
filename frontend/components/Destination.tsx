@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FiMail, FiTwitter, FiGithub, FiLinkedin, FiExternalLink } from "react-icons/fi";
 import { SiLeetcode, SiGeeksforgeeks } from "react-icons/si";
-import { Contact, SocialLink } from "../../data/types";
+import { Contact, SocialLink } from "../app/data/types";
 
 interface DestinationProps {
   contact: Contact;
