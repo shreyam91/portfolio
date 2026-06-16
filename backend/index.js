@@ -132,5 +132,10 @@ const startServer = (port) => {
 };
 
 const PORT = env.port;
-logger.info(`Attempting to start server on port ${PORT}`);
-startServer(parseInt(PORT)); 
+if (process.env.NODE_ENV !== 'production') {
+  logger.info(`Attempting to start server on port ${PORT}`);
+  startServer(parseInt(PORT)); 
+}
+
+// Export for Vercel serverless function
+module.exports = app;
