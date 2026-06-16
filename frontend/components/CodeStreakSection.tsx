@@ -26,44 +26,53 @@ export default function CodeStreakSection() {
         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
         
         const [dsaRes, sysRes, mcRes] = await Promise.all([
-          fetch(`/api/proxy/dsa`).then(res => res.json()).catch(() => ({ data: { data: [] } })),
-          fetch(`/api/proxy/system-design`).then(res => res.json()).catch(() => ({ data: { data: [] } })),
-          fetch(`/api/proxy/machine-coding`).then(res => res.json()).catch(() => ({ data: { data: [] } })),
+          fetch(`/api/proxy/dsa?limit=1000`).then(res => res.json()).catch(() => ({ data: { data: [] } })),
+          fetch(`/api/proxy/system-design?limit=1000`).then(res => res.json()).catch(() => ({ data: { data: [] } })),
+          fetch(`/api/proxy/machine-coding?limit=1000`).then(res => res.json()).catch(() => ({ data: { data: [] } })),
         ]);
 
         const dsa = dsaRes?.data?.data || [];
         const sys = sysRes?.data?.data || [];
         const mc = mcRes?.data?.data || [];
 
-        const allDates = [...dsa, ...sys, ...mc]
-          .map((q: any) => q.createdAt ? new Date(q.createdAt).toISOString().split('T')[0] : null)
-          .filter(Boolean)
-          .sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+        const allContent = [...dsa, ...sys, ...mc];
 
-        const uniqueDates = Array.from(new Set(allDates));
-        
+        const getLocalDateStr = (date: Date) => {
+          return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        };
+
+        const activityMap: Record<string, number> = {};
+        allContent.forEach((q: any) => {
+          if (!q.createdAt) return;
+          try {
+            const date = new Date(q.createdAt);
+            const dateStr = getLocalDateStr(date);
+            activityMap[dateStr] = (activityMap[dateStr] || 0) + 1;
+          } catch (e) {}
+        });
+
         let currentStreak = 0;
-        let today = new Date();
-        today.setHours(0, 0, 0, 0);
-
+        const today = new Date();
         let checkDate = new Date(today);
+        const todayStr = getLocalDateStr(checkDate);
+        checkDate.setDate(checkDate.getDate() - 1);
+        const yesterdayStr = getLocalDateStr(checkDate);
 
-        const hasActivityToday = uniqueDates.includes(checkDate.toISOString().split('T')[0]);
-        
-        if (hasActivityToday) {
-          currentStreak = 1;
-          checkDate.setDate(checkDate.getDate() - 1);
-        } else {
-          checkDate.setDate(checkDate.getDate() - 1);
-          if (uniqueDates.includes(checkDate.toISOString().split('T')[0])) {
-            currentStreak = 1;
-            checkDate.setDate(checkDate.getDate() - 1);
-          }
+        let streakStart = new Date(today);
+        if (activityMap[todayStr]) {
+           // Start from today
+        } else if (activityMap[yesterdayStr]) {
+           streakStart.setDate(streakStart.getDate() - 1);
         }
 
-        while (currentStreak > 0 && uniqueDates.includes(checkDate.toISOString().split('T')[0])) {
-          currentStreak++;
-          checkDate.setDate(checkDate.getDate() - 1);
+        while (true) {
+          const dateStr = getLocalDateStr(streakStart);
+          if (activityMap[dateStr]) {
+            currentStreak++;
+            streakStart.setDate(streakStart.getDate() - 1);
+          } else {
+            break;
+          }
         }
 
         setStats({

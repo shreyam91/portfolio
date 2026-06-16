@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Experience } from "../../data/types";
+import { Experience } from "../app/data/types";
 
 export default function Timeline({ experience }: { experience: Experience[] }) {
   return (

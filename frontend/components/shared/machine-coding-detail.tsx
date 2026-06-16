@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { PublicNavbar } from "@/components/public-navbar";
-import { PublicFooter } from "@/components/public-footer";
+
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -25,8 +24,6 @@ export function MachineCodingDetail({ isDashboard = false }: { isDashboard?: boo
   const idParam = params.id ? parseInt(params.id as string) : 1;
   const [activeId, setActiveId] = useState(idParam);
   const [activeTab, setActiveTab] = useState("requirements");
-  const [submitting, setSubmitting] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
   const [activeQuestion, setActiveQuestion] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   
@@ -40,15 +37,11 @@ export function MachineCodingDetail({ isDashboard = false }: { isDashboard?: boo
     const loadQuestion = async () => {
       try {
         setIsLoading(true);
-        const { contentApi, submissionsApi } = await import('@/lib/api');
+        const { contentApi } = await import('@/lib/api');
         
-        const [res, submissionsRes] = await Promise.all([
-          contentApi.getMachineCodingQuestions(),
-          submissionsApi.getUserSubmissions().catch(() => ({ data: [] }))
-        ]);
+        const res = await contentApi.getMachineCodingQuestions();
 
         const data = res.data?.data || [];
-        const submissions = submissionsRes.data?.data || [];
         
         const found = data.find((q: any) => {
           if (q._id === params.id) return true;
@@ -58,13 +51,6 @@ export function MachineCodingDetail({ isDashboard = false }: { isDashboard?: boo
         
         const activeQ = found || data[0];
         setActiveQuestion(activeQ);
-        
-        // Check if this question is completed
-        if (activeQ) {
-          const problemId = activeQ._id || activeQ.id;
-          const completed = submissions.some((sub: any) => sub.problemId === problemId?.toString());
-          setIsCompleted(completed);
-        }
       } catch (err) {
       } finally {
         setIsLoading(false);
@@ -73,35 +59,12 @@ export function MachineCodingDetail({ isDashboard = false }: { isDashboard?: boo
     loadQuestion();
   }, [params.id]);
 
-  const handleMarkCompleted = async () => {
-    try {
-      setSubmitting(true);
-      toast.loading('Marking as completed...', { id: 'mark-completed' });
-      const { default: api } = await import('@/lib/api');
-      await api.post('/submissions', {
-        problemId: activeQuestion._id || activeQuestion.id,
-        category: 'MachineCoding',
-        difficulty: activeQuestion.difficulty || 'Medium'
-      });
-      toast.success('Marked as completed successfully!', { id: 'mark-completed' });
-      setIsCompleted(true);
-    } catch (error) {
-      toast.error('Failed to mark as completed. Please try again.', { id: 'mark-completed' });
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   const layoutWrapper = (children: React.ReactNode) => {
     if (!isDashboard) {
       return (
-        <div className="min-h-screen flex flex-col bg-background">
-          <PublicNavbar />
-          <main className="flex-1 flex flex-col">
-            {children}
-          </main>
-          <PublicFooter />
-        </div>
+        <>
+        </>
       );
     }
 
@@ -128,7 +91,7 @@ export function MachineCodingDetail({ isDashboard = false }: { isDashboard?: boo
             <SidebarTrigger className="-ml-1" />
             <div className="h-4 w-px bg-border"></div>
             <button 
-              onClick={() => router.push('/dashboard/machine-coding')}
+              onClick={() => router.push('/codestreak/machine-coding')}
               className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1.5 rounded-md hover:bg-muted"
             >
               <ArrowLeft size={16} />
@@ -136,20 +99,6 @@ export function MachineCodingDetail({ isDashboard = false }: { isDashboard?: boo
             </button>
             <div className="h-4 w-px bg-border"></div>
             <h2 className="font-bold hidden sm:block">{activeQuestion.title}</h2>
-          </div>
-          <div className="flex gap-3">
-            {/* <button 
-              onClick={handleMarkCompleted}
-              disabled={submitting || isCompleted}
-              className={`px-4 py-1.5 text-white rounded-md text-sm font-medium transition-colors shadow-sm flex items-center gap-2 ${
-                isCompleted 
-                  ? 'bg-zinc-700 hover:bg-zinc-700 cursor-not-allowed opacity-80' 
-                  : 'bg-green-600 hover:bg-green-700 disabled:opacity-50'
-              }`}
-            >
-              {isCompleted && <Check size={16} />}
-              {isCompleted ? 'Completed' : submitting ? 'Marking...' : 'Mark Completed'}
-            </button> */}
           </div>
         </header>
       )}

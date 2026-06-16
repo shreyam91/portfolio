@@ -3,12 +3,12 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import PomodoroTimer from '@/components/PomodoroTimer';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { Code2, MonitorPlay, Layers, Flame, Sparkles, Check, Activity } from 'lucide-react';
+import { Flame, Check, Activity } from 'lucide-react';
 import { contentService } from '@/services/content.service';
+import { motion } from 'framer-motion';
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -32,13 +32,6 @@ export default function Dashboard() {
     };
     fetchAllData();
   }, []);
-
-  // Find next unsolved questions (just pick the first ones since no auth tracking)
-  const nextDsa = (allQuestions.dsa || [])[0];
-  const nextSys = (allQuestions.sys || [])[0];
-  const nextMc = (allQuestions.mc || [])[0];
-
-  const whatsNewItems: any[] = [];
 
   // Data processing for Recent Activity and Streak
   const allContent = [
@@ -135,11 +128,11 @@ export default function Dashboard() {
   });
 
   return (
-    <>
-      <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between border-b border-border bg-background/80 backdrop-blur-md px-6 shadow-sm">
+    <div className="dark:bg-[#0a0a0a] min-h-screen bg-gray-50 flex flex-col">
+      <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between border-b dark:border-white/10 border-black/10 dark:bg-[#0a0a0a]/80 bg-white/80 backdrop-blur-xl px-6 shadow-sm">
         <div className="flex items-center gap-4">
           <SidebarTrigger className="-ml-2 text-muted-foreground hover:text-foreground transition-colors" />
-          <Separator orientation="vertical" className="h-6 bg-border" />
+          <Separator orientation="vertical" className="h-6 dark:bg-white/10 bg-black/10" />
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -161,24 +154,33 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <div className="flex-1 overflow-auto bg-background/50">
-        <div className="max-w-6xl mx-auto p-6 md:p-8 lg:p-10 space-y-8">
+      <div className="flex-1 overflow-auto">
+        <div className="max-w-6xl mx-auto p-2 md:p-4 lg:p-6 space-y-8">
           
           {/* Welcome Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-2 pb-6 border-b border-border">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.5 }}
+            className="flex flex-col md:flex-row md:items-end justify-between gap-2 pb-6 border-b dark:border-white/10 border-black/10"
+          >
             <div>
-              <h1 className="text-4xl font-extrabold tracking-tight text-foreground mb-2">Welcome to CodeStreak!</h1>
-              <p className="text-muted-foreground text-lg max-w-2xl">This platform is developed by me to track my study or practice as well as others who can track their progress & study etc...</p>
+              <h1 className="text-4xl font-extrabold tracking-tight mb-2 bg-gradient-to-r dark:from-white dark:to-white/60 from-black to-black/60 bg-clip-text text-transparent">Welcome to CodeStreak!</h1>
+              <p className="text-muted-foreground text-lg">This platform was developed to help users track their study sessions, practice activities, and overall progress. It enables both individual learners and groups to monitor their performance, stay organized, and achieve their learning goals more effectively.</p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Year Streak Chart (Top) */}
-          <div className="">
-            <div className="flex items-center gap-2">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <div className="flex items-center gap-2 mb-4">
               <Activity className="text-primary" size={24} />
-              <h2 className="text-2xl font-bold">Activity Graph</h2>
+              <h2 className="text-2xl font-bold tracking-tight">Activity Graph</h2>
             </div>
-            <div className="bg-card border border-border rounded-2xl p-6 shadow-sm overflow-x-auto custom-scrollbar">
+            <div className="dark:bg-white/5 bg-white border dark:border-white/10 border-black/10 rounded-2xl p-6 shadow-sm backdrop-blur-md overflow-x-auto custom-scrollbar">
               <div className="min-w-[700px]">
                 <div className="flex w-full mb-2">
                   <div className="w-8 shrink-0"></div>
@@ -225,21 +227,26 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Recent Activity List (Middle) */}
-          <div className="mt-12 space-y-6">
-            <div className="flex items-center gap-2 mb-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-4 space-y-4"
+          >
+            <div className="flex items-center gap-2 mb-2">
               <Check className="text-primary" size={24} />
-              <h2 className="text-2xl font-bold">Recent Activity</h2>
+              <h2 className="text-2xl font-bold tracking-tight">Recent Activity</h2>
             </div>
             
             {recentActivity.length > 0 ? (
-              <div className="max-h-[400px] overflow-y-auto pr-4 custom-scrollbar pl-1 py-1 bg-card border border-border rounded-2xl p-6 shadow-sm">
-                <div className="relative border-l-2 border-border ml-2 space-y-8 pb-4">
+              <div className="max-h-[400px] overflow-y-auto pr-4 custom-scrollbar pl-1 py-1 dark:bg-white/5 bg-white border dark:border-white/10 border-black/10 rounded-2xl p-6 shadow-sm backdrop-blur-md">
+                <div className="relative border-l-2 dark:border-white/10 border-black/10 ml-2 space-y-8 pb-4">
                   {recentActivity.map((item, idx) => (
-                    <div key={idx} className="relative pl-6">
-                      <div className={`absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-4 border-background ${
+                    <div key={idx} className="relative pl-6 group">
+                      <div className={`absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-4 dark:border-[#0a0a0a] border-white transition-transform group-hover:scale-125 ${
                         item.difficulty === 'Easy' ? 'bg-green-500' : 
                         item.difficulty === 'Medium' ? 'bg-yellow-500' : 
                         item.difficulty === 'Hard' ? 'bg-red-500' : 'bg-primary'
@@ -269,34 +276,14 @@ export default function Dashboard() {
                 </div>
               </div>
             ) : (
-              <div className="text-center py-12 text-muted-foreground bg-card border border-border rounded-2xl p-6 shadow-sm">
+              <div className="text-center py-12 text-muted-foreground dark:bg-white/5 bg-white border dark:border-white/10 border-black/10 rounded-2xl p-6 shadow-sm backdrop-blur-md">
                 <p>No recent activity found. Time to add some problems!</p>
               </div>
             )}
-          </div>
-
-
-          {/* What's New Section (Conditional) */}
-          {whatsNewItems.length > 0 && (
-            <div className="mt-12 pb-12">
-              <div className="flex items-center gap-2 mb-6">
-                <Sparkles className="text-yellow-500" size={24} />
-                <h2 className="text-2xl font-bold">What's New</h2>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {whatsNewItems.map((item, i) => (
-                  <div key={i} className="bg-card border border-border shadow-sm rounded-xl p-6 flex flex-col h-full">
-                    <h3 className="text-lg font-bold mb-2">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          </motion.div>
 
         </div>
       </div>
-    </>
+    </div>
   );
 }

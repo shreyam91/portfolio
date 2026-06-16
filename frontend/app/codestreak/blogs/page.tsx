@@ -44,7 +44,7 @@ export default function BlogsPage() {
   return (
 <>
 
-          <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4 z-10">
+          <header className="dark:bg-[#0a0a0a]/80 bg-white/80 backdrop-blur-xl sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b dark:border-white/10 border-black/10 px-4 z-10">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
@@ -56,7 +56,7 @@ export default function BlogsPage() {
             </Breadcrumb>
           </header>
           
-          <div className="p-6 lg:p-10 flex-1 overflow-y-auto bg-muted/10">
+          <div className="p-6 lg:p-10 flex-1 overflow-y-auto dark:bg-[#0a0a0a] bg-gray-50 min-h-screen">
             <div className="max-w-6xl mx-auto space-y-8">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
@@ -69,7 +69,7 @@ export default function BlogsPage() {
                   <input 
                     type="text" 
                     placeholder="Search blogs..." 
-                    className="w-full pl-10 pr-4 py-2.5 bg-background border border-border rounded-xl text-sm outline-none focus:border-primary transition-colors shadow-sm"
+                    className="w-full pl-10 pr-4 py-2.5 bg-transparent border dark:border-white/10 border-black/10 rounded-xl text-sm outline-none focus:border-primary transition-colors shadow-sm dark:bg-white/5 bg-white"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                   />
@@ -82,7 +82,7 @@ export default function BlogsPage() {
                   <button 
                     key={cat}
                     onClick={() => setActiveFilter(cat)}
-                    className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${activeFilter === cat ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-background border border-border text-muted-foreground hover:bg-muted'}`}
+                    className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${activeFilter === cat ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-transparent border dark:border-white/10 border-black/10 text-muted-foreground hover:bg-muted'}`}
                   >
                     {cat}
                   </button>
@@ -99,7 +99,7 @@ export default function BlogsPage() {
                     const slug = blog.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
                     return (
                     <Link key={blog._id || blog.id} href={`/dashboard/blogs/${slug}`} className="group h-full">
-                      <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all hover:border-primary/50 h-full flex flex-col">
+                      <div className="dark:bg-white/5 bg-white border dark:border-white/10 border-black/10 backdrop-blur-md rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all hover:border-primary/50 h-full flex flex-col">
                         <div className="h-48 overflow-hidden relative">
                           <Image 
                             src={blog.image} 
@@ -115,9 +115,9 @@ export default function BlogsPage() {
                         <div className="p-5 flex flex-col flex-1">
                           <h2 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2 leading-tight">{blog.title}</h2>
                           <p className="text-sm text-muted-foreground line-clamp-3 flex-1 mb-4 leading-relaxed">{blog.excerpt}</p>
-                          <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground pt-4 border-t border-border">
+                          <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground pt-4 border-t dark:border-white/10 border-black/10">
                             <span>{blog.date}</span>
-                            <span className="bg-muted px-2 py-1 rounded-md">{blog.readTime}</span>
+                            <span className="bg-transparent border dark:border-white/10 border-black/10 px-2 py-1 rounded-md">{blog.readTime}</span>
                           </div>
                         </div>
                       </div>

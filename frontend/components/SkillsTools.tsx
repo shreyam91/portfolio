@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Tech } from "../../data/types";
+import { Tech } from "../app/data/types";
 
 import {
   SiNextdotjs,

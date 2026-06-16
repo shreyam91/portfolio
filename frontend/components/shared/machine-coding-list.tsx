@@ -8,7 +8,6 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 
 import Link from 'next/link';
 import { Search, Code2, ArrowUpDown, CheckCircle2, Circle, Clock } from 'lucide-react';
-import { LockOverlay } from "@/components/lock-overlay";
 import { contentApi } from "@/lib/api";
 
 export function MachineCodingList({ isDashboard = false }: { isDashboard?: boolean }) {
@@ -88,7 +87,7 @@ export function MachineCodingList({ isDashboard = false }: { isDashboard?: boole
   return (
 <>
           {isDashboard && (
-          <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4 z-10">
+          <header className="dark:bg-[#0a0a0a]/80 bg-white/80 backdrop-blur-xl sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b dark:border-white/10 border-black/10 px-4 z-10">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
@@ -101,7 +100,7 @@ export function MachineCodingList({ isDashboard = false }: { isDashboard?: boole
           </header>
           )}
           
-          <div className="p-6 lg:p-10 flex-1 overflow-y-auto bg-muted/10">
+          <div className="p-6 lg:p-10 flex-1 overflow-y-auto dark:bg-[#0a0a0a] bg-gray-50 min-h-screen">
             <div className="max-w-6xl mx-auto space-y-8">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
@@ -114,16 +113,16 @@ export function MachineCodingList({ isDashboard = false }: { isDashboard?: boole
                   <input 
                     type="text" 
                     placeholder="Search problems..." 
-                    className="w-full pl-10 pr-4 py-2.5 bg-background border border-border rounded-xl text-sm outline-none focus:border-primary transition-colors shadow-sm"
+                    className="w-full pl-10 pr-4 py-2.5 bg-transparent border dark:border-white/10 border-black/10 rounded-xl text-sm outline-none focus:border-primary transition-colors shadow-sm dark:bg-white/5 bg-white"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                   />
                 </div>
               </div>
 
-              <div className="border border-border bg-card rounded-2xl shadow-sm overflow-hidden relative">
+              <div className="border dark:border-white/10 border-black/10 dark:bg-white/5 bg-white backdrop-blur-md rounded-2xl shadow-sm overflow-hidden relative">
                 {/* Table Header */}
-                <div className="grid grid-cols-12 gap-4 p-4 border-b border-border bg-muted/30 font-semibold text-sm text-muted-foreground items-center">
+                <div className="grid grid-cols-12 gap-4 p-4 border-b dark:border-white/10 border-black/10 bg-muted/10 font-semibold text-sm text-muted-foreground items-center">
                   <div className="col-span-1 text-center flex justify-center">
                     Status
                   </div>
@@ -154,7 +153,7 @@ export function MachineCodingList({ isDashboard = false }: { isDashboard?: boole
                       return (
                       <Link 
                         key={problem._id} 
-                        href={isDashboard ? `/dashboard/machine-coding/${slug}` : `/machine-coding/${slug}`}
+                        href={isDashboard ? `/codestreak/machine-coding/${slug}` : `/machine-coding/${slug}`}
                         className="grid grid-cols-12 gap-4 p-4 items-center hover:bg-muted/30 transition-colors cursor-pointer group"
                       >
                         <div className="col-span-1 flex justify-center">
@@ -170,12 +169,12 @@ export function MachineCodingList({ isDashboard = false }: { isDashboard?: boole
                           {problem.companies && problem.companies.length > 0 && (
                             <div className="flex flex-wrap gap-1.5 mt-0.5">
                               {problem.companies.slice(0, 3).map((company: string) => (
-                                <span key={company} className="text-[10px] px-2 py-0.5 bg-muted rounded-md border border-border text-muted-foreground font-medium whitespace-nowrap">
+                                <span key={company} className="text-[10px] px-2 py-0.5 bg-transparent rounded-md border dark:border-white/10 border-black/10 text-muted-foreground font-medium whitespace-nowrap">
                                   {company}
                                 </span>
                               ))}
                               {problem.companies.length > 3 && (
-                                <span className="text-[10px] px-2 py-0.5 bg-muted rounded-md border border-border text-muted-foreground font-medium whitespace-nowrap">
+                                <span className="text-[10px] px-2 py-0.5 bg-transparent rounded-md border dark:border-white/10 border-black/10 text-muted-foreground font-medium whitespace-nowrap">
                                   +{problem.companies.length - 3}
                                 </span>
                               )}
@@ -206,7 +205,6 @@ export function MachineCodingList({ isDashboard = false }: { isDashboard?: boole
                   </div>
                 )}
               </div>
-              {!isDashboard && <LockOverlay />}
             </div>
           </div>
 </>

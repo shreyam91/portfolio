@@ -32,7 +32,7 @@ export default function VideosPage() {
           return {
             ...v,
             ytId,
-            thumbnail: v.thumbnail || (ytId ? `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg` : ''),
+            thumbnail: v.thumbnail || (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : ''),
           };
         });
         setVideosData(normalized);
@@ -51,7 +51,7 @@ export default function VideosPage() {
   return (
 <>
 
-          <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4 z-10">
+          <header className="dark:bg-[#0a0a0a]/80 bg-white/80 backdrop-blur-xl sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b dark:border-white/10 border-black/10 px-4 z-10">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
@@ -63,7 +63,7 @@ export default function VideosPage() {
             </Breadcrumb>
           </header>
           
-          <div className="p-6 lg:p-10 flex-1 overflow-y-auto bg-muted/10">
+          <div className="p-6 lg:p-10 flex-1 overflow-y-auto dark:bg-[#0a0a0a] bg-gray-50 min-h-screen">
             <div className="max-w-7xl mx-auto space-y-8">
               <div className="flex flex-col md:flex-row justify-between md:items-end gap-6">
                 <div>
@@ -77,7 +77,7 @@ export default function VideosPage() {
                     <button 
                       key={cat}
                       onClick={() => setActiveCategory(cat)}
-                      className={`px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${activeCategory === cat ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-card border border-border text-foreground hover:bg-muted'}`}
+                      className={`px-4 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${activeCategory === cat ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-transparent border dark:border-white/10 border-black/10 text-foreground hover:bg-muted'}`}
                     >
                       {cat}
                     </button>
@@ -93,7 +93,7 @@ export default function VideosPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {filteredVideos.map(video => (
                     <div key={video._id || video.id} className="group cursor-pointer flex flex-col h-full">
-                      <div className="relative rounded-xl overflow-hidden mb-3 aspect-video border border-border shadow-sm bg-black group cursor-pointer" onClick={() => !playingVideoId && setPlayingVideoId(video._id || video.id)}>
+                      <div className="relative rounded-xl overflow-hidden mb-3 aspect-video border dark:border-white/10 border-black/10 shadow-sm bg-black group cursor-pointer" onClick={() => !playingVideoId && setPlayingVideoId(video._id || video.id)}>
                         {playingVideoId === (video._id || video.id) ? (
                           <iframe 
                             className="w-full h-full absolute inset-0 bg-black"
