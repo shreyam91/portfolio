@@ -1,0 +1,34 @@
+[
+  {
+    "id": "mXw9cZl3m0o",
+    "title": "Operating Systems Crash Course - Master OS in 45 Minutes",
+    "category": "Placement Prep",
+    "duration": "45:20",
+    "views": "1.2M views",
+    "thumbnail": "https://img.youtube.com/vi/mXw9cZl3m0o/maxresdefault.jpg"
+  },
+  {
+    "id": "tWVWeAqZ0WU",
+    "title": "Graph Algorithms Explained Visually - Dijkstra, BFS, DFS",
+    "category": "DSA",
+    "duration": "22:15",
+    "views": "850K views",
+    "thumbnail": "https://img.youtube.com/vi/tWVWeAqZ0WU/maxresdefault.jpg"
+  },
+  {
+    "id": "vvhC64hQZMk",
+    "title": "How to Build a Scalable Chat App - System Design Interview",
+    "category": "System Design",
+    "duration": "1:05:10",
+    "views": "420K views",
+    "thumbnail": "https://img.youtube.com/vi/vvhC64hQZMk/maxresdefault.jpg"
+  },
+  {
+    "id": "81v_D2gD0D0",
+    "title": "Machine Coding Interview - React Tic Tac Toe",
+    "category": "Web Dev",
+    "duration": "1:30:00",
+    "views": "125K views",
+    "thumbnail": "https://img.youtube.com/vi/81v_D2gD0D0/maxresdefault.jpg"
+  }
+]

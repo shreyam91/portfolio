@@ -1,109 +1,139 @@
-# My Portfolio
+# Shreyam's Portfolio & CodeStreak 🚀
 
-Welcome to my personal portfolio website! This is a project that showcases my skills, experiences, and projects. It serves as a digital resume, with sections that highlight my background, technical skills, and work examples. The website is built using modern technologies, offering a responsive, dynamic, and user-friendly experience.
+![Banner](https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80)
 
-## Features
+Welcome to a dynamic, full-stack application that serves as both a **Personalized Portfolio** and an interactive **CodeStreak Dashboard**. 
 
-- **Personal Bio**: A section detailing who I am, my background, and my career journey.
-- **Projects Showcase**: A collection of projects I've worked on, with descriptions and links to the live projects or GitHub repositories.
-- **Skills Section**: Displays the technologies and tools I am proficient in.
-- **Contact Form**: A simple form that allows users to get in touch with me via email.
-- **Responsive Design**: The portfolio is fully responsive and optimized for various screen sizes.
+This platform demonstrates professional experience, an interactive timeline of projects, Campfire Notes (blogs), and a real-time integration with my personal problem-solving tracker, designed to make coding interview preparation structured, engaging, and consistent.
 
-## Tech Stack
+---
 
-- **Frontend**:
-  - **Next.js**: Framework for building the front end, providing server-side rendering (SSR) and static site generation (SSG).
-  - **React**: Core library for building dynamic user interfaces.
-  - **CSS**: Styling using custom CSS, with support for responsive layouts.
-  - **JavaScript**: Core scripting language used throughout the project.
+## ✨ Features
 
-- **Backend**:
-  - **Express.js**: A minimal and flexible Node.js web application framework, used for handling server-side logic and API requests.
-  
-- **Others**:
-  - **Node.js**: JavaScript runtime used to run the server and build scripts.
-  - **EmailJS**: For handling contact form submissions via email.
+- **Personalized Portfolio:** A seamless journey map of my projects, skills timeline, and thoughts.
+- **Dynamic Dark/Light Mode:** Full integration of themes with smooth transitions across the entire platform.
+- **CodeStreak Dashboard:** Real-time synchronization displaying live consistency metrics across DSA, System Design, and Machine Coding.
+- **Cinematic Visuals:** Includes an interactive, scrollable project map and a stunning visual diary (Image Gallery).
+- **Pattern-based Learning Approach:** Focuses on tracking consistency over intensity to build long-term retention.
+- **Backend API Integration:** Custom Express backend connecting to MongoDB for accurate, live streak tracking.
 
-## Getting Started
+---
 
-To get the project running locally, follow these steps:
+## 🛠️ Tech Stack
 
-### Prerequisites
+- **Frontend:** Next.js (App Router), React, Tailwind CSS, Framer Motion, TypeScript
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB, Mongoose
+- **Styling & UI:** Custom design system, Tailwind CSS variables, React Icons
 
-- **Node.js** (v14 or higher)
-- **npm** or **yarn**
+---
 
-### Installation
+## 📸 Project Vision
 
-1. **Clone the repository**:
+Most developers face the same challenges when tracking progress or showcasing their work:
+- Disconnected personal projects and scattered notes
+- Difficulty staying consistent with coding practice
+- Lack of a centralized platform to visualize their journey
 
-2. **Install dependencies**:
+This unified platform solves this by **transforming interview prep into a sustainable daily habit** while simultaneously **showcasing growth** to potential employers and collaborators.
 
-   In the project directory, install the required packages:
+The goal is simple:
+> Track one pattern at a time.  
+> Stay consistent.  
+> Build long-term retention.
 
-   ```bash
-   npm install
-   ```
+---
 
-   or if you're using yarn:
+## 🚀 Getting Started
 
-   ```bash
-   yarn install
-   ```
-
-3. **Run the development server**:
-
-   To start the project locally in development mode:
-
-   ```bash
-   npm run dev
-   ```
-
-   Once the server is running, you can access the portfolio at `http://localhost:3000`.
-
-### Building for Production
-
-To build the project for production:
+### 1️⃣ Clone the Repository
 
 ```bash
-npm run build
+git clone https://github.com/shreyam91/CodeStreak.git
+cd CodeStreak
 ```
 
-This will optimize your Next.js project for production.
+### 2️⃣ Install Dependencies
 
-To start the production server:
+**Frontend**
+```bash
+cd frontend
+npm install
+```
+
+**Backend**
+```bash
+cd backend
+npm install
+```
+
+### 3️⃣ Setup Environment Variables
+
+Create `.env` files in both directories.
+
+**Backend `.env` Example:**
+```env
+PORT=4000
+MONGODB_URI=mongodb+srv://<your_username>:<your_password>@cluster.mongodb.net/?retryWrites=true&w=majority
+JWT_SECRET=super_secret_access_token_key_for_development
+```
+
+**Frontend `.env.local` Example:**
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
+```
+
+### 4️⃣ Run the Application
+
+**Start the Backend:**
+```bash
+cd backend
+npm run dev
+```
+
+**Start the Frontend:**
+```bash
+cd frontend
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+---
+
+## 📂 Project Structure
 
 ```bash
-npm start
+CodeStreak/
+│
+├── frontend/        # Next.js user-facing portfolio and dashboard
+├── backend/         # Express.js API & MongoDB schemas
+└── README.md
 ```
 
+---
 
-## Usage
+## 🎯 Future Improvements
 
-1. **Homepage**: A welcoming page with a brief introduction and links to sections such as Projects and Contact.
-2. **Projects**: A section that lists and showcases different projects. Each project includes a short description, technologies used, and links to the live project or GitHub repository.
-3. **Skills**: A visual representation of my technical skills, such as programming languages, frameworks, and tools.
-4. **Contact**: A form that lets visitors contact me via email. Submissions are sent through EmailJS (or another email service of your choice).
+- AI-powered project recommendations
+- Personalized learning plans
+- Leaderboard support for public streak comparisons
+- Advanced filtering for the Campfire Notes blog
 
-## Contributing
+---
 
-Contributions to the project are welcome! If you'd like to contribute, you can:
+## 🤝 Contributing
+
+Contributions are welcome!
 
 1. Fork the repository
-2. Create a new branch for your changes
-3. Make your changes and commit them
-4. Push your changes to your fork
-5. Create a pull request explaining your changes
+2. Create a new branch (`git checkout -b feature-name`)
+3. Commit your changes (`git commit -m "Add new feature"`)
+4. Push to GitHub (`git push origin feature-name`)
+5. Open a Pull Request
 
-## License
+---
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 📄 License
 
-## Acknowledgments
-
-- **Next.js**: For making it easy to build optimized and production-ready React applications.
-- **React**: For powering the dynamic user interface.
-- **EmailJS**: For handling the contact form submissions.
-- **FontAwesome**: For icons used throughout the portfolio.
-
+This project is licensed under the MIT License.

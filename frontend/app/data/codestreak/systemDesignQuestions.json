@@ -1,0 +1,2044 @@
+[
+  {
+  "id": 1,
+  "title": "Design WhatsApp",
+  "difficulty": "Hard",
+
+  "category": "System Design",
+
+  "estimatedTime": "45 mins",
+
+  "companies": [
+    "Meta",
+    "WhatsApp",
+    "Microsoft",
+    "Amazon",
+    "Apple"
+  ],
+
+  "tags": [
+    "Chat System",
+    "Messaging",
+    "WebSocket",
+    "Real-Time Communication",
+    "Distributed Systems"
+  ],
+
+  "description": "Design a highly scalable chat application like WhatsApp. The system should support 1-on-1 and group chatting, message receipts, and handle massive amounts of real-time data efficiently.",
+
+  "functionalRequirements": [
+    "1-on-1 chatting in real-time",
+    "Group chatting with up to 256 members",
+    "Sent/Delivered/Read receipts",
+    "Last seen and online status",
+    "Push notifications",
+    "Media sharing",
+    "End-to-end encryption"
+  ],
+
+  "nonFunctionalRequirements": [
+    "High availability",
+    "Low latency (<100ms message delivery)",
+    "Horizontal scalability",
+    "Fault tolerance",
+    "Data durability",
+    "Strong privacy guarantees"
+  ],
+
+  "capacityEstimation": {
+    "dailyActiveUsers": "1 Billion",
+    "messagesPerUserPerDay": 50,
+    "totalMessagesPerDay": "50 Billion",
+    "averageMessageSize": "100 Bytes",
+    "dailyStorage": "5 TB",
+    "tenYearStorage": "18 PB",
+    "peakQPS": "1.1 Million"
+  },
+
+  "apiDesign": [
+    {
+      "endpoint": "POST /messages",
+      "purpose": "Send message"
+    },
+    {
+      "endpoint": "GET /messages/{chatId}",
+      "purpose": "Fetch chat history"
+    },
+    {
+      "endpoint": "POST /groups",
+      "purpose": "Create group"
+    },
+    {
+      "endpoint": "POST /media/upload",
+      "purpose": "Upload media"
+    }
+  ],
+
+  "dataModel": {
+    "User": [
+      "userId",
+      "phoneNumber",
+      "lastSeen",
+      "profilePhoto"
+    ],
+    "Message": [
+      "messageId",
+      "senderId",
+      "receiverId",
+      "timestamp",
+      "status"
+    ],
+    "Group": [
+      "groupId",
+      "members",
+      "createdAt"
+    ]
+  },
+
+  "highLevelDesign": [
+    "Client connects to Chat Server via WebSocket",
+    "Chat Servers maintain active connections",
+    "User Service manages profiles and authentication",
+    "Presence Service manages online/offline status",
+    "Notification Service handles push notifications",
+    "Media Service stores and serves media files",
+    "Message Store persists chat history"
+  ],
+
+  "deepDiveComponents": [
+    {
+      "component": "Chat Server",
+      "responsibility": "Message routing and WebSocket management"
+    },
+    {
+      "component": "Presence Service",
+      "responsibility": "Track user online status"
+    },
+    {
+      "component": "Notification Service",
+      "responsibility": "Push notifications"
+    },
+    {
+      "component": "Media Service",
+      "responsibility": "Upload and retrieval of media files"
+    }
+  ],
+
+  "databaseDesign": {
+    "userStore": "PostgreSQL",
+    "messageStore": "Cassandra",
+    "presenceStore": "Redis",
+    "mediaStore": "Object Storage"
+  },
+
+  "cachingStrategy": [
+    "Cache user profiles in Redis",
+    "Cache group metadata",
+    "Cache connection mappings (User -> Chat Server)",
+    "Cache frequently accessed conversations"
+  ],
+
+  "scalingStrategy": [
+    "Shard messages by conversation ID",
+    "Use consistent hashing for chat servers",
+    "Horizontal scaling of WebSocket gateways",
+    "CDN for media delivery",
+    "Partition groups across regions"
+  ],
+
+  "bottlenecks": [
+    "Hot group chats",
+    "Presence updates at massive scale",
+    "Media upload spikes",
+    "Message fan-out in large groups"
+  ],
+
+  "tradeoffs": [
+    {
+      "decision": "WebSocket vs Long Polling",
+      "choice": "WebSocket",
+      "reason": "Bidirectional and low latency"
+    },
+    {
+      "decision": "Cassandra vs SQL",
+      "choice": "Cassandra",
+      "reason": "Higher write throughput and scalability"
+    }
+  ],
+
+  "securityConsiderations": [
+    "End-to-end encryption",
+    "Message authentication",
+    "Encrypted media storage",
+    "Rate limiting",
+    "Abuse detection"
+  ],
+
+  "monitoringAndObservability": [
+    "Message delivery latency",
+    "Failed message rate",
+    "Active WebSocket connections",
+    "Push notification success rate",
+    "Database latency"
+  ],
+
+  "followUpQuestions": [
+    "How would you support disappearing messages?",
+    "How would you support multi-device sync?",
+    "How would you support message editing?",
+    "How would you handle group chats with 10,000 users?",
+    "How would you support cross-region replication?"
+  ],
+
+  "evaluationCriteria": {
+    "requirementsGathering": 15,
+    "capacityEstimation": 15,
+    "architecture": 30,
+    "scalability": 20,
+    "tradeoffs": 10,
+    "communication": 10
+  },
+
+  "diagram": "https://placeholder.com/whatsapp-diagram",
+
+  "referenceResources": [
+    {
+      "title": "ByteByteGo",
+      "url": "https://bytebytego.com/"
+    }
+  ]
+},
+  {
+    "id": 2,
+    "title": "Design URL Shortener (Bitly)",
+    "difficulty": "Easy",
+    "requirements": [
+      "Given a long URL, return a much shorter unique alias.",
+      "When users access a short URL, they should be redirected to the original link.",
+      "High availability and low latency redirects.",
+      "Links expire after a standard default timespan.",
+      "Analytics: How many times a redirection happened?"
+    ],
+    "capacityEstimation": "Traffic: 100M new URLs generated per month.\nRead/Write ratio: 100:1. So 10B redirects per month.\nQPS: Writes = 40/s, Reads = 4000/s.\nStorage: 100M * 100 months * 500 bytes = 5TB.",
+    "highLevelDesign": "1. API Gateway routes traffic.\n2. URL Shortening Service generates base62 hashes (using a counter or UUID approach).\n3. Redirection Service looks up the short URL in cache/DB and issues HTTP 301.\n4. Database stores Short -> Long mapping.\n5. Analytics system ingests click events.",
+    "tradeoffs": [
+      "HTTP 301 vs 302: 301 (Permanent) caches the redirect in the browser, saving server load. 302 (Temporary) allows better analytics since every click hits our server.",
+      "Hashing vs Counter: MD5 hashing can have collisions. A distributed counter (e.g., ZooKeeper or Snowflake) generating a unique ID and then converting to Base62 avoids collisions entirely."
+    ],
+    "databaseChoice": "NoSQL (like Cassandra or DynamoDB) or RDBMS (PostgreSQL).\nSince the schema is simple (ShortUrl -> LongUrl) and read-heavy, NoSQL is excellent for high scale, but RDBMS is perfectly fine since the total data size is manageable (5TB) and we can heavily rely on caching.",
+    "cachingStrategy": "Memcached or Redis. Cache the most frequently accessed short URLs. Eviction policy: LRU (Least Recently Used). Since the read/write ratio is 100:1, caching will drastically reduce DB load.",
+    "companies": ["Google", "Facebook", "Amazon", "Microsoft", "Uber"],
+    "estimatedTime": "30 mins",
+    "description": "Design a URL shortening service like Bitly. The system should generate unique aliases for long URLs and efficiently redirect users who access the short URLs, while handling billions of requests per month.",
+    "diagram": "https://placeholder.com/url-shortener-diagram",
+    "referenceResources": [
+      {
+        "title": "Designing a URL Shortener",
+        "url": "https://www.educative.io/courses/grokking-the-system-design-interview/m2ygV4E81AR"
+      }
+    ]
+  },
+  {
+    "id": 3,
+
+    "title": "Design Instagram",
+
+    "difficulty": "Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "60 mins",
+
+    "companies": [
+      "Meta",
+      "Instagram",
+      "Amazon",
+      "Google",
+      "Microsoft"
+    ],
+
+    "tags": [
+      "Social Network",
+      "News Feed",
+      "Image Storage",
+      "Feed Ranking",
+      "Caching",
+      "Scalability"
+    ],
+
+    "description": "Design a highly scalable photo-sharing social media platform like Instagram. The system should allow users to upload images/videos, follow other users, view a personalized feed, like/comment posts, and handle billions of users with low latency.",
+
+    "functionalRequirements": [
+      "User registration and authentication",
+      "Upload photos and videos",
+      "Follow/unfollow users",
+      "Generate personalized feed",
+      "Like and comment on posts",
+      "View user profiles",
+      "Search users and posts"
+    ],
+
+    "nonFunctionalRequirements": [
+      "Low latency feed generation (<200ms)",
+      "High availability (99.99%)",
+      "Eventual consistency for feeds",
+      "Scalability to billions of users",
+      "Fault tolerance",
+      "Efficient media storage and delivery"
+    ],
+
+    "capacityEstimation": {
+      "dailyActiveUsers": "500 Million",
+      "uploadsPerDay": "100 Million posts/day",
+      "averagePostSize": "500 KB",
+      "dailyStorage": "50 TB/day",
+      "readToWriteRatio": "100:1",
+      "peakQPS": "2 Million requests/sec"
+    },
+
+    "apiDesign": [
+      {
+        "endpoint": "POST /users/signup",
+        "purpose": "Register user"
+      },
+      {
+        "endpoint": "POST /posts",
+        "purpose": "Upload post"
+      },
+      {
+        "endpoint": "GET /feed",
+        "purpose": "Get user feed"
+      },
+      {
+        "endpoint": "POST /follow",
+        "purpose": "Follow user"
+      },
+      {
+        "endpoint": "POST /like",
+        "purpose": "Like a post"
+      }
+    ],
+
+    "dataModel": {
+      "User": [
+        "userId",
+        "username",
+        "email",
+        "followersCount",
+        "followingCount"
+      ],
+
+      "Post": [
+        "postId",
+        "userId",
+        "mediaUrl",
+        "caption",
+        "timestamp"
+      ],
+
+      "Follow": [
+        "followerId",
+        "followeeId"
+      ],
+
+      "Like": [
+        "userId",
+        "postId",
+        "timestamp"
+      ]
+    },
+
+    "highLevelDesign": [
+      "Client communicates via API Gateway",
+      "User Service handles authentication and profiles",
+      "Post Service handles uploads",
+      "Media Service stores images/videos in object storage",
+      "Feed Service generates home feed",
+      "Cache layer stores hot feeds",
+      "Notification Service handles likes/comments"
+    ],
+
+    "deepDiveComponents": [
+      {
+        "component": "Feed Generation Service",
+        "responsibility": "Builds personalized feed using follow graph"
+      },
+      {
+        "component": "Media Storage Service",
+        "responsibility": "Stores images/videos in S3-like object storage"
+      },
+      {
+        "component": "Fan-out System",
+        "responsibility": "Push posts to followers' feed cache"
+      }
+    ],
+
+    "databaseDesign": {
+      "userDB": "PostgreSQL",
+      "postDB": "Cassandra",
+      "feedCache": "Redis",
+      "mediaStorage": "S3 Object Storage"
+    },
+
+    "cachingStrategy": [
+      "Cache user profiles",
+      "Cache home feeds in Redis",
+      "Cache trending posts",
+      "CDN for images/videos"
+    ],
+
+    "scalingStrategy": [
+      "Shard posts by userId",
+      "Use CDN for media delivery",
+      "Fan-out on write for active users",
+      "Fan-out on read for inactive users",
+      "Partition feed generation service",
+      "Use Kafka for event streaming"
+    ],
+
+    "bottlenecks": [
+      "Feed generation at scale",
+      "Celebrity users with millions of followers",
+      "Media upload spikes",
+      "Hot partition issues in database"
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Fan-out on write vs read",
+        "choice": "Hybrid approach",
+        "reason": "Write for normal users, read-time for celebrities"
+      },
+      {
+        "decision": "SQL vs NoSQL",
+        "choice": "NoSQL for posts",
+        "reason": "High write throughput and scalability"
+      }
+    ],
+
+    "securityConsiderations": [
+      "Rate limiting uploads",
+      "Content moderation",
+      "Encrypted media storage",
+      "Authentication using JWT",
+      "Prevent spam likes/comments"
+    ],
+
+    "monitoringAndObservability": [
+      "Feed latency",
+      "Upload success rate",
+      "CDN hit ratio",
+      "API error rates",
+      "Database latency"
+    ],
+
+    "followUpQuestions": [
+      "How would you handle celebrity users?",
+      "How would you improve feed ranking?",
+      "How would you support reels/videos?",
+      "How would you implement stories?",
+      "How would you reduce feed latency further?"
+    ],
+
+    "evaluationCriteria": {
+      "requirementsUnderstanding": 15,
+      "scalabilityDesign": 25,
+      "systemArchitecture": 25,
+      "tradeoffs": 15,
+      "communication": 10,
+      "depth": 10
+    },
+
+    "referenceResources": [
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      }
+    ]
+  },
+  {
+    "id": 4,
+
+    "title": "Design Uber",
+
+    "difficulty": "Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "60 mins",
+
+    "companies": [
+      "Uber",
+      "Lyft",
+      "Amazon",
+      "Google",
+      "Ola"
+    ],
+
+    "tags": [
+      "Ride Sharing",
+      "GeoSpatial Indexing",
+      "Real-time Matching",
+      "Location Tracking",
+      "Distributed Systems"
+    ],
+
+    "description": "Design a ride-hailing system like Uber where users can request rides, drivers can accept rides, real-time location is tracked, and the system efficiently matches riders with nearby drivers.",
+
+    "functionalRequirements": [
+      "User should be able to request a ride",
+      "Driver should receive nearby ride requests",
+      "Match rider with nearest available driver",
+      "Real-time tracking of driver location",
+      "Trip status updates (requested, accepted, started, completed)",
+      "Fare calculation based on distance and time",
+      "Rating system for drivers and riders"
+    ],
+
+    "nonFunctionalRequirements": [
+      "Low latency driver-rider matching (<100ms)",
+      "High availability (99.99%)",
+      "Scalable to millions of concurrent users",
+      "Accurate real-time location updates",
+      "Fault tolerance in case of driver/app failure",
+      "Eventual consistency for trip history"
+    ],
+
+    "capacityEstimation": {
+      "dailyActiveUsers": "50 Million",
+      "ridesPerDay": "20 Million",
+      "locationUpdatesPerSecond": "1 Million+",
+      "peakMatchingRequestsPerSecond": "500K",
+      "averageRideDuration": "15 minutes",
+      "dataGeneratedPerDay": "10 TB"
+    },
+
+    "apiDesign": [
+      {
+        "endpoint": "POST /ride/request",
+        "purpose": "Request a ride"
+      },
+      {
+        "endpoint": "POST /ride/accept",
+        "purpose": "Driver accepts ride"
+      },
+      {
+        "endpoint": "POST /ride/start",
+        "purpose": "Start ride"
+      },
+      {
+        "endpoint": "POST /ride/end",
+        "purpose": "End ride"
+      },
+      {
+        "endpoint": "GET /driver/nearby",
+        "purpose": "Get nearby drivers"
+      }
+    ],
+
+    "dataModel": {
+      "User": [
+        "userId",
+        "name",
+        "phone",
+        "rating"
+      ],
+
+      "Driver": [
+        "driverId",
+        "vehicleInfo",
+        "currentLocation",
+        "availabilityStatus",
+        "rating"
+      ],
+
+      "Ride": [
+        "rideId",
+        "userId",
+        "driverId",
+        "startLocation",
+        "endLocation",
+        "status",
+        "fare"
+      ],
+
+      "Location": [
+        "lat",
+        "lng",
+        "timestamp"
+      ]
+    },
+
+    "highLevelDesign": [
+      "Client sends ride request to API Gateway",
+      "Ride Service handles ride lifecycle",
+      "Matching Service finds nearest drivers",
+      "Location Service tracks real-time GPS updates",
+      "Notification Service informs drivers and users",
+      "Payment Service handles fare settlement",
+      "Trip Storage stores ride history"
+    ],
+
+    "deepDiveComponents": [
+      {
+        "component": "Matching Service",
+        "responsibility": "Match riders with nearest available drivers using geo-indexing"
+      },
+      {
+        "component": "Location Service",
+        "responsibility": "Ingest real-time GPS updates from drivers"
+      },
+      {
+        "component": "Geo Indexing Engine",
+        "responsibility": "Use geohash or quadtrees for spatial queries"
+      }
+    ],
+
+    "databaseDesign": {
+      "userDB": "PostgreSQL",
+      "rideDB": "Cassandra",
+      "locationStore": "Redis + TimeSeries DB",
+      "geoIndex": "ElasticSearch / H3 / Geohash index"
+    },
+
+    "cachingStrategy": [
+      "Cache nearby drivers per region",
+      "Cache active ride state in Redis",
+      "Cache driver availability status",
+      "Cache surge pricing zones"
+    ],
+
+    "scalingStrategy": [
+      "Partition by city/region",
+      "Use geospatial indexing (Geohash / H3)",
+      "Kafka for ride events streaming",
+      "Horizontal scaling of matching service",
+      "Separate read/write paths for location updates"
+    ],
+
+    "bottlenecks": [
+      "High-frequency location updates",
+      "Hot zones (airports, events)",
+      "Real-time matching latency",
+      "Driver availability contention"
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Accuracy vs Latency in matching",
+        "choice": "Slightly stale driver data",
+        "reason": "Prioritize fast matching over perfect real-time accuracy"
+      },
+      {
+        "decision": "Push vs Pull location updates",
+        "choice": "Push model",
+        "reason": "Required for real-time tracking"
+      }
+    ],
+
+    "securityConsiderations": [
+      "Validate GPS spoofing",
+      "Secure ride data",
+      "Authentication via JWT",
+      "Prevent ride request abuse",
+      "Encrypt payment data"
+    ],
+
+    "monitoringAndObservability": [
+      "Match latency",
+      "Ride request success rate",
+      "Driver availability ratio",
+      "Location update lag",
+      "Cancellation rate"
+    ],
+
+    "followUpQuestions": [
+      "How would you handle surge pricing?",
+      "How would you reduce matching latency further?",
+      "How would you handle driver GPS spoofing?",
+      "How would you scale to global cities?",
+      "How would you improve ETA accuracy?"
+    ],
+
+    "evaluationCriteria": {
+      "requirementsUnderstanding": 15,
+      "scalabilityDesign": 30,
+      "geoSpatialDesign": 20,
+      "tradeoffs": 15,
+      "communication": 10,
+      "depth": 10
+    },
+
+    "referenceResources": [
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      }
+    ]
+  },
+  {
+    "id": 5,
+
+    "title": "Design Google Maps",
+
+    "difficulty": "Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "60 mins",
+
+    "companies": [
+      "Google",
+      "Apple",
+      "Uber",
+      "Amazon",
+      "Microsoft"
+    ],
+
+    "tags": [
+      "GeoSpatial Systems",
+      "Routing Algorithms",
+      "Navigation",
+      "Real-time Traffic",
+      "Distributed Systems",
+      "Location Services"
+    ],
+
+    "description": "Design a highly scalable mapping system like Google Maps that provides map rendering, route navigation, real-time traffic updates, location search, and turn-by-turn navigation for billions of users.",
+
+    "functionalRequirements": [
+      "Display interactive map (zoom, pan, tilt)",
+      "Search locations (restaurants, cities, landmarks)",
+      "Get shortest route between two points",
+      "Provide turn-by-turn navigation",
+      "Show real-time traffic conditions",
+      "Suggest alternative routes",
+      "Save favorite locations",
+      "Share live location"
+    ],
+
+    "nonFunctionalRequirements": [
+      "Low latency map rendering (<200ms)",
+      "High availability (99.99%)",
+      "Scalable to billions of requests/day",
+      "Accurate real-time traffic updates",
+      "Offline map support",
+      "Fault tolerant distributed system"
+    ],
+
+    "capacityEstimation": {
+      "dailyActiveUsers": "1 Billion",
+      "mapTileRequestsPerDay": "500 Billion",
+      "searchQueriesPerDay": "5 Billion",
+      "navigationRequestsPerDay": "50 Billion",
+      "realTimeUpdatesPerSecond": "2 Million+",
+      "storageRequired": "Multi-Petabyte scale"
+    },
+
+    "apiDesign": [
+      {
+        "endpoint": "GET /map/tiles/{zoom}/{x}/{y}",
+        "purpose": "Fetch map tiles"
+      },
+      {
+        "endpoint": "GET /search?q={query}",
+        "purpose": "Search places"
+      },
+      {
+        "endpoint": "POST /route",
+        "purpose": "Get route between two points"
+      },
+      {
+        "endpoint": "GET /traffic",
+        "purpose": "Get traffic conditions"
+      },
+      {
+        "endpoint": "POST /location/update",
+        "purpose": "Update live location"
+      }
+    ],
+
+    "dataModel": {
+      "Place": [
+        "placeId",
+        "name",
+        "type",
+        "latitude",
+        "longitude",
+        "rating"
+      ],
+
+      "RoadGraph": [
+        "nodeId",
+        "edgeId",
+        "distance",
+        "speedLimit"
+      ],
+
+      "UserLocation": [
+        "userId",
+        "latitude",
+        "longitude",
+        "timestamp"
+      ],
+
+      "TrafficData": [
+        "roadSegmentId",
+        "congestionLevel",
+        "timestamp"
+      ]
+    },
+
+    "highLevelDesign": [
+      "Client app renders map using Map SDK",
+      "Map Tile Service serves pre-rendered map tiles",
+      "Geocoding Service converts addresses to coordinates",
+      "Routing Service calculates shortest path",
+      "Traffic Service provides real-time congestion data",
+      "Location Service tracks live GPS updates",
+      "Search Service handles place queries",
+      "CDN caches map tiles globally"
+    ],
+
+    "deepDiveComponents": [
+      {
+        "component": "Map Tile Service",
+        "responsibility": "Serves pre-rendered map tiles at different zoom levels"
+      },
+      {
+        "component": "Routing Engine",
+        "responsibility": "Computes shortest path using Dijkstra / A* algorithm on road graph"
+      },
+      {
+        "component": "Geospatial Indexing System",
+        "responsibility": "Uses QuadTree / R-Tree / H3 indexing for fast location lookup"
+      },
+      {
+        "component": "Traffic Aggregation System",
+        "responsibility": "Aggregates live GPS data to compute congestion"
+      }
+    ],
+
+    "databaseDesign": {
+      "mapDataStore": "Distributed File System (HDFS / Bigtable)",
+      "geospatialIndex": "H3 / QuadTree / R-Tree",
+      "trafficStore": "Time Series Database",
+      "userData": "PostgreSQL",
+      "cache": "Redis + CDN"
+    },
+
+    "cachingStrategy": [
+      "Cache map tiles in CDN (edge locations)",
+      "Cache popular routes",
+      "Cache frequently searched places",
+      "Cache traffic hotspots",
+      "Cache geocoding results"
+    ],
+
+    "scalingStrategy": [
+      "Partition map data by geographic regions",
+      "Use CDN for tile delivery",
+      "Precompute popular routes",
+      "Use distributed geospatial indexing",
+      "Stream traffic data via Kafka",
+      "Horizontal scaling of routing service"
+    ],
+
+    "bottlenecks": [
+      "Map tile rendering at scale",
+      "Real-time traffic ingestion",
+      "Route computation for large graphs",
+      "High QPS search queries",
+      "GPS update flood from mobile devices"
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Precomputed routes vs real-time computation",
+        "choice": "Hybrid approach",
+        "reason": "Precompute common routes, compute dynamic routes on demand"
+      },
+      {
+        "decision": "Accuracy vs latency in traffic updates",
+        "choice": "Eventual consistency",
+        "reason": "Real-time exact accuracy is too expensive at scale"
+      }
+    ],
+
+    "securityConsiderations": [
+      "Prevent location tracking abuse",
+      "Encrypt user location data",
+      "Rate limiting API usage",
+      "Secure geolocation APIs",
+      "Anonymize traffic data"
+    ],
+
+    "monitoringAndObservability": [
+      "Tile load latency",
+      "Route computation latency",
+      "Search response time",
+      "Traffic ingestion lag",
+      "API error rates",
+      "CDN hit ratio"
+    ],
+
+    "followUpQuestions": [
+      "How would you handle offline maps?",
+      "How would you improve ETA prediction accuracy?",
+      "How would you support indoor navigation (malls, airports)?",
+      "How would you handle live accidents and rerouting?",
+      "How would you scale to Mars-level mapping (hypothetical)?"
+    ],
+
+    "evaluationCriteria": {
+      "requirementsUnderstanding": 15,
+      "scalabilityDesign": 30,
+      "geoSpatialModeling": 20,
+      "routingLogic": 15,
+      "tradeoffs": 10,
+      "communication": 10
+    },
+
+    "referenceResources": [
+      {
+        "title": "Google S2 Geometry Library",
+        "url": "https://s2geometry.io/"
+      },
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      }
+    ]
+  },
+  {
+    "id": 6,
+
+    "title": "Design Google Docs",
+
+    "difficulty": "Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "60 mins",
+
+    "companies": [
+      "Google",
+      "Microsoft",
+      "Dropbox",
+      "Atlassian",
+      "Notion"
+    ],
+
+    "tags": [
+      "Real-time Collaboration",
+      "CRDT",
+      "Operational Transform",
+      "Document Editing",
+      "Distributed Systems",
+      "Concurrency"
+    ],
+
+    "description": "Design a real-time collaborative document editing system like Google Docs where multiple users can edit the same document simultaneously with live updates, conflict resolution, version history, and offline support.",
+
+    "functionalRequirements": [
+      "Create and edit documents",
+      "Real-time collaborative editing",
+      "Multiple users editing same document simultaneously",
+      "Cursor presence of other users",
+      "Version history and rollback",
+      "Commenting and suggestions mode",
+      "Share documents with permissions (view/edit/comment)",
+      "Offline editing with sync when online"
+    ],
+
+    "nonFunctionalRequirements": [
+      "Low latency updates (<100ms sync delay)",
+      "High availability",
+      "Strong consistency per document state (eventual convergence)",
+      "Scalable to millions of concurrent editors",
+      "Fault tolerance",
+      "Data durability and versioning"
+    ],
+
+    "capacityEstimation": {
+      "dailyActiveUsers": "300 Million",
+      "concurrentEditors": "10 Million+",
+      "documentsCreatedPerDay": "50 Million",
+      "editOperationsPerSecond": "5 Million+",
+      "averageDocumentSize": "100 KB",
+      "storageGrowthPerDay": "5–10 TB"
+    },
+
+    "apiDesign": [
+      {
+        "endpoint": "POST /documents/create",
+        "purpose": "Create new document"
+      },
+      {
+        "endpoint": "GET /documents/{docId}",
+        "purpose": "Fetch document content"
+      },
+      {
+        "endpoint": "POST /documents/{docId}/edit",
+        "purpose": "Send edit operations"
+      },
+      {
+        "endpoint": "GET /documents/{docId}/events",
+        "purpose": "Subscribe to real-time updates"
+      },
+      {
+        "endpoint": "POST /documents/{docId}/share",
+        "purpose": "Share document with users"
+      }
+    ],
+
+    "dataModel": {
+      "Document": [
+        "docId",
+        "ownerId",
+        "content",
+        "createdAt",
+        "updatedAt",
+        "version"
+      ],
+
+      "User": [
+        "userId",
+        "name",
+        "email"
+      ],
+
+      "Operation": [
+        "opId",
+        "docId",
+        "userId",
+        "type (insert/delete/format)",
+        "position",
+        "content",
+        "timestamp"
+      ],
+
+      "Permission": [
+        "userId",
+        "docId",
+        "role (view/edit/comment)"
+      ]
+    },
+
+    "highLevelDesign": [
+      "Client connects via WebSocket to Collaboration Server",
+      "Editing operations are sent as small deltas (ops)",
+      "Operational Transform / CRDT ensures consistency",
+      "Document Service stores document state",
+      "Event Stream propagates changes to all clients",
+      "Versioning Service stores snapshots periodically",
+      "Permission Service manages sharing access"
+    ],
+
+    "deepDiveComponents": [
+      {
+        "component": "Collaboration Service",
+        "responsibility": "Handles real-time edit operations and sync between users"
+      },
+      {
+        "component": "Operational Transform Engine",
+        "responsibility": "Resolves conflicts between concurrent edits"
+      },
+      {
+        "component": "CRDT Engine",
+        "responsibility": "Alternative conflict-free replication model"
+      },
+      {
+        "component": "Event Bus (Kafka / PubSub)",
+        "responsibility": "Distributes edit events across servers"
+      }
+    ],
+
+    "databaseDesign": {
+      "documentStore": "Distributed NoSQL (Bigtable / DynamoDB)",
+      "operationLog": "Kafka + Event Store",
+      "cache": "Redis for active documents",
+      "blobStorage": "Object storage for snapshots"
+    },
+
+    "cachingStrategy": [
+      "Cache active documents in memory",
+      "Cache recent operations per document",
+      "Cache user sessions and permissions",
+      "Cache document snapshots for fast reload"
+    ],
+
+    "scalingStrategy": [
+      "Partition documents by docId",
+      "Sticky sessions for active editors",
+      "Horizontal scaling of collaboration servers",
+      "Use event streaming for synchronization",
+      "Snapshot + replay model for recovery",
+      "Regional collaboration clusters for latency reduction"
+    ],
+
+    "bottlenecks": [
+      "Hot documents with thousands of editors",
+      "Real-time sync latency",
+      "Conflict resolution overhead",
+      "Event stream bottlenecks",
+      "Memory usage for active documents"
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Operational Transform vs CRDT",
+        "choice": "Hybrid approach possible",
+        "reason": "OT is simpler for small scale, CRDT better for offline-first distributed systems"
+      },
+      {
+        "decision": "Strong vs eventual consistency",
+        "choice": "Eventual convergence",
+        "reason": "Real-time collaboration requires low latency over strict consistency"
+      }
+    ],
+
+    "securityConsiderations": [
+      "Access control per document",
+      "Encrypted transport (TLS)",
+      "Audit logs for edits",
+      "Prevention of unauthorized sharing",
+      "Rate limiting edit operations"
+    ],
+
+    "monitoringAndObservability": [
+      "Edit propagation latency",
+      "Conflict resolution rate",
+      "Active concurrent editors per doc",
+      "WebSocket connection stability",
+      "Event stream lag",
+      "Document load time"
+    ],
+
+    "followUpQuestions": [
+      "How would you implement offline editing?",
+      "How would you handle 100k users editing one document?",
+      "How would you optimize CRDT performance?",
+      "How would you implement version diffing?",
+      "How would you support real-time voice/video inside docs?"
+    ],
+
+    "evaluationCriteria": {
+      "requirementsUnderstanding": 15,
+      "realTimeDesign": 25,
+      "consistencyModel": 20,
+      "scalability": 20,
+      "tradeoffs": 10,
+      "communication": 10
+    },
+
+    "referenceResources": [
+      {
+        "title": "CRDT Paper",
+        "url": "https://crdt.tech/"
+      },
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      }
+    ]
+  },
+  {
+    "id": 7,
+
+    "title": "Design Netflix",
+
+    "difficulty": "Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "60 mins",
+
+    "companies": [
+      "Netflix",
+      "Amazon",
+      "Google",
+      "Microsoft",
+      "Meta"
+    ],
+
+    "tags": [
+      "Video Streaming",
+      "CDN",
+      "Recommendation System",
+      "Encoding",
+      "Scalability",
+      "Content Delivery"
+    ],
+
+    "description": "Design a video streaming platform like Netflix that allows users to watch movies and TV shows on demand with adaptive streaming, personalized recommendations, and global content delivery.",
+
+    "functionalRequirements": [
+      "User authentication and profiles",
+      "Browse movies and TV shows",
+      "Stream video content on demand",
+      "Support multiple video resolutions (360p to 4K)",
+      "Resume playback from last watched position",
+      "Personalized recommendations",
+      "Search for content",
+      "Create watchlists"
+    ],
+
+    "nonFunctionalRequirements": [
+      "Ultra-low buffering (<2 seconds start time)",
+      "High availability (99.99%)",
+      "Massive scalability (hundreds of millions of users)",
+      "Global content delivery",
+      "Efficient bandwidth usage",
+      "Fault tolerance across regions"
+    ],
+
+    "capacityEstimation": {
+      "dailyActiveUsers": "250 Million",
+      "videoStreamsPerDay": "1 Billion",
+      "averageVideoSize": "1 GB (compressed adaptive streaming)",
+      "totalDailyTraffic": "1+ PB/day",
+      "peakConcurrentStreams": "20 Million",
+      "encodingVersionsPerVideo": "5–10 bitrates"
+    },
+
+    "apiDesign": [
+      {
+        "endpoint": "GET /content/catalog",
+        "purpose": "Fetch available movies/shows"
+      },
+      {
+        "endpoint": "GET /content/{id}",
+        "purpose": "Get metadata for video"
+      },
+      {
+        "endpoint": "GET /stream/{videoId}",
+        "purpose": "Start streaming session"
+      },
+      {
+        "endpoint": "POST /watch-history",
+        "purpose": "Update watch progress"
+      },
+      {
+        "endpoint": "GET /recommendations",
+        "purpose": "Get personalized recommendations"
+      }
+    ],
+
+    "dataModel": {
+      "User": [
+        "userId",
+        "name",
+        "subscriptionType",
+        "preferences"
+      ],
+
+      "Video": [
+        "videoId",
+        "title",
+        "genre",
+        "duration",
+        "availableQualities"
+      ],
+
+      "WatchHistory": [
+        "userId",
+        "videoId",
+        "progressTimestamp",
+        "lastWatchedAt"
+      ],
+
+      "Recommendation": [
+        "userId",
+        "videoId",
+        "score"
+      ]
+    },
+
+    "highLevelDesign": [
+      "Client requests video from API Gateway",
+      "Content Metadata Service serves catalog",
+      "Video Streaming Service delivers chunks",
+      "CDN serves video from nearest edge location",
+      "Encoding Service converts videos into multiple bitrates",
+      "Recommendation Service generates personalized feed",
+      "User Service manages profiles and subscriptions"
+    ],
+
+    "deepDiveComponents": [
+      {
+        "component": "CDN Layer",
+        "responsibility": "Serves video chunks from edge servers to reduce latency"
+      },
+      {
+        "component": "Video Encoding Pipeline",
+        "responsibility": "Converts raw video into multiple resolutions (HLS/DASH)"
+      },
+      {
+        "component": "Streaming Service",
+        "responsibility": "Handles adaptive bitrate streaming"
+      },
+      {
+        "component": "Recommendation Engine",
+        "responsibility": "Uses collaborative filtering and ML models"
+      }
+    ],
+
+    "databaseDesign": {
+      "userDB": "PostgreSQL",
+      "videoMetadataDB": "Cassandra",
+      "watchHistoryDB": "NoSQL (DynamoDB)",
+      "cache": "Redis",
+      "objectStorage": "S3 or equivalent"
+    },
+
+    "cachingStrategy": [
+      "Cache trending content globally",
+      "Cache video metadata in Redis",
+      "Cache CDN edge video chunks",
+      "Cache recommendations per user",
+      "Cache watch history for resume playback"
+    ],
+
+    "scalingStrategy": [
+      "Use CDN for video delivery",
+      "Partition users by region",
+      "Precompute recommendations",
+      "Use event streaming for watch history",
+      "Horizontal scaling of streaming servers",
+      "Store videos in distributed object storage"
+    ],
+
+    "bottlenecks": [
+      "Video streaming bandwidth",
+      "CDN cache misses",
+      "Recommendation computation at scale",
+      "Encoding pipeline delays",
+      "Hot content spikes (viral shows)"
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Live encoding vs pre-encoding",
+        "choice": "Pre-encoding",
+        "reason": "Reduces latency during playback"
+      },
+      {
+        "decision": "Personalization vs performance",
+        "choice": "Hybrid recommendation system",
+        "reason": "Balance accuracy with real-time constraints"
+      }
+    ],
+
+    "securityConsiderations": [
+      "DRM protection for videos",
+      "Secure streaming URLs (signed URLs)",
+      "Prevent content piracy",
+      "Rate limiting streaming requests",
+      "Geo-restrictions on content"
+    ],
+
+    "monitoringAndObservability": [
+      "Buffering rate",
+      "Stream start latency",
+      "CDN hit ratio",
+      "Playback failures",
+      "Recommendation CTR",
+      "Video encoding lag"
+    ],
+
+    "followUpQuestions": [
+      "How would you reduce buffering to near zero?",
+      "How would you handle viral content spikes?",
+      "How would you improve recommendation accuracy?",
+      "How would you support live streaming?",
+      "How would you handle multi-device sync?"
+    ],
+
+    "evaluationCriteria": {
+      "requirementsUnderstanding": 15,
+      "videoStreamingDesign": 25,
+      "scalability": 25,
+      "recommendationSystem": 15,
+      "tradeoffs": 10,
+      "communication": 10
+    },
+
+    "referenceResources": [
+      {
+        "title": "Netflix Tech Blog",
+        "url": "https://netflixtechblog.com/"
+      },
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      }
+    ]
+  },
+  {
+    "id": 8,
+
+    "title": "Design YouTube",
+
+    "difficulty": "Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "60 mins",
+
+    "companies": [
+      "Google",
+      "YouTube",
+      "Amazon",
+      "Meta",
+      "Netflix"
+    ],
+
+    "tags": [
+      "Video Streaming",
+      "Upload Pipeline",
+      "CDN",
+      "Encoding",
+      "Search Ranking",
+      "Scalability"
+    ],
+
+    "description": "Design a video sharing and streaming platform like YouTube where users can upload videos, watch content, like/comment, subscribe to channels, and stream videos globally with minimal buffering.",
+
+    "functionalRequirements": [
+      "Upload videos in multiple formats",
+      "Watch videos with adaptive streaming",
+      "Search videos and channels",
+      "Like, dislike, and comment on videos",
+      "Subscribe to channels",
+      "Generate personalized recommendations",
+      "Support live streaming",
+      "View trending videos"
+    ],
+
+    "nonFunctionalRequirements": [
+      "Low latency video playback (<2s start time)",
+      "High availability (99.99%)",
+      "Massive scalability (billions of users)",
+      "Efficient bandwidth usage",
+      "Global content delivery",
+      "Fault tolerance"
+    ],
+
+    "capacityEstimation": {
+      "dailyActiveUsers": "2 Billion",
+      "videosUploadedPerMinute": "500+ hours of content",
+      "videoViewsPerDay": "10 Billion+",
+      "averageVideoSize": "200 MB",
+      "storageGrowthPerDay": "100+ TB",
+      "peakConcurrentStreams": "30 Million"
+    },
+
+    "apiDesign": [
+      {
+        "endpoint": "POST /videos/upload",
+        "purpose": "Upload video"
+      },
+      {
+        "endpoint": "GET /videos/{videoId}",
+        "purpose": "Fetch video metadata"
+      },
+      {
+        "endpoint": "GET /stream/{videoId}",
+        "purpose": "Stream video"
+      },
+      {
+        "endpoint": "POST /videos/{videoId}/comment",
+        "purpose": "Add comment"
+      },
+      {
+        "endpoint": "GET /search?q={query}",
+        "purpose": "Search videos"
+      }
+    ],
+
+    "dataModel": {
+      "User": [
+        "userId",
+        "name",
+        "email",
+        "channelId"
+      ],
+
+      "Video": [
+        "videoId",
+        "uploaderId",
+        "title",
+        "description",
+        "duration",
+        "views",
+        "likes"
+      ],
+
+      "Channel": [
+        "channelId",
+        "ownerId",
+        "subscriberCount"
+      ],
+
+      "Comment": [
+        "commentId",
+        "videoId",
+        "userId",
+        "text",
+        "timestamp"
+      ]
+    },
+
+    "highLevelDesign": [
+      "Client uploads video via API Gateway",
+      "Upload Service stores raw video",
+      "Video Processing Pipeline encodes multiple formats",
+      "Object Storage stores processed video chunks",
+      "CDN serves video globally",
+      "Search Service indexes video metadata",
+      "Recommendation Service generates personalized feed",
+      "Analytics Service tracks engagement"
+    ],
+
+    "deepDiveComponents": [
+      {
+        "component": "Video Processing Pipeline",
+        "responsibility": "Converts uploaded videos into multiple resolutions and formats (HLS/DASH)"
+      },
+      {
+        "component": "CDN Layer",
+        "responsibility": "Serves video content from nearest edge location"
+      },
+      {
+        "component": "Search Indexing Service",
+        "responsibility": "Indexes video metadata for fast search using Elasticsearch"
+      },
+      {
+        "component": "Recommendation Engine",
+        "responsibility": "Uses ML models to rank and suggest videos"
+      }
+    ],
+
+    "databaseDesign": {
+      "userDB": "PostgreSQL",
+      "videoMetadataDB": "Cassandra",
+      "searchIndex": "Elasticsearch",
+      "analyticsDB": "BigQuery / ClickHouse",
+      "objectStorage": "S3 or equivalent",
+      "cache": "Redis"
+    },
+
+    "cachingStrategy": [
+      "Cache trending videos globally",
+      "Cache video metadata",
+      "Cache search results",
+      "Cache recommendation feeds",
+      "CDN edge caching for video chunks"
+    ],
+
+    "scalingStrategy": [
+      "Partition videos by videoId",
+      "Use CDN for global delivery",
+      "Asynchronous video processing pipeline",
+      "Event-driven architecture using Kafka",
+      "Separate upload and streaming services",
+      "Horizontal scaling of search and recommendation services"
+    ],
+
+    "bottlenecks": [
+      "Video upload spikes",
+      "Encoding pipeline delays",
+      "Search indexing lag",
+      "Viral video traffic spikes",
+      "CDN cache misses"
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Sync vs Async video processing",
+        "choice": "Async pipeline",
+        "reason": "Uploading must not block user experience"
+      },
+      {
+        "decision": "Precompute vs Real-time recommendations",
+        "choice": "Hybrid system",
+        "reason": "Balance freshness and performance"
+      }
+    ],
+
+    "securityConsiderations": [
+      "DRM protection",
+      "Signed URLs for video streaming",
+      "Content moderation system",
+      "Copyright detection (Content ID)",
+      "Rate limiting uploads"
+    ],
+
+    "monitoringAndObservability": [
+      "Video upload success rate",
+      "Playback buffering ratio",
+      "CDN hit ratio",
+      "Search latency",
+      "Recommendation CTR",
+      "Encoding pipeline backlog"
+    ],
+
+    "followUpQuestions": [
+      "How would you handle viral videos?",
+      "How would you reduce upload-to-watch latency?",
+      "How would you implement live streaming at scale?",
+      "How would you detect copyright violations?",
+      "How would you improve search ranking?"
+    ],
+
+    "evaluationCriteria": {
+      "requirementsUnderstanding": 15,
+      "videoPipelineDesign": 25,
+      "scalability": 25,
+      "searchAndReco": 15,
+      "tradeoffs": 10,
+      "communication": 10
+    },
+
+    "referenceResources": [
+      {
+        "title": "YouTube Tech Blog",
+        "url": "https://blog.youtube/"
+      },
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      }
+    ]
+  },
+  {
+    "id": 9,
+
+    "title": "Design BookMyShow",
+
+    "difficulty": "Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "60 mins",
+
+    "companies": [
+      "BookMyShow",
+      "Amazon",
+      "Paytm",
+      "Netflix",
+      "Uber"
+    ],
+
+    "tags": [
+      "Ticket Booking",
+      "Concurrency",
+      "Seat Reservation",
+      "High Traffic Systems",
+      "Distributed Systems"
+    ],
+
+    "description": "Design a ticket booking system like BookMyShow where users can browse movies/events, view available seats, and book tickets while ensuring no double booking under high concurrency.",
+
+    "functionalRequirements": [
+      "Browse movies/events by city",
+      "View theaters and show timings",
+      "View seat layout for a show",
+      "Book seats in real-time",
+      "Prevent double booking of seats",
+      "Cancel bookings and release seats",
+      "Payment integration",
+      "Booking confirmation and ticket generation"
+    ],
+
+    "nonFunctionalRequirements": [
+      "Strong consistency for seat booking",
+      "Low latency seat availability updates",
+      "High availability during peak booking (movie release)",
+      "Scalable to millions of users",
+      "Fault tolerance",
+      "Eventual consistency for non-critical data (recommendations, history)"
+    ],
+
+    "capacityEstimation": {
+      "dailyActiveUsers": "50 Million",
+      "peakTrafficDuringRelease": "5–10x normal traffic",
+      "bookingRequestsPerSecond": "500K+",
+      "seatLockTimeout": "5–10 minutes",
+      "citiesSupported": "1000+",
+      "theatersPerCity": "100–500"
+    },
+
+    "apiDesign": [
+      {
+        "endpoint": "GET /movies?city={city}",
+        "purpose": "List movies in a city"
+      },
+      {
+        "endpoint": "GET /shows/{movieId}",
+        "purpose": "Get shows for a movie"
+      },
+      {
+        "endpoint": "GET /seats/{showId}",
+        "purpose": "Get seat layout"
+      },
+      {
+        "endpoint": "POST /book/lock",
+        "purpose": "Lock selected seats temporarily"
+      },
+      {
+        "endpoint": "POST /book/confirm",
+        "purpose": "Confirm booking after payment"
+      }
+    ],
+
+    "dataModel": {
+      "User": [
+        "userId",
+        "name",
+        "email",
+        "phone"
+      ],
+
+      "Movie": [
+        "movieId",
+        "title",
+        "language",
+        "duration"
+      ],
+
+      "Show": [
+        "showId",
+        "movieId",
+        "theaterId",
+        "startTime",
+        "endTime"
+      ],
+
+      "Seat": [
+        "seatId",
+        "showId",
+        "row",
+        "number",
+        "status (available/locked/booked)"
+      ],
+
+      "Booking": [
+        "bookingId",
+        "userId",
+        "showId",
+        "seats",
+        "status",
+        "timestamp"
+      ]
+    },
+
+    "highLevelDesign": [
+      "Client requests show and seat data via API Gateway",
+      "Show Service manages movie and theater listings",
+      "Seat Service handles real-time seat availability",
+      "Booking Service handles seat locking and confirmation",
+      "Payment Service processes transactions",
+      "Notification Service sends booking confirmation",
+      "Cache layer stores frequently accessed show data"
+    ],
+
+    "deepDiveComponents": [
+      {
+        "component": "Seat Locking Service",
+        "responsibility": "Temporarily locks seats to prevent double booking"
+      },
+      {
+        "component": "Concurrency Control System",
+        "responsibility": "Ensures atomic seat reservation using DB locks or Redis locks"
+      },
+      {
+        "component": "Booking Orchestrator",
+        "responsibility": "Coordinates between seat lock, payment, and confirmation"
+      }
+    ],
+
+    "databaseDesign": {
+      "userDB": "PostgreSQL",
+      "movieDB": "Cassandra",
+      "seatAvailabilityStore": "Redis + SQL (for strong consistency)",
+      "bookingDB": "MySQL / PostgreSQL",
+      "cache": "Redis"
+    },
+
+    "cachingStrategy": [
+      "Cache movie listings per city",
+      "Cache show timings",
+      "Cache seat layout (short TTL)",
+      "Cache popular movie pages",
+      "Use Redis for seat lock management"
+    ],
+
+    "scalingStrategy": [
+      "Partition by city and theater",
+      "Separate read/write paths for seat availability",
+      "Use Redis for distributed locking",
+      "Event-driven booking pipeline",
+      "Horizontal scaling of booking service",
+      "Queue-based payment processing"
+    ],
+
+    "bottlenecks": [
+      "High contention for popular movie seats",
+      "Race conditions in seat booking",
+      "Payment gateway delays",
+      "Traffic spikes during movie releases",
+      "Cache invalidation for seat updates"
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Strong consistency vs availability",
+        "choice": "Strong consistency for seat booking",
+        "reason": "Avoid double booking is critical"
+      },
+      {
+        "decision": "Locking strategy",
+        "choice": "Soft lock with expiry",
+        "reason": "Avoid deadlocks and improve UX"
+      }
+    ],
+
+    "securityConsiderations": [
+      "Prevent bots from mass booking seats",
+      "Secure payment transactions",
+      "Session authentication",
+      "Rate limiting booking requests",
+      "Fraud detection in ticket purchase"
+    ],
+
+    "monitoringAndObservability": [
+      "Seat booking success rate",
+      "Lock timeout frequency",
+      "Payment failure rate",
+      "Concurrent booking conflicts",
+      "API latency per service"
+    ],
+
+    "followUpQuestions": [
+      "How would you handle 10M users booking at the same second?",
+      "How would you prevent seat locking abuse?",
+      "How would you design dynamic pricing for seats?",
+      "How would you support live event ticketing (concerts)?",
+      "How would you scale to global events like IPL finals?"
+    ],
+
+    "evaluationCriteria": {
+      "requirementsUnderstanding": 15,
+      "consistencyHandling": 25,
+      "scalability": 20,
+      "systemDesign": 20,
+      "tradeoffs": 10,
+      "communication": 10
+    },
+
+    "referenceResources": [
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      }
+    ]
+  },
+  {
+    "id": 10,
+
+    "title": "Design a Rate Limiter",
+
+    "difficulty": "Medium",
+
+    "category": "System Design",
+
+    "estimatedTime": "45 mins",
+
+    "companies": [
+      "Stripe",
+      "Amazon",
+      "Google",
+      "Uber",
+      "Meta"
+    ],
+
+    "tags": [
+      "Rate Limiting",
+      "Distributed Systems",
+      "Caching",
+      "Algorithms",
+      "High Throughput Systems"
+    ],
+
+    "description": "Design a distributed rate limiter that controls the number of requests a user or service can make within a given time window to protect APIs from abuse and ensure fair usage.",
+
+    "functionalRequirements": [
+      "Limit number of requests per user/IP/API key",
+      "Support multiple rate limiting strategies (fixed window, sliding window, token bucket)",
+      "Return appropriate error when limit is exceeded",
+      "Support per-user and global rate limits",
+      "Low latency enforcement (<5ms decision time)",
+      "Configurable limits per endpoint"
+    ],
+
+    "nonFunctionalRequirements": [
+      "Extremely low latency enforcement",
+      "Highly scalable (millions of requests/sec)",
+      "Distributed system support",
+      "High availability",
+      "Eventually consistent counters acceptable in some cases",
+      "Fault tolerant"
+    ],
+
+    "capacityEstimation": {
+      "requestsPerSecond": "10 Million+",
+      "users": "100 Million+",
+      "apiCallsPerDay": "1 Trillion+",
+      "peakTrafficMultiplier": "5x normal load",
+      "latencyBudget": "<5ms per request"
+    },
+
+    "apiDesign": [
+      {
+        "endpoint": "POST /api/request",
+        "purpose": "Incoming request to be rate limited"
+      },
+      {
+        "endpoint": "GET /limits/{userId}",
+        "purpose": "Fetch current rate limit status"
+      },
+      {
+        "endpoint": "POST /limits/config",
+        "purpose": "Update rate limit rules"
+      }
+    ],
+
+    "dataModel": {
+      "RateLimitRule": [
+        "userId or apiKey",
+        "limit",
+        "timeWindow",
+        "strategy (token bucket / sliding window)"
+      ],
+
+      "Counter": [
+        "key",
+        "count",
+        "windowStart",
+        "expiry"
+      ]
+    },
+
+    "highLevelDesign": [
+      "Client request hits API Gateway",
+      "Rate Limiter Service checks request validity",
+      "In-memory store (Redis) tracks counters",
+      "Decision returned (ALLOW / DENY)",
+      "Optional logging of rejected requests",
+      "Config service updates rules dynamically"
+    ],
+
+    "deepDiveComponents": [
+      {
+        "component": "Token Bucket Algorithm",
+        "responsibility": "Allows burst traffic while enforcing average rate"
+      },
+      {
+        "component": "Sliding Window Counter",
+        "responsibility": "More accurate rate limiting over fixed window"
+      },
+      {
+        "component": "Redis Cluster",
+        "responsibility": "Stores counters with atomic increment operations"
+      }
+    ],
+
+    "databaseDesign": {
+      "primaryStore": "Redis (in-memory counters)",
+      "persistentStore": "PostgreSQL (rate limit configs)",
+      "cacheLayer": "Redis cluster with TTL keys"
+    },
+
+    "cachingStrategy": [
+      "Cache rate limit rules in memory",
+      "Store counters in Redis with TTL",
+      "Use local in-process cache for ultra-fast checks",
+      "Batch updates to reduce Redis load"
+    ],
+
+    "scalingStrategy": [
+      "Shard rate limiter by userId or API key",
+      "Use Redis cluster for distributed counters",
+      "Deploy rate limiter at edge (API gateway level)",
+      "Use consistent hashing for request routing",
+      "Horizontal scaling of rate limiter nodes"
+    ],
+
+    "bottlenecks": [
+      "Hot keys (high-traffic users or APIs)",
+      "Redis contention under extreme load",
+      "Network latency to Redis cluster",
+      "Global synchronization overhead"
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Accuracy vs performance",
+        "choice": "Slightly approximate counters",
+        "reason": "Strict accuracy is too expensive at scale"
+      },
+      {
+        "decision": "Centralized vs distributed rate limiting",
+        "choice": "Distributed approach",
+        "reason": "Avoid single point of failure and latency bottleneck"
+      }
+    ],
+
+    "securityConsiderations": [
+      "Prevent bypass via IP rotation",
+      "API key validation",
+      "DDoS protection",
+      "Abuse detection",
+      "Rate limiting internal services separately"
+    ],
+
+    "monitoringAndObservability": [
+      "Allowed vs blocked request ratio",
+      "Redis latency",
+      "Hot key detection",
+      "Rate limit breaches per service",
+      "System-wide throughput"
+    ],
+
+    "followUpQuestions": [
+      "How would you handle burst traffic efficiently?",
+      "How would you design global rate limiting across regions?",
+      "How would you prevent Redis from becoming a bottleneck?",
+      "How would you implement per-user fairness at scale?",
+      "How would you combine multiple algorithms together?"
+    ],
+
+    "evaluationCriteria": {
+      "requirementsUnderstanding": 10,
+      "algorithmChoice": 25,
+      "scalability": 25,
+      "systemDesign": 20,
+      "tradeoffs": 10,
+      "communication": 10
+    },
+
+    "referenceResources": [
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      },
+      {
+        "title": "Rate Limiting Patterns",
+        "url": "https://stripe.com/blog/rate-limiters"
+      }
+    ]
+  }
+
+]

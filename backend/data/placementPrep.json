@@ -1,0 +1,652 @@
+[
+{
+  "id": 1,
+  "title": "React",
+  "category": "Frontend",
+  "description": "In-depth React interview questions designed for frontend and full-stack engineering interviews.",
+  "questions": [
+    {
+      "q": "What is React, and why was it created?",
+      "a": "React is a JavaScript library developed by Meta for building user interfaces. It was created to solve the problem of efficiently updating complex UIs by introducing a component-based architecture and the Virtual DOM."
+    },
+    {
+      "q": "What problems does React solve compared to traditional JavaScript applications?",
+      "a": "React simplifies UI development by breaking applications into reusable components, reducing direct DOM manipulation, improving maintainability, and providing predictable state management."
+    },
+    {
+      "q": "What is the Virtual DOM, and how does React use it?",
+      "a": "The Virtual DOM is an in-memory representation of the real DOM. When state changes, React creates a new Virtual DOM tree, compares it with the previous one (diffing), and updates only the changed parts of the real DOM."
+    },
+    {
+      "q": "How does React's reconciliation process work?",
+      "a": "Reconciliation is React's process of comparing the previous Virtual DOM with the new Virtual DOM. React identifies the minimal set of changes required and updates the real DOM efficiently to improve performance."
+    },
+    {
+      "q": "What is JSX, and why do developers prefer using it?",
+      "a": "JSX is a syntax extension that allows developers to write HTML-like code inside JavaScript. It improves readability, makes UI structures easier to visualize, and gets compiled into React.createElement() calls."
+    },
+    {
+      "q": "What is the difference between Props and State?",
+      "a": "Props are read-only values passed from a parent component to a child component. State is managed within a component and can change over time, causing the component to re-render."
+    },
+    {
+      "q": "Why are React components expected to be pure functions?",
+      "a": "Pure components produce the same output for the same input and avoid side effects during rendering. This makes applications more predictable, easier to debug, and simpler to optimize."
+    },
+    {
+      "q": "What happens when a React component re-renders?",
+      "a": "React executes the component function again, generates a new Virtual DOM tree, compares it with the previous version, and updates only the necessary parts of the real DOM."
+    },
+    {
+      "q": "What are React Hooks, and why were they introduced?",
+      "a": "Hooks allow functional components to use state, lifecycle features, context, and other React capabilities without needing class components. They make logic reuse and code organization easier."
+    },
+    {
+      "q": "How does useState work internally?",
+      "a": "useState stores state values across component renders. When the setter function is called, React schedules a re-render and updates the component with the latest state value."
+    },
+    {
+      "q": "What is useEffect, and when should it be used?",
+      "a": "useEffect is used for side effects such as API calls, subscriptions, timers, and DOM interactions. It runs after the component has rendered and can optionally clean up resources."
+    },
+    {
+      "q": "What is the difference between useEffect and useLayoutEffect?",
+      "a": "useEffect runs asynchronously after the browser paints the UI, while useLayoutEffect runs synchronously before the browser repaints, making it useful for DOM measurements and visual adjustments."
+    },
+    {
+      "q": "What is dependency array in useEffect?",
+      "a": "The dependency array controls when an effect executes. An empty array runs the effect once after mount, while specific dependencies cause it to run whenever those values change."
+    },
+    {
+      "q": "Why do infinite re-render loops happen in React?",
+      "a": "They usually occur when state updates happen inside rendering logic or when useEffect continuously updates state because of incorrect dependency management."
+    },
+    {
+      "q": "What is React Context, and what problem does it solve?",
+      "a": "Context provides a way to share data across multiple components without passing props manually through every level of the component tree."
+    },
+    {
+      "q": "What is prop drilling, and how can it be avoided?",
+      "a": "Prop drilling occurs when data is passed through many intermediate components that don't need it. It can be reduced using Context API, state management libraries, or component composition."
+    },
+    {
+      "q": "What is the purpose of React keys?",
+      "a": "Keys help React uniquely identify list items during reconciliation. Proper keys improve rendering performance and prevent UI inconsistencies."
+    },
+    {
+      "q": "Why should array indexes generally not be used as keys?",
+      "a": "Using indexes can cause incorrect UI updates when items are reordered, inserted, or removed because React may associate components with the wrong data."
+    },
+    {
+      "q": "What is React.memo, and when should you use it?",
+      "a": "React.memo prevents unnecessary re-renders by memoizing a component. It is useful when a component receives the same props frequently and rendering is expensive."
+    },
+    {
+      "q": "What are useMemo and useCallback?",
+      "a": "useMemo memoizes computed values, while useCallback memoizes function references. Both are optimization tools used to avoid unnecessary calculations and re-renders."
+    },
+    {
+      "q": "What is code splitting in React?",
+      "a": "Code splitting divides application bundles into smaller chunks that are loaded only when needed, improving initial page load performance."
+    },
+    {
+      "q": "How do React.lazy and Suspense work together?",
+      "a": "React.lazy enables dynamic imports for components, while Suspense displays fallback content until the component has finished loading."
+    },
+    {
+      "q": "What is the difference between controlled and uncontrolled components?",
+      "a": "Controlled components manage form data through React state, while uncontrolled components store data in the DOM and access it using refs."
+    },
+    {
+      "q": "What are refs, and when should they be used?",
+      "a": "Refs provide direct access to DOM elements or component instances. They are useful for focusing inputs, triggering animations, measuring elements, and integrating third-party libraries."
+    },
+    {
+      "q": "What are the most common React performance optimization techniques?",
+      "a": "Common techniques include component memoization, lazy loading, code splitting, virtualization, avoiding unnecessary state updates, using proper keys, and optimizing expensive calculations with useMemo."
+    }
+  ]
+},
+{
+  "id": 2,
+  "title": "JavaScript",
+  "category": "Frontend",
+  "description": "Core JavaScript concepts frequently asked in frontend and full-stack interviews.",
+  "questions": [
+    {
+      "q": "What is JavaScript, and why is it called a single-threaded language?",
+      "a": "JavaScript is a high-level, interpreted programming language primarily used for web development. It is called single-threaded because it executes one task at a time using a single call stack."
+    },
+    {
+      "q": "What are the different data types in JavaScript?",
+      "a": "JavaScript has primitive data types (String, Number, Boolean, Undefined, Null, Symbol, BigInt) and non-primitive types such as Objects, Arrays, Functions, Maps, and Sets."
+    },
+    {
+      "q": "What is the difference between null and undefined?",
+      "a": "Undefined means a variable has been declared but not assigned a value. Null is an intentional assignment representing the absence of any object value."
+    },
+    {
+      "q": "What is the difference between var, let, and const?",
+      "a": "var is function-scoped and can be redeclared. let is block-scoped and can be reassigned. const is block-scoped and cannot be reassigned after initialization."
+    },
+    {
+      "q": "What is hoisting in JavaScript?",
+      "a": "Hoisting is JavaScript's behavior of moving variable and function declarations to the top of their scope before execution. Variables declared with var are initialized with undefined, while let and const remain in the Temporal Dead Zone until declared."
+    },
+    {
+      "q": "What is the Temporal Dead Zone (TDZ)?",
+      "a": "The Temporal Dead Zone is the period between entering a scope and the declaration of a let or const variable, during which accessing the variable throws a ReferenceError."
+    },
+    {
+      "q": "What is a closure?",
+      "a": "A closure is created when a function remembers and accesses variables from its outer lexical scope even after the outer function has finished executing."
+    },
+    {
+      "q": "Why are closures useful in JavaScript?",
+      "a": "Closures enable data privacy, function factories, currying, memoization, and maintaining state without exposing variables globally."
+    },
+    {
+      "q": "What is lexical scope?",
+      "a": "Lexical scope means a function can access variables defined in its own scope and in parent scopes based on where it is written in the code."
+    },
+    {
+      "q": "What is the difference between == and ===?",
+      "a": "== performs type coercion before comparison, while === checks both value and type without converting operands."
+    },
+    {
+      "q": "What is type coercion in JavaScript?",
+      "a": "Type coercion is the automatic conversion of values from one data type to another during operations or comparisons."
+    },
+    {
+      "q": "What is the 'this' keyword in JavaScript?",
+      "a": "The value of 'this' depends on how a function is called. It may refer to the global object, an object instance, or be explicitly bound using call, apply, or bind."
+    },
+    {
+      "q": "What is the difference between call(), apply(), and bind()?",
+      "a": "call() invokes a function immediately with arguments passed individually. apply() invokes a function immediately with arguments passed as an array. bind() returns a new function with a permanently bound 'this' value."
+    },
+    {
+      "q": "What are arrow functions, and how are they different from regular functions?",
+      "a": "Arrow functions provide a shorter syntax and do not have their own 'this', 'arguments', or prototype. They inherit 'this' from the surrounding scope."
+    },
+    {
+      "q": "What is the Event Loop?",
+      "a": "The Event Loop is JavaScript's mechanism for handling asynchronous operations. It continuously checks the call stack and task queues, moving tasks into execution when the stack becomes empty."
+    },
+    {
+      "q": "What is the Call Stack?",
+      "a": "The Call Stack is a data structure that tracks function execution. Functions are pushed onto the stack when called and removed when execution completes."
+    },
+    {
+      "q": "What is the difference between microtasks and macrotasks?",
+      "a": "Microtasks include Promise callbacks and queueMicrotask(), while macrotasks include setTimeout and setInterval. Microtasks are always executed before macrotasks after the current call stack completes."
+    },
+    {
+      "q": "How do Promises work in JavaScript?",
+      "a": "A Promise represents the eventual completion or failure of an asynchronous operation. It can be in pending, fulfilled, or rejected states."
+    },
+    {
+      "q": "What is async/await?",
+      "a": "async/await is syntactic sugar built on top of Promises. It allows asynchronous code to be written in a more readable, synchronous-looking manner."
+    },
+    {
+      "q": "What is the difference between synchronous and asynchronous code?",
+      "a": "Synchronous code executes line by line and blocks further execution until completed. Asynchronous code allows other operations to continue while waiting for long-running tasks."
+    },
+    {
+      "q": "What is event delegation?",
+      "a": "Event delegation is a technique where a parent element handles events for its child elements using event bubbling, reducing the number of event listeners."
+    },
+    {
+      "q": "What is the difference between deep copy and shallow copy?",
+      "a": "A shallow copy duplicates only top-level properties while sharing nested references. A deep copy creates completely independent copies of all nested structures."
+    },
+    {
+      "q": "What is prototypal inheritance?",
+      "a": "JavaScript objects inherit properties and methods from other objects through the prototype chain, enabling code reuse without traditional class-based inheritance."
+    },
+    {
+      "q": "What is the difference between localStorage and sessionStorage?",
+      "a": "localStorage persists data even after the browser is closed, while sessionStorage stores data only for the duration of the current browser session."
+    },
+    {
+      "q": "What are some common JavaScript performance optimization techniques?",
+      "a": "Common optimizations include debouncing, throttling, minimizing DOM manipulations, lazy loading, memoization, efficient event handling, code splitting, and avoiding unnecessary re-renders."
+    }
+  ]
+},
+{
+  "id": 3,
+  "title": "Java",
+  "category": "Backend",
+  "description": "Core Java concepts frequently asked in software engineering interviews.",
+  "questions": [
+    {
+      "q": "What is Java, and why is it considered platform-independent?",
+      "a": "Java is an object-oriented programming language designed around the principle of 'Write Once, Run Anywhere'. Java code is compiled into bytecode, which runs on the Java Virtual Machine (JVM), making it platform-independent."
+    },
+    {
+      "q": "What is the difference between JDK, JRE, and JVM?",
+      "a": "JVM executes Java bytecode. JRE provides the libraries and JVM required to run Java applications. JDK contains JRE along with development tools such as the compiler, debugger, and documentation generator."
+    },
+    {
+      "q": "What are the main features of Java?",
+      "a": "Java is object-oriented, platform-independent, secure, robust, multithreaded, portable, high-performance through JIT compilation, and supports automatic memory management."
+    },
+    {
+      "q": "What is Object-Oriented Programming (OOP)?",
+      "a": "OOP is a programming paradigm based on objects that contain data and behavior. It promotes modularity, reusability, and maintainability through concepts like encapsulation, inheritance, polymorphism, and abstraction."
+    },
+    {
+      "q": "What is encapsulation?",
+      "a": "Encapsulation is the practice of wrapping data and methods together in a class while restricting direct access to internal implementation details using access modifiers."
+    },
+    {
+      "q": "What is inheritance?",
+      "a": "Inheritance allows one class to acquire the properties and methods of another class, enabling code reuse and hierarchical relationships between classes."
+    },
+    {
+      "q": "What is polymorphism?",
+      "a": "Polymorphism allows objects to take multiple forms. In Java, it is achieved through method overloading (compile-time) and method overriding (runtime)."
+    },
+    {
+      "q": "What is abstraction?",
+      "a": "Abstraction hides implementation details and exposes only essential functionality to the user through abstract classes and interfaces."
+    },
+    {
+      "q": "What is the difference between method overloading and method overriding?",
+      "a": "Overloading occurs within the same class using methods with the same name but different parameters. Overriding occurs when a subclass provides a specific implementation of a method already defined in the parent class."
+    },
+    {
+      "q": "What is the difference between an abstract class and an interface?",
+      "a": "An abstract class can contain both abstract and concrete methods and support constructors. An interface defines a contract and supports multiple inheritance of behavior."
+    },
+    {
+      "q": "What is the difference between == and equals()?",
+      "a": "== compares object references, while equals() compares object content. Classes like String override equals() to compare actual values."
+    },
+    {
+      "q": "Why are String objects immutable in Java?",
+      "a": "String immutability improves security, thread safety, caching efficiency, and allows strings to be safely shared between different parts of an application."
+    },
+    {
+      "q": "What is the difference between String, StringBuilder, and StringBuffer?",
+      "a": "String is immutable. StringBuilder is mutable and not thread-safe, making it faster. StringBuffer is mutable and thread-safe due to synchronized methods."
+    },
+    {
+      "q": "What are constructors in Java?",
+      "a": "Constructors are special methods used to initialize objects when they are created. They have the same name as the class and do not have a return type."
+    },
+    {
+      "q": "What is the purpose of the static keyword?",
+      "a": "The static keyword makes a member belong to the class rather than an instance. Static variables, methods, and blocks are shared among all objects of a class."
+    },
+    {
+      "q": "What is the difference between stack memory and heap memory?",
+      "a": "Stack memory stores method calls and local variables, while heap memory stores objects and instance variables. Stack memory is automatically managed, while heap memory is managed by the Garbage Collector."
+    },
+    {
+      "q": "What is Garbage Collection in Java?",
+      "a": "Garbage Collection is the automatic process of reclaiming memory occupied by objects that are no longer reachable or used by the application."
+    },
+    {
+      "q": "What is an Exception in Java?",
+      "a": "An exception is an event that disrupts the normal flow of program execution. Java provides mechanisms to handle exceptions gracefully using try-catch-finally blocks."
+    },
+    {
+      "q": "What is the difference between checked and unchecked exceptions?",
+      "a": "Checked exceptions are verified at compile time and must be handled explicitly. Unchecked exceptions occur at runtime and inherit from RuntimeException."
+    },
+    {
+      "q": "What is the Collection Framework?",
+      "a": "The Collection Framework provides standardized data structures and algorithms through interfaces such as List, Set, Queue, and Map."
+    },
+    {
+      "q": "What is the difference between ArrayList and LinkedList?",
+      "a": "ArrayList uses a dynamic array and provides fast random access. LinkedList uses a doubly linked list and performs better for frequent insertions and deletions."
+    },
+    {
+      "q": "What is the difference between HashMap and Hashtable?",
+      "a": "HashMap is not synchronized and allows null keys and values. Hashtable is synchronized and does not allow null keys or values."
+    },
+    {
+      "q": "What is multithreading in Java?",
+      "a": "Multithreading allows multiple threads to execute concurrently within a single application, improving responsiveness and resource utilization."
+    },
+    {
+      "q": "What is synchronization in Java?",
+      "a": "Synchronization controls access to shared resources, ensuring that only one thread can execute a critical section at a time and preventing race conditions."
+    },
+    {
+      "q": "What is the difference between process and thread?",
+      "a": "A process is an independent program with its own memory space. A thread is a lightweight execution unit within a process that shares memory with other threads."
+    }
+  ]
+},
+{
+  "id": 4,
+  "title": "System Design",
+  "category": "CS Core",
+  "description": "System Design concepts frequently asked in SDE, Backend, and Full-Stack interviews.",
+  "questions": [
+    {
+      "q": "What is System Design, and why is it important in software engineering?",
+      "a": "System Design is the process of defining the architecture, components, data flow, and infrastructure required to build scalable and reliable software systems. It helps engineers make decisions about performance, availability, maintainability, and scalability."
+    },
+    {
+      "q": "What is scalability?",
+      "a": "Scalability refers to a system's ability to handle increasing amounts of traffic, users, or data without significant performance degradation."
+    },
+    {
+      "q": "What is the difference between vertical scaling and horizontal scaling?",
+      "a": "Vertical scaling means upgrading a single server with more CPU, RAM, or storage. Horizontal scaling means adding more servers and distributing traffic across them. Horizontal scaling is generally preferred for large-scale systems."
+    },
+    {
+      "q": "What is a Load Balancer, and why is it needed?",
+      "a": "A Load Balancer distributes incoming traffic across multiple servers to prevent any single server from becoming overloaded. This improves availability, fault tolerance, and system performance."
+    },
+    {
+      "q": "What is High Availability?",
+      "a": "High Availability (HA) refers to designing systems that remain operational even when individual components fail. It is achieved through redundancy, failover mechanisms, and replication."
+    },
+    {
+      "q": "What is fault tolerance?",
+      "a": "Fault tolerance is the ability of a system to continue functioning correctly even when some components fail unexpectedly."
+    },
+    {
+      "q": "What is caching, and why is it used?",
+      "a": "Caching stores frequently accessed data in faster storage such as memory, reducing database load and improving response times."
+    },
+    {
+      "q": "What are some common caching strategies?",
+      "a": "Popular caching strategies include Cache Aside, Write Through, Write Back, and Read Through caching."
+    },
+    {
+      "q": "What is a CDN (Content Delivery Network)?",
+      "a": "A CDN is a geographically distributed network of servers that caches and serves static content closer to users, reducing latency and improving website performance."
+    },
+    {
+      "q": "What is database replication?",
+      "a": "Replication is the process of copying data from one database server to one or more replicas to improve availability, fault tolerance, and read performance."
+    },
+    {
+      "q": "What is database sharding?",
+      "a": "Sharding is the process of splitting a large database into smaller, independent databases called shards, each responsible for a subset of the data."
+    },
+    {
+      "q": "What is the difference between SQL and NoSQL databases?",
+      "a": "SQL databases use structured schemas and support ACID transactions. NoSQL databases provide flexible schemas and are optimized for scalability and distributed systems."
+    },
+    {
+      "q": "What are ACID properties?",
+      "a": "ACID stands for Atomicity, Consistency, Isolation, and Durability. These properties ensure reliable database transactions."
+    },
+    {
+      "q": "What is the CAP Theorem?",
+      "a": "CAP Theorem states that a distributed system can guarantee only two of the following three properties at the same time: Consistency, Availability, and Partition Tolerance."
+    },
+    {
+      "q": "What is eventual consistency?",
+      "a": "Eventual consistency means that after some time, all replicas in a distributed system will converge to the same state, even if temporary inconsistencies exist."
+    },
+    {
+      "q": "What is a Message Queue?",
+      "a": "A Message Queue enables asynchronous communication between services by allowing producers to send messages and consumers to process them independently."
+    },
+    {
+      "q": "Why are systems designed asynchronously?",
+      "a": "Asynchronous processing improves scalability, reduces response times, and prevents services from being tightly coupled."
+    },
+    {
+      "q": "What is a Microservices Architecture?",
+      "a": "Microservices architecture divides a large application into smaller, independently deployable services that communicate through APIs or messaging systems."
+    },
+    {
+      "q": "What are the advantages of Microservices over Monoliths?",
+      "a": "Microservices improve scalability, independent deployments, fault isolation, team autonomy, and technology flexibility."
+    },
+    {
+      "q": "What is API Gateway?",
+      "a": "An API Gateway acts as a single entry point for client requests and handles routing, authentication, rate limiting, and request aggregation."
+    },
+    {
+      "q": "What is Rate Limiting?",
+      "a": "Rate limiting restricts the number of requests a user or client can make within a specified time period to prevent abuse and system overload."
+    },
+    {
+      "q": "What is a Distributed System?",
+      "a": "A distributed system consists of multiple independent machines working together to provide a unified service to users."
+    },
+    {
+      "q": "What is a Single Point of Failure (SPOF)?",
+      "a": "A Single Point of Failure is a component whose failure can bring down the entire system. Modern architectures aim to eliminate SPOFs through redundancy."
+    },
+    {
+      "q": "How would you design a URL Shortener like Bitly?",
+      "a": "The design typically includes a URL mapping database, unique ID generation, encoding service, caching layer, load balancers, and analytics tracking."
+    },
+    {
+      "q": "How would you approach any System Design interview question?",
+      "a": "Start by gathering requirements, estimating scale, defining APIs, creating a high-level architecture, designing databases, discussing scaling strategies, identifying bottlenecks, and explaining trade-offs."
+    }
+  ]
+},
+{
+  "id": 5,
+  "title": "DBMS",
+  "category": "CS Core",
+  "description": "Database Management System concepts frequently asked in software engineering interviews.",
+  "questions": [
+    {
+      "q": "What is a Database Management System (DBMS)?",
+      "a": "A DBMS is software that allows users to store, retrieve, update, and manage data efficiently while ensuring security, consistency, and integrity."
+    },
+    {
+      "q": "Why do we use a DBMS instead of storing data in files?",
+      "a": "A DBMS provides better data organization, security, concurrency control, backup mechanisms, reduced redundancy, and easier querying compared to traditional file systems."
+    },
+    {
+      "q": "What is the difference between DBMS and RDBMS?",
+      "a": "A DBMS stores and manages data, while an RDBMS stores data in related tables using relationships, constraints, and SQL. Examples include MySQL, PostgreSQL, and Oracle."
+    },
+    {
+      "q": "What is a primary key?",
+      "a": "A primary key is a column or set of columns that uniquely identifies each row in a table. It cannot contain NULL values and must be unique."
+    },
+    {
+      "q": "What is a foreign key?",
+      "a": "A foreign key is a column that establishes a relationship between two tables by referencing the primary key of another table."
+    },
+    {
+      "q": "What is the difference between a primary key and a unique key?",
+      "a": "A primary key uniquely identifies rows and cannot contain NULL values. A unique key also enforces uniqueness but can allow NULL values depending on the database."
+    },
+    {
+      "q": "What are database constraints?",
+      "a": "Constraints are rules applied to columns to enforce data integrity. Common constraints include PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, CHECK, and DEFAULT."
+    },
+    {
+      "q": "What is normalization?",
+      "a": "Normalization is the process of organizing data to reduce redundancy and improve data integrity by dividing large tables into smaller related tables."
+    },
+    {
+      "q": "What is the First Normal Form (1NF)?",
+      "a": "1NF requires each column to contain atomic values and each row to be unique without repeating groups."
+    },
+    {
+      "q": "What is the Second Normal Form (2NF)?",
+      "a": "2NF removes partial dependency by ensuring that non-key attributes depend on the entire primary key."
+    },
+    {
+      "q": "What is the Third Normal Form (3NF)?",
+      "a": "3NF removes transitive dependencies, ensuring non-key attributes depend only on the primary key."
+    },
+    {
+      "q": "What is denormalization?",
+      "a": "Denormalization intentionally introduces redundancy to improve read performance by reducing the number of joins required in queries."
+    },
+    {
+      "q": "What is an index in a database?",
+      "a": "An index is a data structure that improves query performance by allowing the database to locate records quickly without scanning the entire table."
+    },
+    {
+      "q": "How do indexes improve performance?",
+      "a": "Indexes reduce the number of rows the database must examine, significantly speeding up search, filtering, sorting, and join operations."
+    },
+    {
+      "q": "Can indexes negatively impact performance?",
+      "a": "Yes. While indexes speed up reads, they increase storage usage and slow down INSERT, UPDATE, and DELETE operations because indexes must also be updated."
+    },
+    {
+      "q": "What is the difference between clustered and non-clustered indexes?",
+      "a": "A clustered index determines the physical order of data in a table, while a non-clustered index maintains a separate structure containing pointers to the actual rows."
+    },
+    {
+      "q": "What are joins in SQL?",
+      "a": "Joins combine data from multiple tables based on related columns, allowing complex queries across interconnected datasets."
+    },
+    {
+      "q": "What is the difference between INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL JOIN?",
+      "a": "INNER JOIN returns matching rows from both tables. LEFT JOIN returns all rows from the left table plus matches. RIGHT JOIN does the opposite. FULL JOIN returns all rows from both tables."
+    },
+    {
+      "q": "What is a transaction?",
+      "a": "A transaction is a sequence of database operations executed as a single logical unit of work that either completes entirely or fails completely."
+    },
+    {
+      "q": "What are ACID properties?",
+      "a": "ACID stands for Atomicity, Consistency, Isolation, and Durability. These properties ensure reliable and predictable transaction processing."
+    },
+    {
+      "q": "What is concurrency control in databases?",
+      "a": "Concurrency control ensures that multiple users can access and modify data simultaneously without causing inconsistencies or corruption."
+    },
+    {
+      "q": "What is a deadlock in a database?",
+      "a": "A deadlock occurs when two or more transactions wait indefinitely for resources locked by each other, preventing progress."
+    },
+    {
+      "q": "What is the difference between DELETE, TRUNCATE, and DROP?",
+      "a": "DELETE removes rows and can be rolled back. TRUNCATE removes all rows more efficiently and usually cannot be rolled back. DROP removes the entire table structure and data."
+    },
+    {
+      "q": "What is the difference between SQL and NoSQL databases?",
+      "a": "SQL databases use structured schemas and relational tables, while NoSQL databases offer flexible schemas and are optimized for scalability and distributed systems."
+    },
+    {
+      "q": "How would you optimize a slow database query?",
+      "a": "Common approaches include creating indexes, avoiding SELECT *, analyzing execution plans, optimizing joins, reducing unnecessary data retrieval, caching results, and improving schema design."
+    }
+  ]
+},
+{
+  "id": 6,
+  "title": "Git & GitHub",
+  "category": "Development Tools",
+  "description": "Git and GitHub concepts frequently asked in software engineering interviews.",
+  "questions": [
+    {
+      "q": "What is Git, and why is it used?",
+      "a": "Git is a distributed version control system that helps developers track code changes, collaborate with teams, manage versions, and maintain project history."
+    },
+    {
+      "q": "What is the difference between Git and GitHub?",
+      "a": "Git is a version control tool that runs locally, while GitHub is a cloud-based platform that hosts Git repositories and provides collaboration features such as pull requests, code reviews, and issue tracking."
+    },
+    {
+      "q": "What is a repository in Git?",
+      "a": "A repository (repo) is a storage location that contains a project's files, commit history, branches, and configuration information."
+    },
+    {
+      "q": "What is the difference between a local repository and a remote repository?",
+      "a": "A local repository exists on a developer's machine, while a remote repository is hosted on a server or platform such as GitHub and is shared among team members."
+    },
+    {
+      "q": "What is a commit in Git?",
+      "a": "A commit is a snapshot of changes made to a repository at a specific point in time. Each commit has a unique hash and message describing the changes."
+    },
+    {
+      "q": "What is the purpose of git init?",
+      "a": "git init creates a new Git repository in the current directory by generating the .git folder that stores version history and configuration."
+    },
+    {
+      "q": "What is the difference between git add and git commit?",
+      "a": "git add stages changes for the next commit, while git commit saves the staged changes permanently into the repository history."
+    },
+    {
+      "q": "What is the staging area in Git?",
+      "a": "The staging area is an intermediate space where changes are prepared before being committed. It allows developers to choose exactly what should be included in a commit."
+    },
+    {
+      "q": "What does git status do?",
+      "a": "git status shows the current state of the repository, including modified files, staged files, untracked files, and branch information."
+    },
+    {
+      "q": "What is a branch in Git?",
+      "a": "A branch is an independent line of development that allows developers to work on features, bug fixes, or experiments without affecting the main codebase."
+    },
+    {
+      "q": "Why do teams use branches?",
+      "a": "Branches allow multiple developers to work simultaneously on different tasks, making collaboration safer and reducing conflicts."
+    },
+    {
+      "q": "What is the difference between git merge and git rebase?",
+      "a": "Merge combines branch histories and creates a merge commit. Rebase rewrites commit history by moving commits onto another branch, creating a cleaner linear history."
+    },
+    {
+      "q": "What is a merge conflict?",
+      "a": "A merge conflict occurs when Git cannot automatically determine which changes to keep because multiple developers modified the same section of code."
+    },
+    {
+      "q": "How do you resolve a merge conflict?",
+      "a": "Review conflicting files, choose or combine the desired changes, mark the conflict as resolved using git add, and then complete the merge or rebase process."
+    },
+    {
+      "q": "What is git stash?",
+      "a": "git stash temporarily saves uncommitted changes so developers can switch branches or perform other tasks without committing unfinished work."
+    },
+    {
+      "q": "What is the difference between git fetch and git pull?",
+      "a": "git fetch downloads changes from a remote repository without modifying local branches, while git pull fetches and automatically merges those changes into the current branch."
+    },
+    {
+      "q": "What is git clone?",
+      "a": "git clone creates a complete copy of a remote repository on a local machine, including all files, branches, and commit history."
+    },
+    {
+      "q": "What is git reset, and when would you use it?",
+      "a": "git reset moves the current branch pointer to a previous commit and can optionally modify the staging area and working directory. It is commonly used to undo commits or staged changes."
+    },
+    {
+      "q": "What is the difference between git reset and git revert?",
+      "a": "git reset removes commits from history, while git revert creates a new commit that reverses the effects of a previous commit without altering history."
+    },
+    {
+      "q": "What is a Pull Request (PR)?",
+      "a": "A Pull Request is a request to merge code changes from one branch into another. It enables code reviews, discussions, automated testing, and collaboration."
+    },
+    {
+      "q": "Why are code reviews important before merging a Pull Request?",
+      "a": "Code reviews improve code quality, catch bugs early, ensure consistency, encourage knowledge sharing, and maintain coding standards."
+    },
+    {
+      "q": "What is the purpose of a .gitignore file?",
+      "a": "A .gitignore file specifies files and directories that Git should ignore, such as node_modules, environment files, logs, and build artifacts."
+    },
+    {
+      "q": "What are Git tags, and when are they used?",
+      "a": "Tags are references to specific commits, commonly used to mark software releases such as v1.0.0 or v2.5.1."
+    },
+    {
+      "q": "What is GitHub Actions?",
+      "a": "GitHub Actions is a CI/CD platform that automates workflows such as testing, building, deploying, and code quality checks whenever changes are pushed to a repository."
+    },
+    {
+      "q": "Describe a typical Git workflow used in a development team.",
+      "a": "A developer creates a feature branch, writes code, commits changes, pushes the branch to GitHub, opens a Pull Request, receives code review feedback, updates the branch if necessary, and finally merges the changes into the main branch."
+    }
+  ]
+}
+
+
+]
