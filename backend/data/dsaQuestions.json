@@ -157,6 +157,540 @@
     "Bloomberg",
     "Uber"
   ]
+},
+{
+  "id": 2,
+  "title": "3Sum",
+  "difficulty": "Medium",
+
+  "pattern": {
+    "primary": "Two Pointers",
+    "secondary": ["Sorting", "Arrays"]
+  },
+
+  "patternImportance": 5,
+
+  "leetcodeLink": "https://leetcode.com/problems/3sum/",
+  "geeksforgeeksLink": "https://www.geeksforgeeks.org/problems/triplet-sum-in-array-1587115621/1",
+
+  "interviewEstimate": {
+    "expectedTimeMinutes": "15-20",
+    "thinkingTimeMinutes": "5-7",
+    "codingTimeMinutes": "10-12"
+  },
+
+  "description": "Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.\n\nThe solution set must not contain duplicate triplets.",
+
+  "examples": [
+    {
+      "input": "nums = [-1,0,1,2,-1,-4]",
+      "output": "[[-1,-1,2],[-1,0,1]]",
+      "explanation": "Both triplets sum to 0."
+    },
+    {
+      "input": "nums = [0,1,1]",
+      "output": "[]",
+      "explanation": "No triplet sums to 0."
+    },
+    {
+      "input": "nums = [0,0,0]",
+      "output": "[[0,0,0]]",
+      "explanation": "Only one unique triplet exists."
+    }
+  ],
+
+  "constraints": [
+    "3 <= nums.length <= 3000",
+    "-10^5 <= nums[i] <= 10^5"
+  ],
+
+  "hints": [
+    "Sorting helps avoid duplicates.",
+    "Fix one number and solve a Two Sum problem on the remaining array.",
+    "Use two pointers after fixing the first element.",
+    "Skip duplicate values to avoid repeated triplets."
+  ],
+
+  "intuition": "After sorting, fix one element. The remaining problem becomes finding two numbers whose sum equals -nums[i]. Use two pointers to efficiently search the remaining array while skipping duplicates.",
+
+  "patternExplanation": {
+    "name": "Sorting + Two Pointers",
+    "coreIdea": "Fix one element and use two pointers to find the remaining pair.",
+    "whenToUse": [
+      "Triplet sum problems",
+      "Need unique combinations",
+      "Sorted array traversal",
+      "k-Sum problems"
+    ]
+  },
+
+  "complexityBreakdown": {
+    "bruteForce": {
+      "timeComplexity": "O(n³)",
+      "spaceComplexity": "O(1)",
+      "reason": "Check every possible triplet."
+    },
+    "optimal": {
+      "timeComplexity": "O(n²)",
+      "spaceComplexity": "O(1)",
+      "reason": "Sorting plus two-pointer scan for each fixed element."
+    }
+  },
+
+  "approaches": [
+    {
+      "name": "Brute Force",
+      "timeComplexity": "O(n³)",
+      "spaceComplexity": "O(1)"
+    },
+    {
+      "name": "Sorting + Two Pointers (Optimal)",
+      "timeComplexity": "O(n²)",
+      "spaceComplexity": "O(1)",
+      "code": "class Solution {\\n    public List<List<Integer>> threeSum(int[] nums) {\\n        Arrays.sort(nums);\\n        List<List<Integer>> ans = new ArrayList<>();\\n\\n        for (int i = 0; i < nums.length - 2; i++) {\\n            if (i > 0 && nums[i] == nums[i - 1]) continue;\\n\\n            int left = i + 1;\\n            int right = nums.length - 1;\\n\\n            while (left < right) {\\n                int sum = nums[i] + nums[left] + nums[right];\\n\\n                if (sum == 0) {\\n                    ans.add(Arrays.asList(nums[i], nums[left], nums[right]));\\n\\n                    while (left < right && nums[left] == nums[left + 1]) left++;\\n                    while (left < right && nums[right] == nums[right - 1]) right--;\\n\\n                    left++;\\n                    right--;\\n                } else if (sum < 0) {\\n                    left++;\\n                } else {\\n                    right--;\\n                }\\n            }\\n        }\\n\\n        return ans;\\n    }\\n}"
+    }
+  ],
+
+  "edgeCases": [
+    {
+      "case": "[0,0,0]",
+      "reason": "Only one unique triplet should be returned."
+    },
+    {
+      "case": "Duplicate numbers",
+      "reason": "Need to skip duplicates."
+    },
+    {
+      "case": "No valid triplet",
+      "reason": "Return empty list."
+    }
+  ],
+
+  "pitfalls": [
+    "Forgetting to sort the array.",
+    "Not skipping duplicate triplets.",
+    "Moving both pointers incorrectly.",
+    "Adding duplicate results."
+  ],
+
+  "followUpQuestions": [
+    "Can you solve k-Sum using this idea?",
+    "How would you count triplets instead of returning them?",
+    "What if duplicates are allowed?"
+  ],
+
+  "notes": [
+    {
+      "title": "Foundation of k-Sum",
+      "description": "3Sum is the building block for 4Sum and general k-Sum."
+    },
+    {
+      "title": "Duplicate Handling",
+      "description": "Always skip equal values after sorting."
+    }
+  ],
+
+  "timeComplexity": "O(n²)",
+  "spaceComplexity": "O(1)",
+
+  "companies": [
+    "Amazon",
+    "Google",
+    "Meta",
+    "Microsoft",
+    "Apple",
+    "Bloomberg",
+    "Adobe",
+    "Uber"
+  ]
+},
+{
+  "id": 3,
+  "title": "4Sum",
+  "difficulty": "Medium",
+
+  "pattern": {
+    "primary": "Two Pointers",
+    "secondary": ["Sorting", "Arrays", "k-Sum"]
+  },
+
+  "patternImportance": 5,
+
+  "leetcodeLink": "https://leetcode.com/problems/4sum/",
+  "geeksforgeeksLink": "https://www.geeksforgeeks.org/problems/find-all-four-sum-numbers1732/1",
+
+  "interviewEstimate": {
+    "expectedTimeMinutes": "20-25",
+    "thinkingTimeMinutes": "7-10",
+    "codingTimeMinutes": "15"
+  },
+
+  "description": "Given an array nums of n integers, return all unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:\n\nnums[a] + nums[b] + nums[c] + nums[d] == target.\n\nThe solution set must not contain duplicate quadruplets.",
+
+  "examples": [
+    {
+      "input": "nums = [1,0,-1,0,-2,2], target = 0",
+      "output": "[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]"
+    },
+    {
+      "input": "nums = [2,2,2,2,2], target = 8",
+      "output": "[[2,2,2,2]]"
+    }
+  ],
+
+  "constraints": [
+    "1 <= nums.length <= 200",
+    "-10^9 <= nums[i] <= 10^9",
+    "-10^9 <= target <= 10^9"
+  ],
+
+  "hints": [
+    "Sort the array first.",
+    "Fix two numbers.",
+    "Use two pointers for the remaining two numbers.",
+    "Skip duplicates carefully."
+  ],
+
+  "intuition": "4Sum extends the 3Sum pattern. Sort the array, fix the first two elements, then use two pointers to find the remaining pair that completes the target sum.",
+
+  "patternExplanation": {
+    "name": "k-Sum Reduction",
+    "coreIdea": "Reduce 4Sum into multiple 2Sum problems using sorting and two pointers.",
+    "whenToUse": [
+      "4-element combination problems",
+      "k-Sum variations",
+      "Need unique combinations",
+      "Sorted array search"
+    ]
+  },
+
+  "complexityBreakdown": {
+    "bruteForce": {
+      "timeComplexity": "O(n⁴)",
+      "spaceComplexity": "O(1)",
+      "reason": "Check all quadruplets."
+    },
+    "optimal": {
+      "timeComplexity": "O(n³)",
+      "spaceComplexity": "O(1)",
+      "reason": "Two nested loops plus two pointers."
+    }
+  },
+
+  "approaches": [
+    {
+      "name": "Brute Force",
+      "timeComplexity": "O(n⁴)",
+      "spaceComplexity": "O(1)"
+    },
+    {
+      "name": "Sorting + Two Pointers (Optimal)",
+      "timeComplexity": "O(n³)",
+      "spaceComplexity": "O(1)",
+      "code": "class Solution {\\n    public List<List<Integer>> fourSum(int[] nums, int target) {\\n        Arrays.sort(nums);\\n        List<List<Integer>> ans = new ArrayList<>();\\n\\n        for (int i = 0; i < nums.length - 3; i++) {\\n            if (i > 0 && nums[i] == nums[i - 1]) continue;\\n\\n            for (int j = i + 1; j < nums.length - 2; j++) {\\n                if (j > i + 1 && nums[j] == nums[j - 1]) continue;\\n\\n                int left = j + 1;\\n                int right = nums.length - 1;\\n\\n                while (left < right) {\\n                    long sum = (long) nums[i] + nums[j] + nums[left] + nums[right];\\n\\n                    if (sum == target) {\\n                        ans.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));\\n\\n                        while (left < right && nums[left] == nums[left + 1]) left++;\\n                        while (left < right && nums[right] == nums[right - 1]) right--;\\n\\n                        left++;\\n                        right--;\\n                    } else if (sum < target) {\\n                        left++;\\n                    } else {\\n                        right--;\\n                    }\\n                }\\n            }\\n        }\\n\\n        return ans;\\n    }\\n}"
+    }
+  ],
+
+  "edgeCases": [
+    {
+      "case": "[2,2,2,2,2], target = 8",
+      "reason": "Duplicate quadruplets should not be repeated."
+    },
+    {
+      "case": "Large values",
+      "reason": "Use long to avoid integer overflow."
+    },
+    {
+      "case": "No valid quadruplet",
+      "reason": "Return empty list."
+    }
+  ],
+
+  "pitfalls": [
+    "Not handling duplicates.",
+    "Integer overflow when summing four numbers.",
+    "Forgetting to sort.",
+    "Returning duplicate quadruplets."
+  ],
+
+  "followUpQuestions": [
+    "Can you generalize this to k-Sum?",
+    "How would you count quadruplets instead of returning them?",
+    "Can recursion simplify the solution?"
+  ],
+
+  "notes": [
+    {
+      "title": "Extension of 3Sum",
+      "description": "Fix one extra element and apply the same two-pointer logic."
+    },
+    {
+      "title": "Overflow Warning",
+      "description": "Use long while computing sums."
+    }
+  ],
+
+  "timeComplexity": "O(n³)",
+  "spaceComplexity": "O(1)",
+
+  "companies": [
+    "Amazon",
+    "Google",
+    "Meta",
+    "Microsoft",
+    "Bloomberg",
+    "Adobe",
+    "Uber",
+    "Oracle"
+  ]
+},
+
+{
+  "id": 4,
+  "title": "Best Time to Buy and Sell Stock",
+  "difficulty": "Easy",
+
+  "pattern": {
+    "primary": "Arrays",
+    "secondary": ["Greedy"]
+  },
+
+  "patternImportance": 5,
+
+  "leetcodeLink": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+  "geeksforgeeksLink": "https://www.geeksforgeeks.org/problems/buy-stock-2/1",
+
+  "interviewEstimate": {
+    "expectedTimeMinutes": "10-15",
+    "thinkingTimeMinutes": "3-5",
+    "codingTimeMinutes": "7-10"
+  },
+
+  "description": "You are given an array prices where prices[i] is the price of a stock on the ith day.\n\nChoose a single day to buy one stock and choose a different day in the future to sell that stock.\n\nReturn the maximum profit you can achieve. If no profit is possible, return 0.",
+
+  "examples": [
+    {
+      "input": "prices = [7,1,5,3,6,4]",
+      "output": "5",
+      "explanation": "Buy on day 2 (price = 1) and sell on day 5 (price = 6)."
+    },
+    {
+      "input": "prices = [7,6,4,3,1]",
+      "output": "0",
+      "explanation": "No profitable transaction exists."
+    }
+  ],
+
+  "constraints": [
+    "1 <= prices.length <= 10^5",
+    "0 <= prices[i] <= 10^4"
+  ],
+
+  "hints": [
+    "Track the minimum price seen so far.",
+    "At each day calculate current profit.",
+    "Update maximum profit whenever possible."
+  ],
+
+  "intuition": "The best selling day depends on the lowest buying price before it. Keep track of the minimum price while traversing the array and compute the profit for every day.",
+
+  "patternExplanation": {
+    "name": "Running Minimum",
+    "coreIdea": "Maintain the smallest value seen so far while maximizing the difference.",
+    "whenToUse": [
+      "Maximum profit problems",
+      "Maximum difference problems",
+      "Single traversal optimization"
+    ]
+  },
+
+  "complexityBreakdown": {
+    "bruteForce": {
+      "timeComplexity": "O(n²)",
+      "spaceComplexity": "O(1)",
+      "reason": "Try every buy and sell pair."
+    },
+    "optimal": {
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "reason": "Single pass maintaining minimum price."
+    }
+  },
+
+  "approaches": [
+    {
+      "name": "Running Minimum (Optimal)",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "code": "class Solution {\\n    public int maxProfit(int[] prices) {\\n        int minPrice = Integer.MAX_VALUE;\\n        int maxProfit = 0;\\n\\n        for (int price : prices) {\\n            minPrice = Math.min(minPrice, price);\\n            maxProfit = Math.max(maxProfit, price - minPrice);\\n        }\\n\\n        return maxProfit;\\n    }\\n}"
+    }
+  ],
+
+  "edgeCases": [
+    {
+      "case": "Descending prices",
+      "reason": "Return 0."
+    },
+    {
+      "case": "Single element",
+      "reason": "Cannot sell."
+    }
+  ],
+
+  "pitfalls": [
+    "Selling before buying.",
+    "Updating minimum price after profit calculation incorrectly."
+  ],
+
+  "followUpQuestions": [
+    "What if multiple transactions are allowed?",
+    "Can transaction fees be included?"
+  ],
+
+  "notes": [
+    {
+      "title": "Greedy Observation",
+      "description": "Always keep the lowest buying price."
+    }
+  ],
+
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+
+  "companies": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Meta",
+    "Apple",
+    "Adobe"
+  ]
+},
+{
+  "id": 5,
+  "title": "Product of Array Except Self",
+  "difficulty": "Medium",
+
+  "pattern": {
+    "primary": "Arrays",
+    "secondary": ["Prefix Sum", "Suffix Product"]
+  },
+
+  "patternImportance": 5,
+
+  "leetcodeLink": "https://leetcode.com/problems/product-of-array-except-self/",
+  "geeksforgeeksLink": "https://www.geeksforgeeks.org/problems/product-array-puzzle4525/1",
+
+  "interviewEstimate": {
+    "expectedTimeMinutes": "15-20",
+    "thinkingTimeMinutes": "5-7",
+    "codingTimeMinutes": "10-12"
+  },
+
+  "description": "Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].\n\nThe solution must run in O(n) time and without using division.",
+
+  "examples": [
+    {
+      "input": "nums = [1,2,3,4]",
+      "output": "[24,12,8,6]"
+    },
+    {
+      "input": "nums = [-1,1,0,-3,3]",
+      "output": "[0,0,9,0,0]"
+    }
+  ],
+
+  "constraints": [
+    "2 <= nums.length <= 10^5",
+    "-30 <= nums[i] <= 30"
+  ],
+
+  "hints": [
+    "Store prefix products.",
+    "Store suffix products.",
+    "Combine both to compute the answer."
+  ],
+
+  "intuition": "For every index, the required product equals the multiplication of all elements before it and all elements after it. Compute prefix and suffix products separately and combine them.",
+
+  "patternExplanation": {
+    "name": "Prefix & Suffix Product",
+    "coreIdea": "Build cumulative products from both directions.",
+    "whenToUse": [
+      "Range product problems",
+      "Array transformation",
+      "Division restricted problems"
+    ]
+  },
+
+  "complexityBreakdown": {
+    "bruteForce": {
+      "timeComplexity": "O(n²)",
+      "spaceComplexity": "O(1)",
+      "reason": "Multiply all remaining elements for every index."
+    },
+    "optimal": {
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "reason": "Two passes using prefix and suffix products."
+    }
+  },
+
+  "approaches": [
+    {
+      "name": "Prefix + Suffix Products",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "code": "class Solution {\\n    public int[] productExceptSelf(int[] nums) {\\n        int n = nums.length;\\n        int[] ans = new int[n];\\n\\n        ans[0] = 1;\\n        for (int i = 1; i < n; i++)\\n            ans[i] = ans[i - 1] * nums[i - 1];\\n\\n        int suffix = 1;\\n        for (int i = n - 1; i >= 0; i--) {\\n            ans[i] *= suffix;\\n            suffix *= nums[i];\\n        }\\n\\n        return ans;\\n    }\\n}"
+    }
+  ],
+
+  "edgeCases": [
+    {
+      "case": "Array contains one zero",
+      "reason": "Only one position gets the product of remaining elements."
+    },
+    {
+      "case": "Array contains multiple zeros",
+      "reason": "Entire answer becomes zero."
+    },
+    {
+      "case": "Negative numbers",
+      "reason": "Signs should be handled correctly."
+    }
+  ],
+
+  "pitfalls": [
+    "Using division.",
+    "Incorrect prefix/suffix indexing.",
+    "Overflow in some languages."
+  ],
+
+  "followUpQuestions": [
+    "Can you solve it with O(1) extra space?",
+    "How would you handle extremely large products?"
+  ],
+
+  "notes": [
+    {
+      "title": "Prefix-Suffix Pattern",
+      "description": "A classic interview pattern for array transformation."
+    }
+  ],
+
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+
+  "companies": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Meta",
+    "Apple",
+    "Adobe",
+    "Uber",
+    "Bloomberg"
+  ]
 }
 
 ]

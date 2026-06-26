@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Script from "next/script";
 import { FiAward, FiExternalLink, FiX } from "react-icons/fi";
 
 const certifications = [
@@ -98,6 +99,23 @@ export default function Certifications() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-20"
+        >
+          <h3 className="text-2xl font-light text-[#1a1a1a] dark:text-white mb-8 text-center">
+            Digital <span className="font-serif italic text-gray-500">Badges</span>
+          </h3>
+          <div className="flex flex-wrap justify-center gap-8">
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="54b2729e-dcdc-4c26-89cc-a895ea780d0d" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="7f480e0c-e61b-4a92-9f92-b86383b48831" data-share-badge-host="https://www.credly.com"></div>
+          </div>
+          <Script src="//cdn.credly.com/assets/utilities/embed.js" strategy="lazyOnload" />
+        </motion.div>
       </div>
 
       {/* Modal View for Certification */}
