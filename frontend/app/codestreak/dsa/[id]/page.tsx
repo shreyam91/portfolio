@@ -1,7 +1,7 @@
 "use client";
 
-import { DSADetail } from "@/components/shared/dsa-detail";
+import { InteractiveDSADetail } from "@/components/shared/interactive-dsa-detail";
 
 export default function DSADetailDashboardPage() {
-  return <DSADetail isDashboard={true} />;
+  return <InteractiveDSADetail isDashboard={true} />;
 }
