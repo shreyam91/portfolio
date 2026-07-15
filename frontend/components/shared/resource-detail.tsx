@@ -17,73 +17,88 @@ import {
   ZoomIn,
   ZoomOut
 } from "lucide-react";
+import { contentService } from "@/services/content.service";
 
-// Mock data (shared from resource-list, ideally this would come from a service)
-const MOCK_RESOURCES = [
-  {
-    id: "res-1",
-    slug: "system-design-interview-handbook",
-    title: "System Design Interview Handbook",
-    description: "A comprehensive guide to scaling systems, databases, and microservices for top tech interviews.",
-    type: "Guide",
-    pages: 45,
-    size: "4.2 MB",
-    lastUpdated: "Oct 2026",
-    icon: LayoutTemplate,
-    color: "text-emerald-500",
-    bg: "bg-emerald-500/10",
-  },
-  {
-    id: "res-2",
-    slug: "java-collections-notes",
-    title: "Java Collections Notes",
-    description: "Deep dive into HashMaps, ConcurrentHashMap, and custom collections implementations in Java.",
-    type: "Notes",
-    pages: 18,
-    size: "1.8 MB",
-    lastUpdated: "Sep 2026",
-    icon: Book,
-    color: "text-blue-500",
-    bg: "bg-blue-500/10",
-  },
-  {
-    id: "res-3",
-    slug: "dsa-cheat-sheet",
-    title: "Ultimate DSA Cheat Sheet",
-    description: "Quick reference for time complexities, array manipulation, and common algorithms.",
-    type: "Cheat Sheet",
-    pages: 4,
-    size: "800 KB",
-    lastUpdated: "Nov 2026",
-    icon: FileText,
-    color: "text-purple-500",
-    bg: "bg-purple-500/10",
-  },
-  {
-    id: "res-4",
-    slug: "low-level-design-guide",
-    title: "Low-Level Design Guide",
-    description: "Master OOP principles, SOLID, and structural design patterns.",
-    type: "Guide",
-    pages: 32,
-    size: "3.5 MB",
-    lastUpdated: "Aug 2026",
-    icon: File,
-    color: "text-indigo-500",
-    bg: "bg-indigo-500/10",
-  },
-];
+// Helper to derive icon based on type
+const getIconForType = (type: string) => {
+  switch (type?.toLowerCase()) {
+    case "guide": return LayoutTemplate;
+    case "notes": return Book;
+    case "cheat sheet": return FileText;
+    default: return File;
+  }
+};
+
+const getColorForIndex = (index: number) => {
+  const colors = [
+    { color: "text-emerald-500", bg: "bg-emerald-500/10" },
+    { color: "text-blue-500", bg: "bg-blue-500/10" },
+    { color: "text-purple-500", bg: "bg-purple-500/10" },
+    { color: "text-indigo-500", bg: "bg-indigo-500/10" },
+    { color: "text-pink-500", bg: "bg-pink-500/10" },
+    { color: "text-red-500", bg: "bg-red-500/10" },
+    { color: "text-sky-500", bg: "bg-sky-500/10" },
+    { color: "text-amber-500", bg: "bg-amber-500/10" },
+  ];
+  return colors[index % colors.length];
+};
+
 
 export function ResourceDetail({ slug }: { slug: string }) {
   const router = useRouter();
-  const resource = MOCK_RESOURCES.find(r => r.slug === slug) || MOCK_RESOURCES[0];
-  const Icon = resource.icon;
+  const [resource, setResource] = React.useState<any>(null);
+  const [related, setRelated] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
   
   // Simulated PDF Viewer State
   const [currentPage, setCurrentPage] = useState(1);
   const [zoom, setZoom] = useState(100);
 
-  const related = MOCK_RESOURCES.filter(r => r.id !== resource.id).slice(0, 3);
+  React.useEffect(() => {
+    const fetchResource = async () => {
+      try {
+        const response = await contentService.getResources();
+        const allResources = response.data?.data || response.data || [];
+        const found = allResources.find((r: any) => r.slug === slug);
+        setResource(found);
+        setRelated(allResources.filter((r: any) => r.slug !== slug).slice(0, 3));
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchResource();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="dark:bg-[#0a0a0a] min-h-screen bg-[#fafafa] flex flex-col items-center justify-center">
+        <DashboardNavbar />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mt-20"></div>
+      </div>
+    );
+  }
+
+  if (!resource) {
+    return (
+      <div className="dark:bg-[#0a0a0a] min-h-screen bg-[#fafafa] flex flex-col">
+        <DashboardNavbar />
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+          <FileText className="w-16 h-16 text-muted-foreground mb-4 opacity-50" />
+          <h2 className="text-2xl font-bold mb-2">Resource Not Found</h2>
+          <p className="text-muted-foreground mb-6">The resource you are looking for does not exist.</p>
+          <button onClick={() => router.push("/codestreak/resources")} className="px-6 py-3 bg-foreground text-background font-bold rounded-xl shadow-sm hover:opacity-90 transition-opacity">
+            Back to Library
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const Icon = getIconForType(resource.type);
+  const { color, bg } = getColorForIndex(0); // You can randomize or hash slug if needed
+
 
   return (
     <div className="dark:bg-[#0a0a0a] min-h-screen bg-[#fafafa] flex flex-col text-foreground font-sans">
@@ -100,8 +115,8 @@ export function ResourceDetail({ slug }: { slug: string }) {
               <ArrowLeft className="w-4 h-4" /> Back to Library
             </button>
             <div className="flex items-center gap-3 mb-4">
-              <div className={`w-12 h-12 rounded-xl ${resource.bg} flex items-center justify-center`}>
-                <Icon className={`w-6 h-6 ${resource.color}`} />
+              <div className={`w-12 h-12 rounded-xl ${bg} flex items-center justify-center`}>
+                <Icon className={`w-6 h-6 ${color}`} />
               </div>
               <div>
                 <h1 className="text-3xl font-extrabold tracking-tight text-foreground">{resource.title}</h1>
@@ -119,9 +134,9 @@ export function ResourceDetail({ slug }: { slug: string }) {
           </div>
           
           <div className="flex items-center gap-3 shrink-0">
-            <button className="px-6 py-3 bg-foreground text-background font-bold rounded-xl shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+            <a href={resource.downloadUrl} download className="px-6 py-3 bg-foreground text-background font-bold rounded-xl shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
               <Download className="w-5 h-5" /> Download PDF
-            </button>
+            </a>
           </div>
         </div>
 
@@ -200,13 +215,14 @@ export function ResourceDetail({ slug }: { slug: string }) {
         <div className="space-y-8 border-t border-black/10 dark:border-white/10 pt-16">
           <h2 className="text-2xl font-bold tracking-tight">You May Also Like</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {related.map((res) => {
-              const RelIcon = res.icon;
+            {related.map((res, idx) => {
+              const RelIcon = getIconForType(res.type);
+              const { color: rColor, bg: rBg } = getColorForIndex(idx + 1);
               return (
-                <Link key={res.id} href={`/codestreak/resources/${res.slug}`} className="group p-5 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[20px] hover:shadow-md transition-all hover:-translate-y-1 flex flex-col">
+                <Link key={res._id || res.slug} href={`/codestreak/resources/${res.slug}`} className="group p-5 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[20px] hover:shadow-md transition-all hover:-translate-y-1 flex flex-col">
                   <div className="flex items-start justify-between mb-4">
-                    <div className={`w-10 h-10 rounded-lg ${res.bg} flex items-center justify-center`}>
-                      <RelIcon className={`w-5 h-5 ${res.color}`} />
+                    <div className={`w-10 h-10 rounded-lg ${rBg} flex items-center justify-center`}>
+                      <RelIcon className={`w-5 h-5 ${rColor}`} />
                     </div>
                   </div>
                   <h3 className="font-bold text-base mb-2 line-clamp-1 group-hover:text-indigo-600 transition-colors">{res.title}</h3>

@@ -19,8 +19,6 @@ import {
   BookOpen,
   ArrowRight,
   TrendingUp,
-  Briefcase,
-  PlaySquare,
   LayoutTemplate,
   Layers,
   FileCode2,
@@ -32,16 +30,20 @@ import { contentService } from "@/services/content.service";
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [recentData, setRecentData] = useState<any[]>([]);
+  const [resources, setResources] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         setLoading(true);
-        const [dsaData, sysData, mcData] = await Promise.all([
+        const [dsaData, sysData, mcData, resData] = await Promise.all([
           contentService.getDsaQuestions().then((res: any) => res.data?.data || res.data || []),
           contentService.getSystemDesignQuestions().then((res: any) => res.data?.data || res.data || []),
           contentService.getMachineCodingQuestions().then((res: any) => res.data?.data || res.data || []),
+          contentService.getResources().then((res: any) => res.data?.data || res.data || []),
         ]);
+        
+        setResources(resData);
         
         // Mock a mixed feed of recent content
         const mixed = [
@@ -76,13 +78,6 @@ export default function Dashboard() {
     { title: "Top 100 Interview Questions", count: "100 Questions", desc: "Frequently asked problems in top tech companies." },
     { title: "System Design Fundamentals", count: "12 Guides", desc: "Master the building blocks of large scale architecture." },
     { title: "Low-Level Design Essentials", count: "8 Projects", desc: "Object-oriented design patterns and practices." }
-  ];
-
-  const resources = [
-    { title: "SQL Cheatsheet", type: "Cheat Sheet" },
-    { title: "Java Collections Guide", type: "Guide" },
-    { title: "System Design Templates", type: "Template" },
-    { title: "Backend Engineering Roadmap", type: "Roadmap" }
   ];
 
   const getSlug = (title: string) =>
@@ -285,15 +280,26 @@ export default function Dashboard() {
 
           {/* Developer Resources */}
           <div className="space-y-8">
-            <h2 className="text-2xl font-bold tracking-tight">Developer Resources</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {resources.map(res => (
-                <div key={res.title} className="p-5 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[16px] hover:border-indigo-500/40 hover:bg-indigo-50/50 dark:hover:bg-indigo-500/10 transition-colors cursor-pointer group">
-                  <div className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wider">{res.type}</div>
-                  <h4 className="font-bold text-sm group-hover:text-indigo-600 transition-colors">{res.title}</h4>
-                </div>
-              ))}
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold tracking-tight">Developer Resources</h2>
+              <Link href="/codestreak/resources" className="text-sm font-bold text-indigo-600 hover:text-indigo-500 transition-colors">
+                View All
+              </Link>
             </div>
+            {loading ? (
+              <div className="py-8 flex justify-center items-center">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {resources.slice(0, 4).map((res) => (
+                  <Link key={res.title} href="/codestreak/resources" className="p-5 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[16px] hover:border-indigo-500/40 hover:bg-indigo-50/50 dark:hover:bg-indigo-500/10 transition-colors group block">
+                    <div className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wider">{res.type}</div>
+                    <h4 className="font-bold text-sm group-hover:text-indigo-600 transition-colors">{res.title}</h4>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
           
 

@@ -1,0 +1,90 @@
+[
+  {
+    "slug": "system-design-interview-handbook",
+    "title": "System Design Interview Handbook",
+    "description": "A comprehensive guide to scaling systems, databases, and microservices for top tech interviews.",
+    "type": "Guide",
+    "pages": 45,
+    "size": "4.2 MB",
+    "lastUpdated": "Oct 2026",
+    "featured": true,
+    "downloadUrl": "/files/system-design-interview-handbook.pdf"
+  },
+  {
+    "slug": "java-collections-notes",
+    "title": "Java Collections Notes",
+    "description": "Deep dive into HashMaps, ConcurrentHashMap, and custom collections implementations in Java.",
+    "type": "Notes",
+    "pages": 18,
+    "size": "1.8 MB",
+    "lastUpdated": "Sep 2026",
+    "featured": true,
+    "downloadUrl": "/files/java-collections-notes.pdf"
+  },
+  {
+    "slug": "dsa-cheat-sheet",
+    "title": "Ultimate DSA Cheat Sheet",
+    "description": "Quick reference for time complexities, array manipulation, and common algorithms.",
+    "type": "Cheat Sheet",
+    "pages": 4,
+    "size": "800 KB",
+    "lastUpdated": "Nov 2026",
+    "featured": true,
+    "downloadUrl": "/files/dsa-cheat-sheet.pdf"
+  },
+  {
+    "slug": "low-level-design-guide",
+    "title": "Low-Level Design Guide",
+    "description": "Master OOP principles, SOLID, and structural design patterns.",
+    "type": "Guide",
+    "pages": 32,
+    "size": "3.5 MB",
+    "lastUpdated": "Aug 2026",
+    "featured": false,
+    "downloadUrl": "/files/low-level-design-guide.pdf"
+  },
+  {
+    "slug": "dynamic-programming-notes",
+    "title": "Dynamic Programming Notes",
+    "description": "Step-by-step approach to solving 1D and 2D DP problems.",
+    "type": "Notes",
+    "pages": 22,
+    "size": "2.1 MB",
+    "lastUpdated": "Jul 2026",
+    "featured": false,
+    "downloadUrl": "/files/dynamic-programming-notes.pdf"
+  },
+  {
+    "slug": "redis-cheat-sheet",
+    "title": "Redis Commands Quick Reference",
+    "description": "Essential commands for caching, sorted sets, and pub/sub.",
+    "type": "Cheat Sheet",
+    "pages": 2,
+    "size": "450 KB",
+    "lastUpdated": "Oct 2026",
+    "featured": false,
+    "downloadUrl": "/files/redis-cheat-sheet.pdf"
+  },
+  {
+    "slug": "sql-quick-reference",
+    "title": "SQL Mastery Reference",
+    "description": "Joins, window functions, and indexing strategies.",
+    "type": "Cheat Sheet",
+    "pages": 5,
+    "size": "1.1 MB",
+    "lastUpdated": "Nov 2026",
+    "featured": false,
+    "downloadUrl": "/files/sql-quick-reference.pdf"
+  },
+  {
+    "slug": "networking-basics",
+    "title": "Networking Basics for Devs",
+    "description": "TCP/IP, HTTP/2, WebSockets, and DNS resolution.",
+    "type": "Guide",
+    "pages": 15,
+    "size": "1.5 MB",
+    "lastUpdated": "Jun 2026",
+    "featured": false,
+    "downloadUrl": "/files/networking-basics.pdf"
+  }
+]

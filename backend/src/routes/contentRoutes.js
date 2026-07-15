@@ -15,21 +15,21 @@ router.get('/machine-coding/:id', contentController.getSingleMachineCoding);
 router.get('/system-design', contentController.getSystemDesign);
 router.get('/system-design/:id', contentController.getSingleSystemDesign);
 
-// Placement Prep
-router.get('/placement-prep', contentController.getPlacementPrep);
-router.get('/placement-prep/:id', contentController.getSinglePlacementPrep);
+
 
 // Blogs
 router.get('/blogs', contentController.getBlogs);
 router.get('/blogs/:id', contentController.getSingleBlog);
 
-// Videos
-router.get('/videos', contentController.getVideos);
-router.get('/videos/:id', contentController.getSingleVideo);
+
 
 // Projects
 router.post('/projects/seed', contentController.seedProjects);
 router.get('/projects', contentController.getProjects);
 router.get('/projects/:id', contentController.getSingleProject);
+
+// Resources
+router.get('/resources', contentController.getResources);
+router.get('/resources/:id', contentController.getSingleResource);
 
 module.exports = router;

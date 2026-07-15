@@ -17,18 +17,13 @@ export const contentService = {
   getSystemDesignQuestions: (page = 1, limit = 100) =>
     getList("/system-design", page, limit),
   getBlogs: (page = 1, limit = 100) => getList("/blogs", page, limit),
-  getVideos: (page = 1, limit = 100) => getList("/videos", page, limit),
-  getPlacementPrep: (page = 1, limit = 100) =>
-    getList("/placement-prep", page, limit),
-  getPlacementPrepTopics: (page = 1, limit = 100) =>
-    getList("/placement-prep", page, limit),
   getProjects: (page = 1, limit = 100) => getList("/projects", page, limit),
+  getResources: (page = 1, limit = 100) => getList("/resources", page, limit),
 
   getSingleDsa: (id: string) => getSingle("/dsa", id),
   getSingleMachineCoding: (id: string) => getSingle("/machine-coding", id),
   getSingleSystemDesign: (id: string) => getSingle("/system-design", id),
   getSingleBlog: (id: string) => getSingle("/blogs", id),
-  getSingleVideo: (id: string) => getSingle("/videos", id),
-  getSinglePlacementPrep: (id: string) => getSingle("/placement-prep", id),
   getSingleProject: (id: string) => getSingle("/projects", id),
+  getSingleResource: (id: string) => getSingle("/resources", id),
 };

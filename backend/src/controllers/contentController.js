@@ -1,10 +1,10 @@
 const DSAQuestion = require('../../models/DSAQuestion');
 const MachineCodingQuestion = require('../../models/MachineCodingQuestion');
 const SystemDesignQuestion = require('../../models/SystemDesignQuestion');
-const PlacementPrep = require('../../models/PlacementPrep');
+
 const Blog = require('../../models/Blog');
-const Video = require('../../models/Video');
 const Project = require('../../models/Project');
+const Resource = require('../../models/Resource');
 
 const { sendSuccess } = require('../utils/apiResponse');
 const paginate = require('../utils/pagination');
@@ -298,14 +298,13 @@ exports.getSingleMachineCoding = getSingle(MachineCodingQuestion);
 exports.getSystemDesign = getList(SystemDesignQuestion);
 exports.getSingleSystemDesign = getSingle(SystemDesignQuestion);
 
-exports.getPlacementPrep = getList(PlacementPrep);
-exports.getSinglePlacementPrep = getSingle(PlacementPrep);
+
 
 exports.getBlogs = getList(Blog);
 exports.getSingleBlog = getSingle(Blog);
 
-exports.getVideos = getList(Video);
-exports.getSingleVideo = getSingle(Video);
-
 exports.getProjects = getList(Project);
 exports.getSingleProject = getSingle(Project);
+
+exports.getResources = getList(Resource);
+exports.getSingleResource = getSingle(Resource);
