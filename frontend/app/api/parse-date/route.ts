@@ -1,15 +1,12 @@
-import { NextResponse } from 'next/server';
-import { Chrono } from 'chrono-node';
+import { NextResponse } from "next/server";
+import { Chrono } from "chrono-node";
 
 export async function POST(request: Request) {
   try {
     const { text } = await request.json();
-    
+
     if (!text) {
-      return NextResponse.json(
-        { error: 'Text is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Text is required" }, { status: 400 });
     }
 
     const chrono = new Chrono();
@@ -17,21 +14,22 @@ export async function POST(request: Request) {
 
     if (!parsed || parsed.length === 0) {
       return NextResponse.json(
-        { error: 'Could not parse date from input' },
-        { status: 400 }
+        { error: "Could not parse date from input" },
+        { status: 400 },
       );
     }
 
     // Pick the last future date from parsed results, fallback to first
-    const dateRef = [...parsed].reverse().find(p => {
-      const date = p.start?.date();
-      return date && date > new Date();
-    }) || parsed[0];
+    const dateRef =
+      [...parsed].reverse().find((p) => {
+        const date = p.start?.date();
+        return date && date > new Date();
+      }) || parsed[0];
 
     if (!dateRef.start) {
       return NextResponse.json(
-        { error: 'Invalid date format' },
-        { status: 400 }
+        { error: "Invalid date format" },
+        { status: 400 },
       );
     }
 
@@ -40,12 +38,14 @@ export async function POST(request: Request) {
 
     // Parse duration in minutes
     let durationMinutes: number | null = null;
-    const durationMatch = text.toLowerCase().match(/within \s+(\d+)\s*(minute|min|hour|hr)/);
+    const durationMatch = text
+      .toLowerCase()
+      .match(/within \s+(\d+)\s*(minute|min|hour|hr)/);
 
     if (durationMatch) {
       const amount = parseInt(durationMatch[1], 10);
       const unit = durationMatch[2];
-      if (unit.startsWith('h')) {
+      if (unit.startsWith("h")) {
         durationMinutes = amount * 60;
       } else {
         durationMinutes = amount;
@@ -53,10 +53,10 @@ export async function POST(request: Request) {
     }
 
     // Parse priority
-    let priority: 'high' | 'mid' | 'easy' = 'mid';
+    let priority: "high" | "mid" | "easy" = "mid";
     const lower = text.toLowerCase();
-    if (lower.includes('high')) priority = 'high';
-    else if (lower.includes('easy')) priority = 'easy';
+    if (lower.includes("high")) priority = "high";
+    else if (lower.includes("easy")) priority = "easy";
 
     return NextResponse.json({
       date: isoDate.slice(0, 10), // YYYY-MM-DD
@@ -64,11 +64,7 @@ export async function POST(request: Request) {
       durationMinutes, // number of minutes or null
       priority,
     });
-
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Error parsing date' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Error parsing date" }, { status: 500 });
   }
 }

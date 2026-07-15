@@ -1,30 +1,56 @@
-'use client';
+"use client";
 
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@/components/ui/breadcrumb';
-import { Separator } from '@/components/ui/separator';
-import { SidebarTrigger } from '@/components/ui/sidebar';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import { Flame, Check, Activity } from 'lucide-react';
-import { contentService } from '@/services/content.service';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import { DashboardNavbar } from "@/components/shared/DashboardNavbar";
+import Link from "next/link";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import {
+  Search,
+  Code2,
+  Database,
+  TerminalSquare,
+  BookOpen,
+  ArrowRight,
+  TrendingUp,
+  Briefcase,
+  PlaySquare,
+  LayoutTemplate,
+  Layers,
+  FileCode2,
+  Clock,
+  Zap,
+} from "lucide-react";
+import { contentService } from "@/services/content.service";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
-  const [allQuestions, setAllQuestions] = useState<{ dsa: any[], sys: any[], mc: any[] }>({ dsa: [], sys: [], mc: [] });
+  const [recentData, setRecentData] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         setLoading(true);
-        // Only load available content now that auth is disabled
         const [dsaData, sysData, mcData] = await Promise.all([
-          contentService.getDsaQuestions().then((res: any) => res.data?.data || []),
-          contentService.getSystemDesignQuestions().then((res: any) => res.data?.data || []),
-          contentService.getMachineCodingQuestions().then((res: any) => res.data?.data || []),
+          contentService.getDsaQuestions().then((res: any) => res.data?.data || res.data || []),
+          contentService.getSystemDesignQuestions().then((res: any) => res.data?.data || res.data || []),
+          contentService.getMachineCodingQuestions().then((res: any) => res.data?.data || res.data || []),
         ]);
-        setAllQuestions({ dsa: dsaData, sys: sysData, mc: mcData });
+        
+        // Mock a mixed feed of recent content
+        const mixed = [
+          ...(dsaData.slice(0, 3).map((q: any) => ({ ...q, type: "DSA", icon: Code2 }))),
+          ...(sysData.slice(0, 3).map((q: any) => ({ ...q, type: "System Design", icon: LayoutTemplate }))),
+          ...(mcData.slice(0, 3).map((q: any) => ({ ...q, type: "Machine Coding", icon: TerminalSquare }))),
+        ].sort(() => Math.random() - 0.5).slice(0, 6); // Randomize for demo
+
+        setRecentData(mixed);
       } catch (err) {
       } finally {
         setLoading(false);
@@ -33,254 +59,243 @@ export default function Dashboard() {
     fetchAllData();
   }, []);
 
-  // Data processing for Recent Activity and Streak
-  const allContent = [
-    ...(allQuestions.dsa || []).map(q => ({...q, category: 'DSA'})), 
-    ...(allQuestions.sys || []).map(q => ({...q, category: 'System Design'})), 
-    ...(allQuestions.mc || []).map(q => ({...q, category: 'Machine Coding'}))
+  const companies = [
+    "Google", "Amazon", "Microsoft", "Uber", "Atlassian", 
+    "Adobe", "Flipkart", "Swiggy", "Zomato", "Walmart"
   ];
-  
-  const recentActivity = [...allContent]
-    .filter(q => q.createdAt)
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 10);
 
-  const getLocalDateStr = (date: Date) => {
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  };
+  const topics = [
+    { cat: "DSA", tags: ["Arrays", "Trees", "Graphs", "Dynamic Programming", "Greedy", "Sliding Window"] },
+    { cat: "System Design", tags: ["Cache", "Database", "Load Balancer", "Queue", "CDN", "Kafka"] },
+    { cat: "Machine Coding", tags: ["OOP", "SOLID", "Design Patterns", "Concurrency", "APIs"] },
+    { cat: "Blogs", tags: ["Career", "Java", "Backend", "Cloud", "Databases"] }
+  ];
 
-  const activityMap: Record<string, number> = {};
-  allContent.forEach((q) => {
-    if (!q.createdAt) return;
-    try {
-      const date = new Date(q.createdAt);
-      const dateStr = getLocalDateStr(date);
-      activityMap[dateStr] = (activityMap[dateStr] || 0) + 1;
-    } catch (e) {}
-  });
+  const collections = [
+    { title: "Blind 75", count: "75 Questions", desc: "The most famous curated list of LeetCode questions." },
+    { title: "Top 100 Interview Questions", count: "100 Questions", desc: "Frequently asked problems in top tech companies." },
+    { title: "System Design Fundamentals", count: "12 Guides", desc: "Master the building blocks of large scale architecture." },
+    { title: "Low-Level Design Essentials", count: "8 Projects", desc: "Object-oriented design patterns and practices." }
+  ];
 
-  let currentStreak = 0;
-  const today = new Date();
-  let checkDate = new Date(today);
-  const todayStr = getLocalDateStr(checkDate);
-  checkDate.setDate(checkDate.getDate() - 1);
-  const yesterdayStr = getLocalDateStr(checkDate);
+  const resources = [
+    { title: "SQL Cheatsheet", type: "Cheat Sheet" },
+    { title: "Java Collections Guide", type: "Guide" },
+    { title: "System Design Templates", type: "Template" },
+    { title: "Backend Engineering Roadmap", type: "Roadmap" }
+  ];
 
-  let streakStart = new Date(today);
-  if (activityMap[todayStr]) {
-     // Start from today
-  } else if (activityMap[yesterdayStr]) {
-     streakStart.setDate(streakStart.getDate() - 1);
-  }
-
-  while (true) {
-    const dateStr = getLocalDateStr(streakStart);
-    if (activityMap[dateStr]) {
-      currentStreak++;
-      streakStart.setDate(streakStart.getDate() - 1);
-    } else {
-      break;
-    }
-  }
-
-  const generateGrid = () => {
-    const today = new Date();
-    const grid = [];
-    
-    // Start exactly 52 weeks ago from today
-    const startDate = new Date(today);
-    startDate.setDate(today.getDate() - (52 * 7));
-    
-    while (startDate.getDay() !== 0) {
-      startDate.setDate(startDate.getDate() - 1);
-    }
-    
-    let currentDate = new Date(startDate);
-    for (let w = 0; w < 53; w++) {
-      const week = [];
-      for (let d = 0; d < 7; d++) {
-        const dateStr = getLocalDateStr(currentDate);
-        week.push({
-          date: dateStr,
-          count: activityMap[dateStr] || 0
-        });
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
-      grid.push(week);
-    }
-    return grid;
-  };
-  const activityGrid = generateGrid();
-
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const monthLabels: { index: number; label: string }[] = [];
-  let currentMonth = -1;
-  activityGrid.forEach((week, index) => {
-    if (week.length > 0) {
-      const weekStartMonth = new Date(week[0].date).getMonth();
-      if (weekStartMonth !== currentMonth) {
-        if (index > 0 || new Date(week[0].date).getDate() < 15) {
-          monthLabels.push({ index, label: months[weekStartMonth] });
-        }
-        currentMonth = weekStartMonth;
-      }
-    }
-  });
+  const getSlug = (title: string) =>
+    title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
 
   return (
-    <div className="dark:bg-[#0a0a0a] min-h-screen bg-gray-50 flex flex-col">
-      <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between border-b dark:border-white/10 border-black/10 dark:bg-[#0a0a0a]/80 bg-white/80 backdrop-blur-xl px-6 shadow-sm">
-        <div className="flex items-center gap-4">
-          <SidebarTrigger className="-ml-2 text-muted-foreground hover:text-foreground transition-colors" />
-          <Separator orientation="vertical" className="h-6 dark:bg-white/10 bg-black/10" />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbPage className="font-semibold text-foreground">Overview</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-        
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-orange-500/10 rounded-full border border-orange-500/20 shadow-[0_0_15px_rgba(249,115,22,0.15)] transition-transform hover:scale-105 cursor-default hidden sm:flex">
-            <div className="relative flex items-center justify-center">
-              <Flame className="text-orange-500 relative z-10 animate-pulse" size={18} fill="currentColor" />
-              <div className="absolute inset-0 bg-orange-500 blur-md opacity-60 animate-pulse"></div>
-            </div>
-            <span className="font-bold text-sm text-orange-600 dark:text-orange-400">{currentStreak} Day Streak</span>
-          </div>
-          <ThemeToggle />
-        </div>
-      </header>
+    <div className="dark:bg-[#0a0a0a] min-h-screen bg-[#fafafa] flex flex-col text-foreground font-sans">
+      <DashboardNavbar />
 
-      <div className="flex-1 overflow-auto">
-        <div className="max-w-6xl mx-auto p-2 md:p-4 lg:p-6 space-y-8">
+      <div className="flex-1 overflow-x-hidden">
+        {/* Hero Section */}
+        <div className="pt-20 pb-16 px-6 lg:px-12 relative overflow-hidden">
+          <div className="absolute inset-0 z-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+          <div className="absolute top-0 inset-x-0 h-[500px] bg-gradient-to-b dark:from-indigo-900/20 from-indigo-100/50 to-transparent pointer-events-none -z-10"></div>
           
-          {/* Welcome Header */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.5 }}
-            className="flex flex-col md:flex-row md:items-end justify-between gap-2 pb-6 border-b dark:border-white/10 border-black/10"
-          >
-            <div>
-              <h1 className="text-4xl font-extrabold tracking-tight mb-2 bg-gradient-to-r dark:from-white dark:to-white/60 from-black to-black/60 bg-clip-text text-transparent">Welcome to CodeStreak!</h1>
-              <p className="text-muted-foreground text-lg">This platform was developed to help users track their study sessions, practice activities, and overall progress. It enables both individual learners and groups to monitor their performance, stay organized, and achieve their learning goals more effectively.</p>
-            </div>
-          </motion.div>
+          <div className="max-w-4xl mx-auto flex flex-col items-center text-center relative z-10">
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+              Master Software Engineering Interviews
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-12 font-medium leading-relaxed">
+              Practice coding problems, explore system design case studies, build real-world machine coding projects, and learn through curated engineering articles.
+            </p>
 
-          {/* Year Streak Chart (Top) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <Activity className="text-primary" size={24} />
-              <h2 className="text-2xl font-bold tracking-tight">Activity Graph</h2>
-            </div>
-            <div className="dark:bg-white/5 bg-white border dark:border-white/10 border-black/10 rounded-2xl p-6 shadow-sm backdrop-blur-md overflow-x-auto custom-scrollbar">
-              <div className="min-w-[700px]">
-                <div className="flex w-full mb-2">
-                  <div className="w-8 shrink-0"></div>
-                  <div className="relative flex-1 text-[10px] text-muted-foreground font-semibold h-4 uppercase tracking-wider">
-                    {monthLabels.map((m, i) => (
-                      <span key={i} className="absolute top-0" style={{ left: `${(m.index / 53) * 100}%` }}>
-                        {m.label}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="flex w-full">
-                  <div className="flex flex-col justify-between text-[9px] text-muted-foreground font-semibold pr-3 w-8 shrink-0 pb-1 h-[116px]">
-                    <div className="text-right h-[14px]"></div>
-                    <div className="text-right h-[14px] leading-[14px]">Mon</div>
-                    <div className="text-right h-[14px]"></div>
-                    <div className="text-right h-[14px] leading-[14px]">Wed</div>
-                    <div className="text-right h-[14px]"></div>
-                    <div className="text-right h-[14px] leading-[14px]">Fri</div>
-                    <div className="text-right h-[14px]"></div>
-                  </div>
-
-                  <div className="flex flex-1 justify-between items-center w-full">
-                    {activityGrid.map((week, wIdx) => (
-                      <div key={wIdx} className="flex flex-col justify-between h-[116px]">
-                        {week.map((day, dIdx) => {
-                          let bgClass = "bg-green-200 dark:bg-orange-600/60";
-                          if (day.count === 1) bgClass = "bg-red-200";
-                          else if (day.count === 2) bgClass = "bg-red-400";
-                          else if (day.count >= 3) bgClass = "bg-red-600 shadow-[0_0_8px_rgba(var(--primary),0.4)]";
-                          
-                          return (
-                            <div 
-                              key={dIdx} 
-                              title={`${day.count} uploads on ${day.date}`}
-                              className={`w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-[14px] md:h-[14px] rounded-[3px] ${bgClass} hover:ring-2 hover:ring-primary/80 hover:scale-125 transition-all cursor-crosshair z-10`}
-                            ></div>
-                          );
-                        })}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Recent Activity List (Middle) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-4 space-y-4"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <Check className="text-primary" size={24} />
-              <h2 className="text-2xl font-bold tracking-tight">Recent Activity</h2>
+            <div className="relative w-full max-w-3xl mb-8 group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl blur-lg opacity-0 group-focus-within:opacity-20 transition-all duration-500"></div>
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-foreground/60 transition-colors group-focus-within:text-indigo-600" size={24} />
+              <input
+                type="text"
+                placeholder="Search questions, projects, blogs, or technologies..."
+                className="relative w-full pl-16 pr-6 py-5 dark:bg-[#111] bg-white border dark:border-white/10 border-black/10 rounded-2xl text-lg outline-none transition-all shadow-sm focus:border-indigo-500/50"
+              />
             </div>
             
-            {recentActivity.length > 0 ? (
-              <div className="max-h-[400px] overflow-y-auto pr-4 custom-scrollbar pl-1 py-1 dark:bg-white/5 bg-white border dark:border-white/10 border-black/10 rounded-2xl p-6 shadow-sm backdrop-blur-md">
-                <div className="relative border-l-2 dark:border-white/10 border-black/10 ml-2 space-y-8 pb-4">
-                  {recentActivity.map((item, idx) => (
-                    <div key={idx} className="relative pl-6 group">
-                      <div className={`absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-4 dark:border-[#0a0a0a] border-white transition-transform group-hover:scale-125 ${
-                        item.difficulty === 'Easy' ? 'bg-green-500' : 
-                        item.difficulty === 'Medium' ? 'bg-yellow-500' : 
-                        item.difficulty === 'Hard' ? 'bg-red-500' : 'bg-primary'
-                      }`}></div>
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div>
-                          <Link href={`/dashboard/${item.category === 'DSA' ? 'dsa' : item.category === 'System Design' ? 'system-design' : 'machine-coding'}/${item._id}`}>
-                            <h4 className="text-base font-bold text-foreground hover:text-primary transition-colors cursor-pointer">{item.title}</h4>
-                          </Link>
-                          <p className="text-sm text-muted-foreground mt-0.5">
-                            {item.createdAt ? new Date(item.createdAt).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : "Recently"}
-                          </p>
-                        </div>
-                        <div className="flex gap-2 items-center">
-                          <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 bg-muted rounded-md text-foreground">{item.category}</span>
+            {/* <div className="flex flex-wrap justify-center gap-2 text-sm text-muted-foreground font-medium">
+              <span className="mr-2">Popular:</span>
+              {["LRU Cache", "Design Twitter", "Splitwise", "SOLID Principles", "Redis"].map(term => (
+                <span key={term} className="px-3 py-1 bg-black/5 dark:bg-white/5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 cursor-pointer transition-colors">
+                  {term}
+                </span>
+              ))}
+            </div> */}
+          </div>
+        </div>
+
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pb-24 space-y-24">
+          
+          {/* Quick Access Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 -mt-8 relative z-20">
+            {[
+              { title: "DSA", subtitle: "Master algorithms and data structures.", href: "/codestreak/dsa", icon: Code2, color: "text-blue-500", bg: "bg-blue-500/10" },
+              { title: "System Design", subtitle: "Learn how large-scale systems are built.", href: "/codestreak/system-design", icon: LayoutTemplate, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+              { title: "Machine Coding", subtitle: "Build real-world software applications.", href: "/codestreak/machine-coding", icon: TerminalSquare, color: "text-indigo-500", bg: "bg-indigo-500/10" },
+              { title: "Blogs", subtitle: "Read engineering articles and guides.", href: "/codestreak/blogs", icon: BookOpen, color: "text-purple-500", bg: "bg-purple-500/10" }
+            ].map(card => (
+              <Link key={card.title} href={card.href} className="group p-6 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+                <div className={`w-14 h-14 rounded-2xl ${card.bg} flex items-center justify-center mb-6`}>
+                  <card.icon className={`w-7 h-7 ${card.color}`} />
+                </div>
+                <h3 className="font-bold text-xl mb-2">{card.title}</h3>
+                <p className="text-muted-foreground text-sm font-medium mb-8 flex-1">{card.subtitle}</p>
+                <div className="flex items-center text-sm font-bold text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  Explore {card.title} <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Featured This Week (Bento Grid) */}
+          <div className="space-y-8">
+            <h2 className="text-2xl font-bold tracking-tight">Featured This Week</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
+              
+              {/* Featured DSA - Large Span */}
+              <Link href="/codestreak/dsa" className="group md:col-span-2 md:row-span-2 relative bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 p-8 flex flex-col justify-end">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                <div className="relative z-10 w-2/3">
+                  <span className="inline-block px-3 py-1 bg-background/80 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-black/10 dark:border-white/10">Featured DSA</span>
+                  <h3 className="text-3xl font-extrabold mb-3">Merge k Sorted Lists</h3>
+                  <p className="text-muted-foreground text-lg mb-6 line-clamp-2">Master the Divide and Conquer technique to efficiently merge multiple linked lists in O(N log k) time.</p>
+                  <button className="px-5 py-2.5 bg-foreground text-background rounded-full text-sm font-bold shadow-sm">Solve Challenge</button>
+                </div>
+                <div className="absolute right-0 bottom-0 w-1/2 h-[120%] opacity-20 pointer-events-none transform translate-x-1/4 translate-y-1/4">
+                  <Layers className="w-full h-full text-indigo-500" />
+                </div>
+              </Link>
+
+              {/* Featured System Design */}
+              <Link href="/codestreak/system-design" className="group relative bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 p-6 flex flex-col">
+                <span className="inline-flex self-start px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full text-xs font-bold uppercase tracking-wider mb-4">System Design</span>
+                <h3 className="text-xl font-bold mb-2">Design Twitter</h3>
+                <p className="text-muted-foreground text-sm flex-1">Understand fanout architecture and timeline generation for millions of users.</p>
+                <div className="mt-auto flex items-center text-sm font-bold text-foreground">
+                  Read Case Study <ArrowRight className="w-4 h-4 ml-1" />
+                </div>
+              </Link>
+
+              {/* Featured Blog */}
+              <Link href="/codestreak/blogs" className="group relative bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 p-6 flex flex-col">
+                <span className="inline-flex self-start px-3 py-1 bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-full text-xs font-bold uppercase tracking-wider mb-4">Editorial</span>
+                <h3 className="text-xl font-bold mb-2">Cracking the FAANG Interview in 2026</h3>
+                <p className="text-muted-foreground text-sm flex-1">Our comprehensive guide to preparing for top-tier software engineering interviews.</p>
+                <div className="mt-auto flex items-center text-sm font-bold text-foreground">
+                  Read Article <ArrowRight className="w-4 h-4 ml-1" />
+                </div>
+              </Link>
+
+            </div>
+          </div>
+
+          {/* Browse by Company */}
+          {/* <div className="space-y-6">
+            <h2 className="text-2xl font-bold tracking-tight">Browse by Company</h2>
+            <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
+              {companies.map((company) => (
+                <button key={company} className="flex-shrink-0 px-8 py-6 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[20px] font-bold text-lg hover:border-indigo-500/40 hover:bg-indigo-50/50 dark:hover:bg-indigo-500/10 transition-all hover:-translate-y-1 min-w-[200px] text-center">
+                  {company}
+                </button>
+              ))}
+            </div>
+          </div> */}
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* Learning Collections */}
+            <div className="lg:col-span-2 space-y-8">
+              <h2 className="text-2xl font-bold tracking-tight">Curated Collections</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {collections.map(collection => (
+                  <div key={collection.title} className="group p-6 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer">
+                    <div className="text-xs font-bold text-indigo-600 dark:text-indigo-400 mb-3 bg-indigo-50 dark:bg-indigo-500/10 inline-block px-3 py-1 rounded-full">
+                      {collection.count}
+                    </div>
+                    <h3 className="font-bold text-xl mb-2">{collection.title}</h3>
+                    <p className="text-sm text-muted-foreground mb-6 font-medium">{collection.desc}</p>
+                    <span className="text-sm font-bold flex items-center gap-1 group-hover:text-indigo-600 transition-colors">
+                      Start Collection <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Explore by Topic */}
+            <div className="space-y-8">
+              <h2 className="text-2xl font-bold tracking-tight">Explore by Topic</h2>
+              <div className="bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] p-6 space-y-8">
+                {topics.map(section => (
+                  <div key={section.cat}>
+                    <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-4">{section.cat}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {section.tags.map(tag => (
+                        <span key={tag} className="px-3 py-1.5 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 rounded-lg text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 cursor-pointer transition-colors">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Recently Added Feed */}
+          <div className="space-y-8">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold tracking-tight">Recently Added</h2>
+            </div>
+            
+            {loading ? (
+              <div className="py-12 flex justify-center items-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {recentData.map((item, idx) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link key={idx} href={`/codestreak/${item.type.toLowerCase().replace(" ", "-")}/${item._id ? getSlug(item.title) : ""}`} className="group p-5 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[20px] flex items-start gap-4 hover:shadow-md transition-all hover:-translate-y-1">
+                      <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center shrink-0 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-500/10 transition-colors">
+                        <Icon className="w-6 h-6 text-muted-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground bg-muted px-2 py-0.5 rounded">{item.type}</span>
                           {item.difficulty && (
-                            <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md border ${
+                            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${
                               item.difficulty === 'Easy' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 
                               item.difficulty === 'Medium' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' : 
                               'bg-red-500/10 text-red-500 border-red-500/20'
                             }`}>{item.difficulty}</span>
                           )}
                         </div>
+                        <h4 className="font-bold text-foreground group-hover:text-indigo-600 transition-colors line-clamp-1">{item.title}</h4>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div className="text-center py-12 text-muted-foreground dark:bg-white/5 bg-white border dark:border-white/10 border-black/10 rounded-2xl p-6 shadow-sm backdrop-blur-md">
-                <p>No recent activity found. Time to add some problems!</p>
+                    </Link>
+                  )
+                })}
               </div>
             )}
-          </motion.div>
+          </div>
+
+          {/* Developer Resources */}
+          <div className="space-y-8">
+            <h2 className="text-2xl font-bold tracking-tight">Developer Resources</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {resources.map(res => (
+                <div key={res.title} className="p-5 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[16px] hover:border-indigo-500/40 hover:bg-indigo-50/50 dark:hover:bg-indigo-500/10 transition-colors cursor-pointer group">
+                  <div className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wider">{res.type}</div>
+                  <h4 className="font-bold text-sm group-hover:text-indigo-600 transition-colors">{res.title}</h4>
+                </div>
+              ))}
+            </div>
+          </div>
+          
 
         </div>
       </div>

@@ -24,12 +24,12 @@ export default function AdventurePage() {
 
   useEffect(() => {
     setMounted(true);
-    
+
     const fetchData = async () => {
       try {
         const [blogsRes, projectsRes] = await Promise.all([
           contentApi.getBlogs().catch(() => null),
-          contentApi.getProjects().catch(() => null)
+          contentApi.getProjects().catch(() => null),
         ]);
 
         if (blogsRes?.data?.data) {
@@ -42,7 +42,7 @@ export default function AdventurePage() {
         console.error("Failed to fetch data", err);
       }
     };
-    
+
     fetchData();
   }, []);
 
@@ -60,13 +60,19 @@ export default function AdventurePage() {
         <GlobalHeader />
         <Hero heroData={portfolioData.hero} />
         <JourneyMap projects={dbProjects} />
-        <SkillsTools skills={portfolioData.skills} techStack={portfolioData.techStack} />
+        <SkillsTools
+          skills={portfolioData.skills}
+          techStack={portfolioData.techStack}
+        />
         <Timeline experience={portfolioData.experience} />
         <Thoughts blogs={dbBlogs} />
         <CodeStreakSection />
         <Certifications />
         <ImageGallery />
-        <Destination contact={portfolioData.contact} socialLinks={portfolioData.socialLinks} />
+        <Destination
+          contact={portfolioData.contact}
+          socialLinks={portfolioData.socialLinks}
+        />
       </div>
     </div>
   );

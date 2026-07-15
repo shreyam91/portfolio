@@ -3,7 +3,15 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useRouter } from "next/navigation";
-import { Flame, Code2, Terminal, RefreshCw, Home, ArrowLeft, Zap } from "lucide-react";
+import {
+  Flame,
+  Code2,
+  Terminal,
+  RefreshCw,
+  Home,
+  ArrowLeft,
+  Zap,
+} from "lucide-react";
 
 const codeLines = [
   { text: "const page = await fetch('/this-page');", delay: 0 },
@@ -11,14 +19,14 @@ const codeLines = [
   { text: "if (page.status === 404) {", delay: 0.8 },
   { text: '  throw new Error("Page not found");', delay: 1.2, highlight: true },
   { text: "}", delay: 1.6 },
-  { text: "// Your streak is still intact 🔥", delay: 2.0, muted: true },
+  // { text: "// Your streak is still intact 🔥", delay: 2.0, muted: true },
 ];
 
 const tips = [
   "Double-check the URL for typos",
   "This page may have been moved or deleted",
   "Try navigating from the dashboard",
-  "Your streak is safe, don't worry!",
+  // "Your streak is safe, don't worry!",
 ];
 
 export default function NotFound() {
@@ -57,7 +65,7 @@ export default function NotFound() {
     if (typed < codeLines.length) {
       const timer = setTimeout(
         () => setTyped((prev) => prev + 1),
-        codeLines[typed].delay * 1000
+        codeLines[typed].delay * 1000,
       );
       return () => clearTimeout(timer);
     }
@@ -182,7 +190,7 @@ export default function NotFound() {
                 <motion.button
                   whileHover={{ scale: 1.03, rotate: 180 }}
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => router.push("/dashboard")}
+                  onClick={() => router.push("/codestreak")}
                   className="flex items-center justify-center gap-2 h-11 px-6 rounded-lg border border-border bg-background text-foreground font-medium text-sm transition-all hover:bg-muted"
                 >
                   <RefreshCw size={16} />
@@ -224,8 +232,8 @@ export default function NotFound() {
                     line.highlight
                       ? "text-red-400 bg-red-500/10 rounded px-2 -mx-2"
                       : line.muted
-                      ? "text-muted-foreground/60"
-                      : "text-foreground/80"
+                        ? "text-muted-foreground/60"
+                        : "text-foreground/80"
                   }`}
                 >
                   <span className="text-muted-foreground/40 mr-3 select-none text-xs">
@@ -246,15 +254,15 @@ export default function NotFound() {
                   className="mt-4 pt-4 border-t border-border flex items-center gap-2"
                 >
                   <Code2 size={14} className="text-primary" />
-                  <span className="text-primary text-xs font-medium">
+                  {/* <span className="text-primary text-xs font-medium">
                     Keep your streak going — head back and keep coding!
-                  </span>
+                  </span> */}
                 </motion.div>
               )}
             </div>
 
             {/* Streak badge */}
-            <div className="px-5 py-4 border-t border-border bg-muted/30 flex items-center justify-between">
+            {/* <div className="px-5 py-4 border-t border-border bg-muted/30 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Flame size={16} className="text-orange-500" />
                 <span className="text-sm font-medium">Your streak is safe</span>
@@ -262,23 +270,26 @@ export default function NotFound() {
               <span className="text-xs text-muted-foreground px-2 py-1 rounded-full bg-orange-500/10 text-orange-500 font-medium">
                 Still active 🔥
               </span>
-            </div>
+            </div> */}
           </motion.div>
         </div>
 
         {/* Bottom hint */}
-        <motion.p
+        {/* <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
           className="text-center text-xs text-muted-foreground/50 mt-12"
         >
           Tip: Click the{" "}
-          <span className="text-primary font-medium cursor-pointer" onClick={handleGlitch}>
+          <span
+            className="text-primary font-medium cursor-pointer"
+            onClick={handleGlitch}
+          >
             404
           </span>{" "}
           for a surprise
-        </motion.p>
+        </motion.p> */}
       </div>
     </div>
   );

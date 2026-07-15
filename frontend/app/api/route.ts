@@ -22,10 +22,16 @@ export async function POST(req: Request) {
     const ip = req.headers.get("x-forwarded-for") || "unknown";
     const now = Date.now();
     const record = rateLimitMap.get(ip);
-    
+
     if (record && now - record.lastReset < WINDOW_MS) {
       if (record.count >= RATE_LIMIT) {
-        return NextResponse.json({ success: false, error: "Too many requests. Please try again later." }, { status: 429 });
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Too many requests. Please try again later.",
+          },
+          { status: 429 },
+        );
       }
       record.count++;
     } else {
@@ -37,7 +43,7 @@ export async function POST(req: Request) {
       // console.error("Missing email environment variables");
       return NextResponse.json(
         { success: false, error: "Email service not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -49,7 +55,7 @@ export async function POST(req: Request) {
       // console.log("Missing required fields");
       return NextResponse.json(
         { success: false, error: "All fields are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -59,7 +65,7 @@ export async function POST(req: Request) {
       // console.log("Invalid email format");
       return NextResponse.json(
         { success: false, error: "Invalid email format" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -84,7 +90,7 @@ export async function POST(req: Request) {
             <p><strong>Email:</strong> ${escapeHtml(email)}</p>
             <p><strong>Message:</strong></p>
             <div style="background-color: white; padding: 15px; border-radius: 5px; border-left: 4px solid #00FFFF;">
-              ${escapeHtml(message).replace(/\n/g, '<br>')}
+              ${escapeHtml(message).replace(/\n/g, "<br>")}
             </div>
           </div>
           <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
@@ -101,20 +107,19 @@ export async function POST(req: Request) {
 
     const response = {
       success: true,
-      message: "Email sent successfully"
+      message: "Email sent successfully",
     };
     // console.log("Sending response:", response);
 
     return NextResponse.json(response);
-
   } catch (error) {
     // console.error("Error sending email:", error);
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to send email. Please try again later."
+        error: "Failed to send email. Please try again later.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
