@@ -12,7 +12,7 @@ export const aboutData: AboutData = {
       "HTML5",
       "CSS3",
       "Responsive Design",
-      "Framer Motion"
+      "Framer Motion",
     ],
 
     Backend: [
@@ -25,7 +25,7 @@ export const aboutData: AboutData = {
       "Microservices",
       "MongoDB",
       "MySQL",
-      "PostgreSQL"
+      "PostgreSQL",
     ],
 
     Tools: [
@@ -38,15 +38,10 @@ export const aboutData: AboutData = {
       "Figma",
       "CI/CD",
       "npm",
-      "Vite"
+      "Vite",
     ],
 
-    Cloud: [
-      "AWS",
-      "Vercel",
-      "Netlify",
-      "Firebase"
-    ],
+    Cloud: ["AWS", "Vercel", "Netlify", "Firebase"],
 
     AI: [
       "GitHub Copilot",
@@ -54,7 +49,7 @@ export const aboutData: AboutData = {
       "Gemini",
       "OpenAI API",
       "Prompt Engineering",
-      "AI-assisted Development"
+      "AI-assisted Development",
     ],
 
     Other: [
@@ -65,9 +60,9 @@ export const aboutData: AboutData = {
       "Problem Solving",
       "Debugging",
       "Performance Optimization",
-      "Clean Code Practices"
-    ]
+      "Clean Code Practices",
+    ],
   },
 
-  techStack: undefined
+  techStack: undefined,
 };

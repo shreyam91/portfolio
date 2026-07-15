@@ -162,14 +162,14 @@ WebSockets are essential for modern interactive applications that require live c
   },
 
   {
-  id: 4,
-  slug: "tamhini-ghat-roadtrip",
-  title: "A Scenic Road Trip Through Tamhini Ghat",
-  image: "/images/blogs/tamhini-ghat.avif",
-  description:
-    "Exploring the breathtaking waterfalls, misty roads, and peaceful landscapes of Tamhini Ghat on an unforgettable monsoon road trip.",
-  topics: ["Travel", "Adventure", "Nature", "Road Trip"],
-  content: `# A Scenic Road Trip Through Tamhini Ghat
+    id: 4,
+    slug: "tamhini-ghat-roadtrip",
+    title: "A Scenic Road Trip Through Tamhini Ghat",
+    image: "/images/blogs/tamhini-ghat.avif",
+    description:
+      "Exploring the breathtaking waterfalls, misty roads, and peaceful landscapes of Tamhini Ghat on an unforgettable monsoon road trip.",
+    topics: ["Travel", "Adventure", "Nature", "Road Trip"],
+    content: `# A Scenic Road Trip Through Tamhini Ghat
 
 Tamhini Ghat is one of Maharashtra’s most beautiful road trip destinations, especially during the monsoon season. Surrounded by lush green mountains, waterfalls, and fog-covered roads, the journey itself becomes the highlight of the adventure.
 
@@ -204,9 +204,9 @@ Every few kilometers offered postcard-like views — from clouds floating over m
 ## Conclusion
 
 A road trip to Tamhini Ghat is not just about reaching a destination; it’s about enjoying every moment of the journey. The peaceful roads, fresh mountain air, and stunning landscapes make it an unforgettable travel experience.`,
-  date: "2024-01-14",
-  readTime: "5 min read",
-},
+    date: "2024-01-14",
+    readTime: "5 min read",
+  },
 
   {
     id: 5,

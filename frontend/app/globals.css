@@ -10,8 +10,8 @@
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .hide-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 /* Optional: Add smooth scrolling for better UX */
@@ -31,10 +31,18 @@
   @apply text-white font-bold mt-8 mb-4;
 }
 
-.prose-invert h1 { @apply text-4xl; }
-.prose-invert h2 { @apply text-3xl; }
-.prose-invert h3 { @apply text-2xl; }
-.prose-invert h4 { @apply text-xl; }
+.prose-invert h1 {
+  @apply text-4xl;
+}
+.prose-invert h2 {
+  @apply text-3xl;
+}
+.prose-invert h3 {
+  @apply text-2xl;
+}
+.prose-invert h4 {
+  @apply text-xl;
+}
 
 .prose-invert p {
   @apply text-gray-300 leading-relaxed mb-4;
@@ -86,10 +94,18 @@
 .prose h6 {
   @apply text-gray-900 font-bold mt-8 mb-4;
 }
-.prose h1 { @apply text-4xl; }
-.prose h2 { @apply text-3xl; }
-.prose h3 { @apply text-2xl; }
-.prose h4 { @apply text-xl; }
+.prose h1 {
+  @apply text-4xl;
+}
+.prose h2 {
+  @apply text-3xl;
+}
+.prose h3 {
+  @apply text-2xl;
+}
+.prose h4 {
+  @apply text-xl;
+}
 
 .prose p {
   @apply text-gray-700 leading-relaxed mb-4 font-light text-base md:text-lg;
@@ -319,48 +335,88 @@
   display: none;
 }
 .hide-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
-
 
 /* simple scanline & floating helpers */
 @keyframes scan {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 100%; }
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
 }
 .scanline {
-  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px
+  );
   background-size: 100% 6px;
   animation: scan 6s linear infinite;
 }
-@keyframes floaty { 0%{ transform: translateY(0) } 50%{ transform: translateY(-6px)} 100%{ transform: translateY(0)}}
-.floaty { animation: floaty 4s ease-in-out infinite; }
+@keyframes floaty {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.floaty {
+  animation: floaty 4s ease-in-out infinite;
+}
 .glitch {
   position: relative;
 }
-.glitch::before, .glitch::after{
+.glitch::before,
+.glitch::after {
   content: attr(data-text);
   position: absolute;
-  left: 0; top: 0;
-  width:100%;
+  left: 0;
+  top: 0;
+  width: 100%;
 }
-.glitch::before { left: 2px; text-shadow: -2px 0 #00ffe0; clip-path: inset(0 0 60% 0);}
-.glitch::after { left: -2px; text-shadow: -2px 0 #ff00c1; clip-path: inset(60% 0 0 0);}
-
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 #00ffe0;
+  clip-path: inset(0 0 60% 0);
+}
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 #ff00c1;
+  clip-path: inset(60% 0 0 0);
+}
 
 /* glitch helpers */
-.glitch { position: relative; }
-.glitch::before, .glitch::after {
+.glitch {
+  position: relative;
+}
+.glitch::before,
+.glitch::after {
   content: attr(data-text);
   position: absolute;
-  left: 0; top: 0;
-  width:100%;
-  pointer-events:none;
+  left: 0;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
 }
-.glitch::before { transform: translate(-1px, -1px); color: rgba(0,255,224,0.6); mix-blend-mode: screen; clip-path: inset(0 0 60% 0); }
-.glitch::after { transform: translate(1px, 1px); color: rgba(255,0,200,0.45); mix-blend-mode: screen; clip-path: inset(60% 0 0 0); }
-
+.glitch::before {
+  transform: translate(-1px, -1px);
+  color: rgba(0, 255, 224, 0.6);
+  mix-blend-mode: screen;
+  clip-path: inset(0 0 60% 0);
+}
+.glitch::after {
+  transform: translate(1px, 1px);
+  color: rgba(255, 0, 200, 0.45);
+  mix-blend-mode: screen;
+  clip-path: inset(60% 0 0 0);
+}
 
 .progress-bar {
   background: linear-gradient(90deg, #00ffff, #0070f3);
