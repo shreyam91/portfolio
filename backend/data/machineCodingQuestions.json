@@ -199,5 +199,649 @@
         "url": "https://www.greatfrontend.com/questions/user-interface/accordion"
       }
     ]
+  },
+  {
+    "id": 2,
+    "title": "Build a Modal Component",
+    "difficulty": "Easy",
+
+    "category": "Frontend Machine Coding",
+
+    "estimatedTime": "30-45 mins",
+
+    "companies": [
+      "Amazon",
+      "Flipkart",
+      "Razorpay",
+      "PhonePe",
+      "Swiggy",
+      "Zomato",
+      "Google"
+    ],
+
+    "tags": [
+      "React",
+      "State Management",
+      "Portals",
+      "Accessibility",
+      "UI Components"
+    ],
+
+    "description": "Build a reusable Modal component that can open and close dynamically. The modal should display content above the main application UI with proper overlay behavior.",
+
+    "requirements": [
+      "Create a reusable Modal component.",
+      "Modal should open on button click.",
+      "Modal should close on close button click.",
+      "Modal should close when clicking outside overlay.",
+      "Modal should close when pressing Escape key.",
+      "Background content should not scroll when modal is open."
+    ],
+
+    "bonusRequirements": [
+      "Support multiple modal sizes.",
+      "Add smooth opening and closing animations.",
+      "Create modal using React Portal.",
+      "Support nested modals.",
+      "Trap keyboard focus inside modal.",
+      "Add customizable footer actions."
+    ],
+
+    "input": {
+      "modalConfig": {
+        "title": "Delete Account",
+        "content": "Are you sure you want to delete your account?",
+        "actions": [
+          "Cancel",
+          "Confirm"
+        ]
+      }
+    },
+
+    "expectedOutput": [
+      "Reusable modal component",
+      "Open and close interaction",
+      "Keyboard accessible modal"
+    ],
+
+    "stateManagement": {
+      "stateVariables": [
+        "isOpen"
+      ],
+      "concepts": [
+        "useState",
+        "useEffect",
+        "Event Handling"
+      ]
+    },
+
+    "componentStructure": [
+      "Modal",
+      "ModalHeader",
+      "ModalBody",
+      "ModalFooter"
+    ],
+
+    "edgeCases": [
+      "Long modal content",
+      "Multiple modal instances",
+      "Escape key handling",
+      "Mobile screen sizes",
+      "Rapid open and close actions"
+    ],
+
+    "accessibility": [
+      "Use role='dialog'.",
+      "Add aria-modal attribute.",
+      "Manage keyboard focus.",
+      "Support Escape key.",
+      "Maintain visible focus states."
+    ],
+
+    "performanceConsiderations": [
+      "Avoid unnecessary DOM rendering.",
+      "Use React Portal for overlay rendering.",
+      "Cleanup event listeners properly."
+    ],
+
+    "commonMistakes": [
+      "Not handling Escape key.",
+      "Allowing background scrolling.",
+      "Ignoring keyboard accessibility.",
+      "Creating tightly coupled modal logic."
+    ],
+
+    "followUpQuestions": [
+      "How would you create a global modal manager?",
+      "How would you handle multiple modals?",
+      "How would you animate modal transitions?",
+      "How would you trap focus inside modal?"
+    ],
+
+    "expectedConcepts": [
+      "React State",
+      "Portals",
+      "Hooks",
+      "Accessibility",
+      "Component Composition"
+    ],
+
+    "evaluationCriteria": [
+      "Correct behavior",
+      "Reusable API design",
+      "Accessibility",
+      "Clean component structure",
+      "Performance"
+    ],
+
+    "solutionApproach": {
+      "highLevel": [
+        "Maintain modal visibility using state.",
+        "Render modal conditionally.",
+        "Attach close handlers.",
+        "Prevent body scroll when active.",
+        "Handle keyboard events."
+      ],
+
+      "algorithm": [
+        "Initialize isOpen as false.",
+        "Update state when open button is clicked.",
+        "Render modal when isOpen is true.",
+        "Close modal on overlay click or Escape key."
+      ]
+    },
+
+    "pseudoCode": [
+      "isOpen = false",
+      "openModal()",
+      "closeModal()",
+      "if Escape pressed",
+      "   closeModal()"
+    ],
+
+    "expectedConcepts": [
+      "Conditional Rendering",
+      "React Hooks",
+      "Event Handling",
+      "Reusable Components"
+    ]
+  },
+
+
+  {
+    "id": 3,
+    "title": "Build a Todo Application",
+
+    "difficulty": "Easy",
+
+    "category": "Frontend Machine Coding",
+
+    "estimatedTime": "45-60 mins",
+
+    "companies": [
+      "Amazon",
+      "Microsoft",
+      "Flipkart",
+      "PhonePe",
+      "Meesho"
+    ],
+
+    "tags": [
+      "React",
+      "CRUD Operations",
+      "State Management",
+      "Forms"
+    ],
+
+    "description": "Build a Todo application where users can create, update, delete and filter tasks.",
+
+    "requirements": [
+      "Add new todo items.",
+      "Mark todo as completed.",
+      "Delete todo items.",
+      "Edit existing todos.",
+      "Filter todos by status.",
+      "Show empty state when no todos exist."
+    ],
+
+    "bonusRequirements": [
+      "Persist todos using localStorage.",
+      "Add drag and drop sorting.",
+      "Add due dates.",
+      "Add search functionality.",
+      "Support categories."
+    ],
+
+    "input": {
+      "todos": [
+        {
+          "id": 1,
+          "text": "Learn React",
+          "completed": false
+        },
+        {
+          "id": 2,
+          "text": "Build project",
+          "completed": true
+        }
+      ]
+    },
+
+    "expectedOutput": [
+      "Todo list UI",
+      "CRUD functionality",
+      "Filtering support"
+    ],
+
+    "stateManagement": {
+      "stateVariables": [
+        "todos",
+        "inputValue",
+        "filter"
+      ],
+      "concepts": [
+        "useState",
+        "Array Methods",
+        "Immutable Updates"
+      ]
+    },
+
+    "componentStructure": [
+      "TodoApp",
+      "TodoInput",
+      "TodoList",
+      "TodoItem",
+      "FilterButtons"
+    ],
+
+    "edgeCases": [
+      "Empty todo text",
+      "Large number of todos",
+      "Duplicate tasks",
+      "Deleting active item",
+      "Rapid updates"
+    ],
+
+    "accessibility": [
+      "Use labels for inputs.",
+      "Support keyboard submission.",
+      "Use semantic buttons.",
+      "Maintain focus after actions."
+    ],
+
+    "performanceConsiderations": [
+      "Use React.memo for todo items.",
+      "Avoid unnecessary list rendering.",
+      "Use stable keys."
+    ],
+
+    "commonMistakes": [
+      "Mutating todo array directly.",
+      "Using array index as key.",
+      "Not validating input.",
+      "Mixing UI and business logic."
+    ],
+
+    "followUpQuestions": [
+      "How would you persist todos?",
+      "How would you optimize rendering for 10,000 items?",
+      "How would you add undo functionality?",
+      "How would you sync todos with backend?"
+    ],
+
+    "expectedConcepts": [
+      "CRUD",
+      "State Management",
+      "Props",
+      "Forms",
+      "React Hooks"
+    ],
+
+    "evaluationCriteria": [
+      "Functionality",
+      "State handling",
+      "Code organization",
+      "Performance",
+      "User experience"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Build a Tabs Component",
+
+    "difficulty": "Easy",
+
+    "category": "Frontend Machine Coding",
+
+    "estimatedTime": "20-30 mins",
+
+    "companies": [
+      "Amazon",
+      "Flipkart",
+      "Razorpay",
+      "PhonePe",
+      "Swiggy",
+      "Zomato",
+      "Uber"
+    ],
+
+    "tags": [
+      "React",
+      "State Management",
+      "UI Components",
+      "Accessibility",
+      "Component Design"
+    ],
+
+    "description": "Build a reusable Tabs component where users can switch between different sections of content by clicking tab headers. Only the active tab content should be visible at a time.",
+
+    "requirements": [
+      "Render multiple tab headers.",
+      "Display content for the active tab.",
+      "Switch active tab on click.",
+      "Only one tab should be active at a time.",
+      "Maintain selected tab state.",
+      "Support dynamic tab data."
+    ],
+
+    "bonusRequirements": [
+      "Support keyboard navigation using arrow keys.",
+      "Persist active tab using localStorage.",
+      "Support disabled tabs.",
+      "Add animated tab transitions.",
+      "Support vertical and horizontal layouts.",
+      "Lazy-load tab content."
+    ],
+
+    "input": {
+      "tabs": [
+        {
+          "id": "profile",
+          "label": "Profile",
+          "content": "User profile information"
+        },
+        {
+          "id": "settings",
+          "label": "Settings",
+          "content": "Account settings information"
+        },
+        {
+          "id": "activity",
+          "label": "Activity",
+          "content": "Recent user activity"
+        }
+      ]
+    },
+
+    "expectedOutput": [
+      "Interactive tabs interface",
+      "Active tab switching",
+      "Reusable Tabs component"
+    ],
+
+    "stateManagement": {
+      "stateVariables": [
+        "activeTab"
+      ],
+      "concepts": [
+        "useState",
+        "Conditional Rendering",
+        "Props"
+      ]
+    },
+
+    "componentStructure": [
+      "Tabs",
+      "TabList",
+      "Tab",
+      "TabPanel"
+    ],
+
+    "edgeCases": [
+      "Empty tabs list",
+      "Single tab",
+      "Duplicate tab IDs",
+      "Very large content",
+      "Disabled active tab"
+    ],
+
+    "accessibility": [
+      "Use role='tablist'.",
+      "Use role='tab'.",
+      "Use aria-selected attribute.",
+      "Support keyboard navigation.",
+      "Maintain focus management."
+    ],
+
+    "performanceConsiderations": [
+      "Avoid rendering inactive tab content unnecessarily.",
+      "Memoize expensive tab panels.",
+      "Prevent unnecessary re-renders."
+    ],
+
+    "commonMistakes": [
+      "Using array index as key.",
+      "Not handling invalid active tab.",
+      "Ignoring keyboard accessibility.",
+      "Mixing tab logic with content."
+    ],
+
+    "followUpQuestions": [
+      "How would you support nested tabs?",
+      "How would you lazy-load tab content?",
+      "How would you create a reusable tab library?",
+      "How would you animate tab switching?"
+    ],
+
+    "expectedConcepts": [
+      "React State",
+      "Component Composition",
+      "Props",
+      "Accessibility",
+      "Conditional Rendering"
+    ],
+
+    "evaluationCriteria": [
+      "Correct functionality",
+      "Reusable design",
+      "Accessibility",
+      "Code quality",
+      "Performance"
+    ],
+
+    "solutionApproach": {
+      "highLevel": [
+        "Store selected tab in state.",
+        "Update state when user clicks a tab.",
+        "Render only active tab content.",
+        "Pass tab data through props."
+      ],
+
+      "algorithm": [
+        "Initialize activeTab with first tab.",
+        "Loop through tabs.",
+        "Attach click handler.",
+        "Update activeTab.",
+        "Render matching content."
+      ]
+    },
+
+    "pseudoCode": [
+      "activeTab = firstTab",
+      "onTabClick(tabId)",
+      "   activeTab = tabId",
+      "render active tab content"
+    ]
+  },
+
+
+  {
+    "id": 5,
+    "title": "Build an Autocomplete Search Component",
+
+    "difficulty": "Medium",
+
+    "category": "Frontend Machine Coding",
+
+    "estimatedTime": "45-60 mins",
+
+    "companies": [
+      "Google",
+      "Amazon",
+      "Microsoft",
+      "Flipkart",
+      "Swiggy",
+      "Zomato",
+      "Uber"
+    ],
+
+    "tags": [
+      "React",
+      "Debouncing",
+      "API Integration",
+      "Search",
+      "Performance"
+    ],
+
+    "description": "Build an autocomplete search component where users can type a query and receive matching suggestions. Suggestions should update dynamically based on user input.",
+
+    "requirements": [
+      "Create a search input.",
+      "Show suggestions while typing.",
+      "Filter suggestions based on input.",
+      "Allow selecting a suggestion.",
+      "Close suggestions after selection.",
+      "Handle empty input state."
+    ],
+
+    "bonusRequirements": [
+      "Implement debounce for API calls.",
+      "Support keyboard navigation.",
+      "Highlight matching text.",
+      "Cache previous search results.",
+      "Support async API suggestions.",
+      "Show loading and error states."
+    ],
+
+    "input": {
+      "searchData": [
+        "React",
+        "Redux",
+        "Next.js",
+        "JavaScript",
+        "TypeScript"
+      ]
+    },
+
+    "expectedOutput": [
+      "Search input",
+      "Dynamic suggestion dropdown",
+      "Selectable results"
+    ],
+
+    "stateManagement": {
+      "stateVariables": [
+        "query",
+        "suggestions",
+        "selectedItem",
+        "loading"
+      ],
+      "concepts": [
+        "useState",
+        "useEffect",
+        "Debouncing",
+        "API Handling"
+      ]
+    },
+
+    "componentStructure": [
+      "Autocomplete",
+      "SearchInput",
+      "SuggestionList",
+      "SuggestionItem"
+    ],
+
+    "edgeCases": [
+      "No matching results",
+      "Empty search query",
+      "Slow API response",
+      "Rapid typing",
+      "Large dataset",
+      "Duplicate suggestions"
+    ],
+
+    "accessibility": [
+      "Use proper input labels.",
+      "Support keyboard navigation.",
+      "Use aria-expanded.",
+      "Use aria-activedescendant.",
+      "Ensure screen reader support."
+    ],
+
+    "performanceConsiderations": [
+      "Debounce user input.",
+      "Avoid unnecessary API calls.",
+      "Memoize filtered results.",
+      "Virtualize large suggestion lists."
+    ],
+
+    "commonMistakes": [
+      "Calling API on every keystroke.",
+      "Not handling race conditions.",
+      "Ignoring keyboard support.",
+      "Rendering huge suggestion lists."
+    ],
+
+    "followUpQuestions": [
+      "How would you implement debounce?",
+      "How would you cancel previous API requests?",
+      "How would you handle 1 million search results?",
+      "How would you cache suggestions?",
+      "How would you implement fuzzy search?"
+    ],
+
+    "expectedConcepts": [
+      "React Hooks",
+      "Debouncing",
+      "Async Operations",
+      "Performance Optimization",
+      "Accessibility"
+    ],
+
+    "evaluationCriteria": [
+      "Search functionality",
+      "Performance",
+      "Code structure",
+      "User experience",
+      "Accessibility"
+    ],
+
+    "solutionApproach": {
+      "highLevel": [
+        "Store input value in state.",
+        "Listen for input changes.",
+        "Filter or fetch suggestions.",
+        "Update suggestion list.",
+        "Allow selection."
+      ],
+
+      "algorithm": [
+        "Initialize query as empty.",
+        "Update query on typing.",
+        "Debounce search execution.",
+        "Generate suggestions.",
+        "Render dropdown."
+      ]
+    },
+
+    "pseudoCode": [
+      "query = ''",
+      "onInputChange(value)",
+      "   update query",
+      "   debounce search()",
+      "render suggestions",
+      "onSelect(item)",
+      "   set selected item"
+    ]
   }
 ]

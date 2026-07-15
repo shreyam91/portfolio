@@ -16,15 +16,20 @@ export default function Thoughts({ blogs }: { blogs: any[] }) {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div>
-            <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 block">04</span>
+            <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 block">
+              04
+            </span>
             <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-4">
-              Campfire <span className="font-serif italic text-gray-500 dark:text-gray-400">Notes</span>
+              Campfire{" "}
+              <span className="font-serif italic text-gray-500 dark:text-gray-400">
+                Notes
+              </span>
             </h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-xl text-lg font-light">
               Thoughts on engineering, design, and growth.
             </p>
           </div>
-          <button 
+          <button
             onClick={() => setExpanded(!expanded)}
             className="text-sm font-medium text-[#1a1a1a] dark:text-white hover:text-gray-500 dark:hover:text-gray-300 transition-colors uppercase tracking-widest flex items-center gap-2"
           >
@@ -32,7 +37,10 @@ export default function Thoughts({ blogs }: { blogs: any[] }) {
           </button>
         </div>
 
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           <AnimatePresence>
             {visibleBlogs.map((blog, i) => (
               <motion.article
@@ -50,9 +58,13 @@ export default function Thoughts({ blogs }: { blogs: any[] }) {
                     {i % 2 === 0 ? <FiBook /> : <FiEdit3 />}
                   </div>
                   <div>
-                    <h3 className="text-base font-medium text-[#1a1a1a] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">{blog.title}</h3>
+                    <h3 className="text-base font-medium text-[#1a1a1a] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">
+                      {blog.title}
+                    </h3>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono text-gray-400">{blog.date}</span>
+                      <span className="text-[10px] font-mono text-gray-400">
+                        {blog.date}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -88,13 +100,21 @@ export default function Thoughts({ blogs }: { blogs: any[] }) {
               </button>
 
               <div className="p-8 md:p-16">
-                <span className="text-xs font-mono text-blue-500 uppercase tracking-widest mb-4 block">Campfire Note</span>
-                <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-8">{selectedBlog.title}</h2>
-                
+                <span className="text-xs font-mono text-blue-500 uppercase tracking-widest mb-4 block">
+                  Campfire Note
+                </span>
+                <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-8">
+                  {selectedBlog.title}
+                </h2>
+
                 {selectedBlog.image && (
                   <div className="relative w-full h-[300px] md:h-[400px] mb-12 rounded-xl overflow-hidden bg-gray-100 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={selectedBlog.image} alt={selectedBlog.title} className="w-full h-full object-cover" />
+                    <img
+                      src={selectedBlog.image}
+                      alt={selectedBlog.title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 )}
 

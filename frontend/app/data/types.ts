@@ -11,7 +11,7 @@ export interface Experience {
   company: string;
   duration: string;
   description: string[];
-  content:string;
+  content: string;
 }
 
 export interface Tech {
@@ -74,4 +74,4 @@ export interface Project {
   status?: string;
   role?: string;
   team?: string;
-};
+}

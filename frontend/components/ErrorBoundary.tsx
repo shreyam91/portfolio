@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Button } from './ui/button';
-import { AlertCircle } from 'lucide-react';
+import React, { Component, ErrorInfo, ReactNode } from "react";
+import { Button } from "./ui/button";
+import { AlertCircle } from "lucide-react";
 
 interface Props {
   children?: ReactNode;
@@ -16,7 +16,7 @@ interface State {
 export class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
-    error: null
+    error: null,
   };
 
   public static getDerivedStateFromError(error: Error): State {
@@ -24,7 +24,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Uncaught error:', error, errorInfo);
+    console.error("Uncaught error:", error, errorInfo);
   }
 
   public render() {
@@ -32,11 +32,14 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="flex flex-col items-center justify-center min-h-[400px] p-6 text-center space-y-4">
           <AlertCircle className="w-12 h-12 text-destructive" />
-          <h2 className="text-2xl font-bold tracking-tight">Something went wrong</h2>
+          <h2 className="text-2xl font-bold tracking-tight">
+            Something went wrong
+          </h2>
           <p className="text-muted-foreground max-w-md">
-            {this.state.error?.message || "An unexpected error occurred. Please try refreshing the page."}
+            {this.state.error?.message ||
+              "An unexpected error occurred. Please try refreshing the page."}
           </p>
-          <Button 
+          <Button
             onClick={() => {
               this.setState({ hasError: false, error: null });
               window.location.reload();

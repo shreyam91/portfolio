@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { FiX } from "react-icons/fi";
 import houses from "../app/data/imagesData";
 
@@ -54,7 +60,8 @@ export default function ImageGallery() {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isMobile || !containerRef.current) return;
-    const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+    const { left, top, width, height } =
+      containerRef.current.getBoundingClientRect();
     const x = (e.clientX - left - width / 2) / 20; // range based on center
     const y = (e.clientY - top - height / 2) / 20;
     mouseX.set(x);
@@ -69,13 +76,16 @@ export default function ImageGallery() {
   return (
     <section className="relative w-full py-24 bg-[#fafafa] dark:bg-[#0a0a0a] transition-colors duration-300 overflow-hidden">
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-200/50 dark:from-gray-900/50 via-[#fafafa] dark:via-[#0a0a0a] to-[#fafafa] dark:to-[#0a0a0a] pointer-events-none" />
-      
+
       <div className="relative z-10 max-w-7xl mx-auto px-6 mb-8 md:mb-0">
         <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 block text-center md:text-left">
           07
         </span>
         <h2 className="text-3xl md:text-6xl font-light text-black dark:text-white mb-4 text-center md:text-left">
-          Visual <span className="font-serif italic text-gray-400 dark:text-gray-500">Diary</span>
+          Visual{" "}
+          <span className="font-serif italic text-gray-400 dark:text-gray-500">
+            Diary
+          </span>
         </h2>
         <p className="text-gray-500 dark:text-gray-400 max-w-xl text-lg font-light text-center md:text-left">
           Moments captured through the lens. Hover to reveal color and depth.
@@ -88,7 +98,9 @@ export default function ImageGallery() {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         className={`relative w-full max-w-screen-2xl mx-auto ${
-          isMobile ? "flex overflow-x-auto snap-x snap-mandatory gap-6 px-6 mt-12 pb-8 no-scrollbar" : "h-[800px] mt-12"
+          isMobile
+            ? "flex overflow-x-auto snap-x snap-mandatory gap-6 px-6 mt-12 pb-8 no-scrollbar"
+            : "h-[800px] mt-12"
         }`}
       >
         {houses.slice(0, desktopPositions.length).map((img, i) => {
@@ -96,9 +108,15 @@ export default function ImageGallery() {
 
           // Create derived motion values for parallax unconditionally (Rules of Hooks)
           // eslint-disable-next-line react-hooks/rules-of-hooks
-          const parallaxX = useTransform(springX, value => value * pos.depth * -10);
+          const parallaxX = useTransform(
+            springX,
+            (value) => value * pos.depth * -10,
+          );
           // eslint-disable-next-line react-hooks/rules-of-hooks
-          const parallaxY = useTransform(springY, value => value * pos.depth * -10);
+          const parallaxY = useTransform(
+            springY,
+            (value) => value * pos.depth * -10,
+          );
 
           // If mobile, render a horizontal scroll snapping carousel.
           if (isMobile) {
@@ -191,7 +209,7 @@ export default function ImageGallery() {
                   className="max-w-full max-h-[75vh] object-contain"
                 />
               </div>
-              
+
               <div className="mt-8 text-center max-w-2xl mx-auto px-4">
                 <h3 className="text-3xl font-light text-white mb-3 tracking-wide">
                   {selectedImage.title}

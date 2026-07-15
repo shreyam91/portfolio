@@ -9,9 +9,14 @@ export default function Timeline({ experience }: { experience: Experience[] }) {
     <section className="relative w-full py-18 bg-white dark:bg-[#111111] transition-colors duration-300">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-24">
-          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 block">03</span>
+          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 block">
+            03
+          </span>
           <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-4">
-            Journey <span className="font-serif italic text-gray-500 dark:text-gray-400">Timeline</span>
+            Journey{" "}
+            <span className="font-serif italic text-gray-500 dark:text-gray-400">
+              Timeline
+            </span>
           </h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto text-lg font-light">
             Milestones from learning to building impact.
@@ -43,18 +48,27 @@ export default function Timeline({ experience }: { experience: Experience[] }) {
 
               {/* Content Side */}
               <div className="w-full pl-12 md:pl-0 md:w-1/2 flex flex-col">
-                <div className={`p-8 rounded-2xl bg-[#fafafa] dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-700 transition-all ${
-                  i % 2 === 0 ? "md:mr-8" : "md:ml-8"
-                }`}>
+                <div
+                  className={`p-8 rounded-2xl bg-[#fafafa] dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-700 transition-all ${
+                    i % 2 === 0 ? "md:mr-8" : "md:ml-8"
+                  }`}
+                >
                   <span className="text-[10px] font-mono text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">
                     {exp.duration}
                   </span>
-                  <h3 className="text-xl font-medium text-[#1a1a1a] dark:text-white mb-1">{exp.role}</h3>
-                  <h4 className="text-base font-serif italic text-gray-500 dark:text-gray-400 mb-6">{exp.company}</h4>
-                  
+                  <h3 className="text-xl font-medium text-[#1a1a1a] dark:text-white mb-1">
+                    {exp.role}
+                  </h3>
+                  <h4 className="text-base font-serif italic text-gray-500 dark:text-gray-400 mb-6">
+                    {exp.company}
+                  </h4>
+
                   <ul className="space-y-3">
                     {exp.description.map((desc, idx) => (
-                      <li key={idx} className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex items-start gap-3">
+                      <li
+                        key={idx}
+                        className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex items-start gap-3"
+                      >
                         <span className="text-blue-400 mt-1.5">•</span>
                         <span>{desc}</span>
                       </li>
@@ -65,7 +79,7 @@ export default function Timeline({ experience }: { experience: Experience[] }) {
             </motion.div>
           ))}
         </div>
-        
+
         {/* <div className="flex justify-center mt-20">
           <button className="flex items-center gap-2 text-sm font-medium text-[#1a1a1a] hover:text-gray-500 transition-colors uppercase tracking-widest">
             View full timeline →

@@ -1,12 +1,10 @@
-
-
 export interface Task {
   _id: string;
   userId: string;
   title: string;
   description?: string;
-  status: 'pending' | 'in_progress' | 'completed';
-  priority: 'low' | 'medium' | 'high';
+  status: "pending" | "in_progress" | "completed";
+  priority: "low" | "medium" | "high";
   dueDate?: string;
   createdAt: string;
   updatedAt: string;
@@ -15,7 +13,7 @@ export interface Task {
 export interface Pomodoro {
   _id: string;
   userId: string;
-  type: 'work' | 'short_break' | 'long_break';
+  type: "work" | "short_break" | "long_break";
   duration: number;
   startTime?: string;
   endTime?: string;
@@ -25,12 +23,12 @@ export interface Pomodoro {
 export interface DSAQuestion {
   _id: string;
   title: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
+  difficulty: "Easy" | "Medium" | "Hard";
   category?: string;
   problemStatement?: string;
   description?: string;
   companies?: string[];
-  status: 'solved' | 'unsolved';
+  status: "solved" | "unsolved";
   createdAt: string;
 }
 

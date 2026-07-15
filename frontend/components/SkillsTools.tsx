@@ -23,38 +23,33 @@ import {
   SiCss3,
 } from "react-icons/si";
 
-import {
-  FaJava,
-  FaCode,
-  FaServer,
-  FaCogs,
-} from "react-icons/fa";
+import { FaJava, FaCode, FaServer, FaCogs } from "react-icons/fa";
 
 import { IconType } from "react-icons";
 
 const getIconForTech = (name: string): IconType => {
   const iconMap: Record<string, IconType> = {
     "Next.js": SiNextdotjs,
-    "React": SiReact,
+    React: SiReact,
     "Node.js": SiNodedotjs,
-    "TypeScript": SiTypescript,
+    TypeScript: SiTypescript,
     "Tailwind CSS": SiTailwindcss,
     "Framer Motion": SiFramer,
-    "MongoDB": SiMongodb,
+    MongoDB: SiMongodb,
     "Express.js": SiExpress,
-    "Java": FaJava,
+    Java: FaJava,
     "Spring Boot": SiSpringboot,
-    "Git": SiGit,
-    "Docker": SiDocker,
-    "Figma": SiFigma,
-    "Github": SiGithub,
-    "GitHub": SiGithub,
-    "JavaScript": SiJavascript,
-    "HTML5": SiHtml5,
-    "CSS3": SiCss3,
+    Git: SiGit,
+    Docker: SiDocker,
+    Figma: SiFigma,
+    Github: SiGithub,
+    GitHub: SiGithub,
+    JavaScript: SiJavascript,
+    HTML5: SiHtml5,
+    CSS3: SiCss3,
     "RESTful APIs": FaServer,
     "REST APIs": FaServer,
-    "Microservices": FaCogs,
+    Microservices: FaCogs,
   };
 
   return iconMap[name] || FaCode;
@@ -71,95 +66,88 @@ export default function SkillsJourney({
   const [open, setOpen] = useState<string | null>("2021");
 
   const journey = [
-  {
-    year: "2021",
-    title: "Web Development ",
-    description:
-      "Began the journey into web development by learning how to build responsive and interactive user interfaces.",
-    techs: [
-      "HTML5",
-      "CSS3",
-      "JavaScript",
-      "Responsive Design",
-      "Tailwind CSS",
-      "Git",
-      "GitHub",
-    ],
-  },
-  {
-    year: "2022",
-    title: "Frontend",
-    description:
-      "Strengthened frontend development skills with modern frameworks, reusable components, and clean UI practices.",
-    techs: [
-      "React",
-      "Next.js",
-      "TypeScript",
-      "Redux Toolkit",
-      "Tailwind CSS",
-      "Framer Motion",
-      "REST APIs",
-    ],
-  },
-  {
-    year: "2023",
-    title: "Backend",
-    description:
-      "Started building server-side applications, APIs, and database-driven systems for full-stack development.",
-    techs: [
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "Mongoose",
-      "JWT Authentication",
-      "REST APIs",
-      "Postman",
-    ],
-  },
-  {
-    year: "2024",
-    title: "Software Architecture",
-    description:
-      "Explored scalable system design, deployment workflows, and engineering best practices for production-ready applications.",
-    techs: [
-      "Docker",
-      "Microservices",
-      "CI/CD",
-      "Linux",
-      "NGINX",
-      "Git",
-      "Spring Boot",
-    ],
-  },
-  {
-    year: "2025",
-    title: "Distributed Systems",
-    description:
-      "Focused on advanced backend architecture, scalability, and designing reliable distributed applications.",
-    techs: [
-      "Kafka",
-      "Redis",
-      "Kubernetes",
-      "System Design",
-      "Load Balancing",
-      "Spring Boot",
-    ],
-  },
-  {
-    year: "2026",
-    title: "Cloud, DevOps & AI",
-    description:
-      "Expanding expertise in cloud-native infrastructure, automation, monitoring, and highly available production systems.",
-    techs: [
-      "AWS",
-      "Docker",
-      "GitHub Actions",
-      "Copilot",
-      "Cursor",
-      "Claude",
-    ],
-  },
-];
+    {
+      year: "2021",
+      title: "Web Development ",
+      description:
+        "Began the journey into web development by learning how to build responsive and interactive user interfaces.",
+      techs: [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "Responsive Design",
+        "Tailwind CSS",
+        "Git",
+        "GitHub",
+      ],
+    },
+    {
+      year: "2022",
+      title: "Frontend",
+      description:
+        "Strengthened frontend development skills with modern frameworks, reusable components, and clean UI practices.",
+      techs: [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Redux Toolkit",
+        "Tailwind CSS",
+        "Framer Motion",
+        "REST APIs",
+      ],
+    },
+    {
+      year: "2023",
+      title: "Backend",
+      description:
+        "Started building server-side applications, APIs, and database-driven systems for full-stack development.",
+      techs: [
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Mongoose",
+        "JWT Authentication",
+        "REST APIs",
+        "Postman",
+      ],
+    },
+    {
+      year: "2024",
+      title: "Software Architecture",
+      description:
+        "Explored scalable system design, deployment workflows, and engineering best practices for production-ready applications.",
+      techs: [
+        "Docker",
+        "Microservices",
+        "CI/CD",
+        "Linux",
+        "NGINX",
+        "Git",
+        "Spring Boot",
+      ],
+    },
+    {
+      year: "2025",
+      title: "Distributed Systems",
+      description:
+        "Focused on advanced backend architecture, scalability, and designing reliable distributed applications.",
+      techs: [
+        "Kafka",
+        "Redis",
+        "Kubernetes",
+        "System Design",
+        "Load Balancing",
+        "Spring Boot",
+      ],
+    },
+    {
+      year: "2026",
+      title: "Cloud, DevOps & AI",
+      description:
+        "Expanding expertise in cloud-native infrastructure, automation, monitoring, and highly available production systems.",
+      techs: ["AWS", "Docker", "GitHub Actions", "Copilot", "Cursor", "Claude"],
+    },
+  ];
 
   return (
     <section className="relative w-full py-10 md:py-18 bg-[#fafafa] dark:bg-[#0a0a0a] transition-colors duration-300 overflow-hidden">
@@ -175,7 +163,6 @@ export default function SkillsJourney({
       `}</style>
 
       <div className="max-w-6xl mx-auto px-6">
-        
         {/* HEADER */}
         <div className="text-center mb-20">
           <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-[0.3em] mb-3 block">
@@ -198,7 +185,6 @@ export default function SkillsJourney({
         {/* DESKTOP TIMELINE (md+) */}
         {/* ========================= */}
         <div className="hidden md:block relative w-full overflow-hidden">
-          
           {/* Cards Scrolling Track */}
           <div
             ref={scrollRef}
@@ -219,7 +205,7 @@ export default function SkillsJourney({
                       {index + 1}
                     </div>
                   </div>
-                  
+
                   {/* Vertical Dotted Connector Line */}
                   <div className="absolute left-1/2 -translate-x-1/2 top-[38px] w-[2px] h-14 border-l-2 border-dashed border-blue-400/40 dark:border-blue-600/40 z-0" />
 
@@ -227,7 +213,7 @@ export default function SkillsJourney({
                   <div className="mt-24 bg-white dark:bg-[#111111] border border-gray-200 dark:border-gray-800 rounded-3xl p-7 shadow-sm hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300 relative overflow-hidden flex flex-col h-[340px] group w-full">
                     {/* Hover Glow effect */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 via-transparent to-blue-100/10 dark:to-blue-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                    
+
                     <span className="text-xs font-mono text-blue-500 dark:text-blue-400 tracking-[0.3em] block mb-2 font-semibold">
                       {item.year}
                     </span>
@@ -243,11 +229,16 @@ export default function SkillsJourney({
                     {/* Tech Pills (wrap naturally with enough height for 2 rows) */}
                     <div className="flex flex-wrap gap-2 min-h-[76px] items-start w-full mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
                       {item.techs.map((techName) => {
-                        const tech = techStack?.find((t) => t.name === techName);
+                        const tech = techStack?.find(
+                          (t) => t.name === techName,
+                        );
                         const IconComponent = getIconForTech(techName);
-                        const colorClass = tech?.color 
-                          ? tech.color.replace('text-', 'text-').replace('-400', '-500').replace('-300', '-600') 
-                          : 'text-gray-500 dark:text-gray-400';
+                        const colorClass = tech?.color
+                          ? tech.color
+                              .replace("text-", "text-")
+                              .replace("-400", "-500")
+                              .replace("-300", "-600")
+                          : "text-gray-500 dark:text-gray-400";
 
                         return (
                           <div
@@ -264,7 +255,6 @@ export default function SkillsJourney({
                         );
                       })}
                     </div>
-
                   </div>
                 </div>
               );
@@ -291,11 +281,13 @@ export default function SkillsJourney({
                 >
                   {/* LEFT STRIP */}
                   <div className="flex items-center gap-3">
-                    <div className={`
+                    <div
+                      className={`
                       w-10 h-10 rounded-xl flex items-center justify-center
                       transition-all duration-300
                       ${isOpen ? "bg-blue-500 text-white" : "bg-gray-100 dark:bg-[#1a1a1a] text-gray-500 dark:text-gray-400"}
-                    `}>
+                    `}
+                    >
                       <span className="text-sm font-bold">
                         {item.title.charAt(0)}
                       </span>
@@ -312,10 +304,12 @@ export default function SkillsJourney({
                   </div>
 
                   {/* TOGGLE */}
-                  <div className={`
+                  <div
+                    className={`
                     text-xl transition-transform duration-300
                     ${isOpen ? "rotate-45 text-blue-500 dark:text-blue-400" : "text-gray-400 dark:text-gray-500"}
-                  `}>
+                  `}
+                  >
                     +
                   </div>
                 </button>
@@ -350,11 +344,16 @@ export default function SkillsJourney({
                       {/* TECH PILLS WITH ICONS (wrapping naturally inside accordion too) */}
                       <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-800">
                         {item.techs.map((techName) => {
-                          const tech = techStack?.find((t) => t.name === techName);
+                          const tech = techStack?.find(
+                            (t) => t.name === techName,
+                          );
                           const IconComponent = getIconForTech(techName);
-                          const colorClass = tech?.color 
-                            ? tech.color.replace('text-', 'text-').replace('-400', '-500').replace('-300', '-600') 
-                            : 'text-gray-500 dark:text-gray-400';
+                          const colorClass = tech?.color
+                            ? tech.color
+                                .replace("text-", "text-")
+                                .replace("-400", "-500")
+                                .replace("-300", "-600")
+                            : "text-gray-500 dark:text-gray-400";
 
                           return (
                             <div
@@ -378,7 +377,6 @@ export default function SkillsJourney({
             );
           })}
         </div>
-
       </div>
     </section>
   );

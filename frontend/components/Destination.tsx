@@ -2,7 +2,13 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { FiMail, FiTwitter, FiGithub, FiLinkedin, FiExternalLink } from "react-icons/fi";
+import {
+  FiMail,
+  FiTwitter,
+  FiGithub,
+  FiLinkedin,
+  FiExternalLink,
+} from "react-icons/fi";
 import { SiLeetcode, SiGeeksforgeeks } from "react-icons/si";
 import { Contact, SocialLink } from "../app/data/types";
 
@@ -11,10 +17,14 @@ interface DestinationProps {
   socialLinks: SocialLink[];
 }
 
-export default function Destination({ contact, socialLinks }: DestinationProps) {
+export default function Destination({
+  contact,
+  socialLinks,
+}: DestinationProps) {
   // Find email link or fallback
   const emailLink = socialLinks.find(
-    (link) => link.name.toLowerCase() === "email" || link.url.startsWith("mailto:")
+    (link) =>
+      link.name.toLowerCase() === "email" || link.url.startsWith("mailto:"),
   );
   const emailUrl = emailLink ? emailLink.url : "mailto:shreyam91183@gmail.com";
 
@@ -40,23 +50,32 @@ export default function Destination({ contact, socialLinks }: DestinationProps) 
   };
 
   return (
-    <section id="contact" className="relative w-full py-18 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 overflow-hidden">
+    <section
+      id="contact"
+      className="relative w-full py-18 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 overflow-hidden"
+    >
       {/* Soft gradient backgrounds for light mode */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-blue-100 dark:bg-blue-900/40 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] opacity-70 dark:opacity-30 translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-purple-50 dark:bg-purple-900/40 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[100px] opacity-70 dark:opacity-30 -translate-x-1/2 translate-y-1/2" />
 
       <div className="relative max-w-4xl mx-auto px-6 z-10">
         <div className="text-center mb-16">
-          <span className="text-xs font-mono text-blue-500 dark:text-blue-400 uppercase tracking-widest mb-4 block">08</span>
+          <span className="text-xs font-mono text-blue-500 dark:text-blue-400 uppercase tracking-widest mb-4 block">
+            08
+          </span>
           <h2 className="text-4xl md:text-6xl font-light text-[#1a1a1a] dark:text-white mb-6">
-            Ready for a new <span className="font-serif italic text-gray-500 dark:text-gray-400">Expedition?</span>
+            Ready for a new{" "}
+            <span className="font-serif italic text-gray-500 dark:text-gray-400">
+              Expedition?
+            </span>
           </h2>
           <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-lg font-light leading-relaxed">
-            {contact.cta || "I'm always looking for new challenges, ambitious teams, and projects that make an impact. Let's build something remarkable together."}
+            {contact.cta ||
+              "I'm always looking for new challenges, ambitious teams, and projects that make an impact. Let's build something remarkable together."}
           </p>
         </div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -70,7 +89,9 @@ export default function Destination({ contact, socialLinks }: DestinationProps) 
             <div className="absolute inset-0 bg-gradient-to-r from-gray-800 dark:from-blue-700 to-[#1a1a1a] dark:to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="relative flex items-center gap-3">
               <FiMail className="text-white text-xl" />
-              <span className="text-white font-medium tracking-wide">Send a Message</span>
+              <span className="text-white font-medium tracking-wide">
+                Send a Message
+              </span>
             </div>
           </a>
 
@@ -92,10 +113,11 @@ export default function Destination({ contact, socialLinks }: DestinationProps) 
           </div>
         </motion.div>
       </div>
-      
+
       <div className="absolute bottom-8 left-0 right-0 text-center z-10">
         <p className="text-xs font-mono text-gray-400">
-          © {new Date().getFullYear()} Shreyam Kanaujiya. Built with precision and a sense of adventure.
+          © {new Date().getFullYear()} Shreyam Kanaujiya. Built with precision
+          and a sense of adventure.
         </p>
       </div>
     </section>

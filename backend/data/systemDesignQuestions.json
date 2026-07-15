@@ -341,6 +341,1669 @@
       "url": "https://dataintensive.net/"
     }
   ]
-}
+},
+
+{
+    "id": 2,
+
+    "title": "Design Netflix Streaming System",
+
+    "difficulty": "Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "60-90 mins",
+
+    "interviewFrequency": "Very High",
+
+    "companies": [
+      "Netflix",
+      "Amazon",
+      "Google",
+      "Disney+",
+      "YouTube",
+      "Meta"
+    ],
+
+    "tags": [
+      "Video Streaming",
+      "CDN",
+      "Distributed Systems",
+      "Media Processing",
+      "Caching",
+      "Scalability",
+      "Cloud Storage",
+      "Content Delivery"
+    ],
+
+    "description": "Design a large-scale video streaming platform like Netflix that allows millions of users worldwide to browse, search, and stream movies and TV shows with low latency, high availability, and adaptive video quality.",
+
+    "realWorldExamples": [
+      "Netflix Streaming Platform",
+      "Amazon Prime Video",
+      "Disney+",
+      "YouTube Video Platform",
+      "Hulu"
+    ],
+
+    "functionalRequirements": [
+      "Users can browse movies and TV shows.",
+      "Users can search content.",
+      "Users can stream videos.",
+      "Support adaptive video quality.",
+      "Support multiple devices.",
+      "Track watch history.",
+      "Resume playback from previous position.",
+      "Support subtitles and multiple audio languages.",
+      "Provide personalized recommendations.",
+      "Support offline downloads."
+    ],
+
+    "nonFunctionalRequirements": [
+      "Low video startup latency (<2 seconds).",
+      "High availability.",
+      "Support millions of concurrent viewers.",
+      "Global scalability.",
+      "Low buffering rate.",
+      "Fault tolerant.",
+      "High durability of video data."
+    ],
+
+    "capacityEstimation": {
+      "dailyActiveUsers": "200 Million+",
+      "concurrentStreams": "50 Million+",
+      "videoLibrarySize": "100 Million+ hours",
+      "dailyStreamingTraffic": "Petabytes",
+      "latencyRequirement": "<2 seconds startup time"
+    },
+
+    "apiDesign": [
+      {
+        "method": "GET",
+        "endpoint": "/movies",
+        "purpose": "Fetch movie catalog"
+      },
+      {
+        "method": "GET",
+        "endpoint": "/movies/{movieId}",
+        "purpose": "Get movie metadata"
+      },
+      {
+        "method": "POST",
+        "endpoint": "/stream/start",
+        "purpose": "Initialize video streaming session"
+      },
+      {
+        "method": "POST",
+        "endpoint": "/watch-history",
+        "purpose": "Store playback progress"
+      },
+      {
+        "method": "GET",
+        "endpoint": "/recommendations/{userId}",
+        "purpose": "Fetch personalized recommendations"
+      }
+    ],
+
+    "dataModel": {
+      "User": {
+        "id": "UUID",
+        "name": "String",
+        "subscriptionPlan": "Basic | Premium",
+        "createdAt": "Timestamp"
+      },
+
+      "Movie": {
+        "id": "UUID",
+        "title": "String",
+        "description": "String",
+        "duration": "Integer",
+        "languages": "Array",
+        "releaseDate": "Timestamp"
+      },
+
+      "VideoAsset": {
+        "movieId": "UUID",
+        "resolution": "4K | 1080p | 720p",
+        "codec": "H264 | H265",
+        "storageUrl": "String"
+      },
+
+      "WatchHistory": {
+        "userId": "UUID",
+        "movieId": "UUID",
+        "progress": "Integer",
+        "lastWatched": "Timestamp"
+      }
+    },
+
+    "highLevelDesign": [
+      "User opens Netflix application.",
+      "Request reaches API Gateway.",
+      "Authentication service validates user.",
+      "Catalog service returns available content.",
+      "Recommendation service generates personalized rows.",
+      "User selects a movie.",
+      "Streaming service creates playback session.",
+      "CDN serves video chunks from nearest location.",
+      "Analytics service collects viewing events."
+    ],
+
+    "coreComponents": [
+      {
+        "name": "API Gateway",
+        "responsibility": "Handle client requests and routing."
+      },
+      {
+        "name": "Catalog Service",
+        "responsibility": "Store and serve movie metadata."
+      },
+      {
+        "name": "Streaming Service",
+        "responsibility": "Manage video playback sessions."
+      },
+      {
+        "name": "CDN",
+        "responsibility": "Deliver video content globally with low latency."
+      },
+      {
+        "name": "Recommendation Engine",
+        "responsibility": "Generate personalized content suggestions."
+      },
+      {
+        "name": "Analytics Pipeline",
+        "responsibility": "Process user viewing behavior."
+      }
+    ],
+
+    "videoProcessingPipeline": [
+      "Video uploaded by content provider.",
+      "Validate uploaded file.",
+      "Generate multiple resolutions.",
+      "Encode using different codecs.",
+      "Generate thumbnails.",
+      "Store processed files.",
+      "Distribute content to CDN."
+    ],
+
+    "databaseDesign": {
+      "metadataDatabase": "PostgreSQL",
+      "videoStorage": "Object Storage (S3-like)",
+      "cacheLayer": "Redis",
+      "searchEngine": "Elasticsearch",
+      "analyticsStorage": "Data Warehouse"
+    },
+
+    "cachingStrategy": [
+      "Cache popular movie metadata.",
+      "Cache trending content.",
+      "Cache user homepage recommendations.",
+      "Use CDN edge caching for video segments.",
+      "Pre-cache popular content near users."
+    ],
+
+    "scalingStrategy": [
+      "Deploy services across multiple regions.",
+      "Use CDN edge locations worldwide.",
+      "Shard databases by user and content.",
+      "Use horizontal scaling.",
+      "Auto-scale streaming servers.",
+      "Replicate popular videos globally."
+    ],
+
+    "adaptiveStreaming": {
+      "algorithm": "HTTP Adaptive Streaming",
+
+      "approach": [
+        "Split video into small chunks.",
+        "Create multiple quality versions.",
+        "Monitor network bandwidth.",
+        "Switch quality dynamically."
+      ],
+
+      "formats": [
+        "HLS",
+        "MPEG-DASH"
+      ]
+    },
+
+    "failureHandling": [
+      "CDN failure fallback.",
+      "Multi-region deployment.",
+      "Retry failed video processing jobs.",
+      "Circuit breaker between services.",
+      "Graceful degradation for recommendations."
+    ],
+
+    "bottlenecks": [
+      "High bandwidth consumption.",
+      "CDN cache misses.",
+      "Video processing workload.",
+      "Recommendation computation.",
+      "Metadata database scaling."
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Storage Cost vs Availability",
+        "choice": "Replicate popular content",
+        "reason": "Improves playback speed but increases storage cost."
+      },
+      {
+        "decision": "Consistency vs Performance",
+        "choice": "Eventual consistency",
+        "reason": "Better scalability for viewing history and analytics."
+      },
+      {
+        "decision": "Quality vs Bandwidth",
+        "choice": "Adaptive bitrate streaming",
+        "reason": "Balances user experience and network usage."
+      }
+    ],
+
+    "securityConsiderations": [
+      "DRM protection.",
+      "Content encryption.",
+      "Secure playback tokens.",
+      "Account sharing detection.",
+      "Bot prevention.",
+      "Geo restriction enforcement."
+    ],
+
+    "monitoringAndObservability": [
+      "Video startup latency.",
+      "Buffering percentage.",
+      "Streaming failures.",
+      "CDN hit ratio.",
+      "Concurrent viewers.",
+      "API latency.",
+      "Playback errors."
+    ],
+
+    "followUpQuestions": [
+      "How would you reduce video startup time?",
+      "How would you handle a viral show launch?",
+      "How would you design Netflix recommendations?",
+      "How would you support offline downloads?",
+      "How would you design global CDN architecture?"
+    ],
+
+    "evaluationCriteria": {
+      "requirementsUnderstanding": 10,
+      "architectureDesign": 25,
+      "scalability": 25,
+      "dataModeling": 15,
+      "tradeoffAnalysis": 15,
+      "communication": 10
+    },
+
+    "commonMistakes": [
+      "Ignoring CDN design.",
+      "Not discussing video encoding.",
+      "Using single-region architecture.",
+      "Ignoring bandwidth optimization.",
+      "Missing failure scenarios."
+    ],
+
+    "architecturePatterns": [
+      "Microservices Architecture",
+      "CDN Pattern",
+      "Event Driven Architecture",
+      "Cache Aside Pattern",
+      "Data Pipeline Pattern",
+      "Multi Region Deployment"
+    ],
+
+    "githubSolutions": [
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      },
+      {
+        "title": "Video Streaming Architecture Examples",
+        "url": "https://github.com"
+      }
+    ],
+
+    "referenceResources": [
+      {
+        "title": "Netflix Tech Blog",
+        "url": "https://netflixtechblog.com/"
+      },
+      {
+        "title": "AWS Media Streaming Architecture",
+        "url": "https://aws.amazon.com/media-services/"
+      },
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      }
+    ]
+  },
+  {
+    "id": 3,
+
+    "title": "Design API Gateway",
+
+    "difficulty": "Medium-Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "45-60 mins",
+
+    "interviewFrequency": "Very High",
+
+    "companies": [
+      "Amazon",
+      "Netflix",
+      "Google",
+      "Uber",
+      "Meta",
+      "Stripe",
+      "Cloudflare",
+      "Microsoft"
+    ],
+
+    "tags": [
+      "API Gateway",
+      "Microservices",
+      "Load Balancing",
+      "Rate Limiting",
+      "Authentication",
+      "Caching",
+      "Service Discovery",
+      "Distributed Systems",
+      "Scalability"
+    ],
+
+    "description": "Design a highly available and scalable API Gateway that acts as a single entry point for client requests, providing request routing, authentication, authorization, rate limiting, load balancing, monitoring, and resilience features for backend microservices.",
+
+    "realWorldExamples": [
+      "Amazon API Gateway",
+      "Netflix Zuul Gateway",
+      "Kong API Gateway",
+      "Cloudflare API Gateway",
+      "Google Cloud API Gateway"
+    ],
+
+    "functionalRequirements": [
+      "Route client requests to appropriate backend services.",
+      "Support authentication and authorization.",
+      "Support request rate limiting.",
+      "Perform request validation.",
+      "Support API versioning.",
+      "Support request and response transformation.",
+      "Provide logging and monitoring.",
+      "Support load balancing.",
+      "Support service discovery.",
+      "Support API key management."
+    ],
+
+    "nonFunctionalRequirements": [
+      "Low latency (<10ms overhead).",
+      "Highly available.",
+      "Horizontally scalable.",
+      "Fault tolerant.",
+      "Support millions of requests per second.",
+      "Secure against malicious traffic.",
+      "Easy configuration updates."
+    ],
+
+    "capacityEstimation": {
+      "dailyRequests": "500 Billion+",
+      "requestsPerSecond": "10 Million+",
+      "peakTrafficMultiplier": "5x",
+      "registeredAPIs": "Millions",
+      "latencyBudget": "<10ms added latency"
+    },
+
+    "apiDesign": [
+      {
+        "method": "POST",
+        "endpoint": "/gateway/routes",
+        "purpose": "Create or update API routing rules"
+      },
+      {
+        "method": "GET",
+        "endpoint": "/gateway/routes",
+        "purpose": "Fetch routing configuration"
+      },
+      {
+        "method": "POST",
+        "endpoint": "/gateway/authenticate",
+        "purpose": "Validate user credentials and tokens"
+      },
+      {
+        "method": "GET",
+        "endpoint": "/gateway/metrics",
+        "purpose": "Retrieve gateway metrics"
+      }
+    ],
+
+    "dataModel": {
+      "RouteConfiguration": {
+        "id": "UUID",
+        "path": "String",
+        "method": "GET | POST | PUT | DELETE",
+        "targetService": "String",
+        "loadBalancingStrategy": "RoundRobin | LeastConnection",
+        "createdAt": "Timestamp"
+      },
+
+      "APIKey": {
+        "keyId": "UUID",
+        "clientId": "String",
+        "permissions": "Array",
+        "rateLimit": "Integer",
+        "status": "Active | Disabled",
+        "createdAt": "Timestamp"
+      },
+
+      "ServiceRegistry": {
+        "serviceName": "String",
+        "instances": "Array",
+        "healthStatus": "Healthy | Unhealthy",
+        "lastUpdated": "Timestamp"
+      }
+    },
+
+    "highLevelDesign": [
+      "Client sends API request.",
+      "Request reaches Load Balancer.",
+      "API Gateway receives request.",
+      "Authentication and authorization are performed.",
+      "Rate limiter validates request quota.",
+      "Gateway checks routing configuration.",
+      "Service discovery finds healthy backend instances.",
+      "Load balancer selects backend server.",
+      "Request is forwarded to microservice.",
+      "Response is returned through gateway.",
+      "Logs and metrics are generated."
+    ],
+
+    "architectureComponents": [
+      {
+        "component": "Load Balancer",
+        "responsibility": "Distribute incoming traffic across API Gateway nodes."
+      },
+      {
+        "component": "API Gateway Cluster",
+        "responsibility": "Process requests and apply gateway policies."
+      },
+      {
+        "component": "Authentication Service",
+        "responsibility": "Validate JWT tokens, API keys, and user identity."
+      },
+      {
+        "component": "Rate Limiter",
+        "responsibility": "Control request frequency and prevent abuse."
+      },
+      {
+        "component": "Service Discovery",
+        "responsibility": "Locate healthy backend service instances."
+      },
+      {
+        "component": "Configuration Service",
+        "responsibility": "Manage routes, policies, and gateway rules."
+      },
+      {
+        "component": "Monitoring Service",
+        "responsibility": "Collect logs, metrics, and traces."
+      }
+    ],
+
+    "requestProcessingPipeline": [
+      "Receive HTTP request.",
+      "Validate request format.",
+      "Authenticate client.",
+      "Apply authorization rules.",
+      "Check rate limits.",
+      "Apply request transformations.",
+      "Route request.",
+      "Forward response.",
+      "Record metrics."
+    ],
+
+    "coreAlgorithms": [
+      {
+        "name": "Round Robin Load Balancing",
+        "pros": [
+          "Simple",
+          "Fast",
+          "Easy implementation"
+        ],
+        "cons": [
+          "Does not consider server load"
+        ]
+      },
+      {
+        "name": "Least Connections",
+        "pros": [
+          "Better traffic distribution"
+        ],
+        "cons": [
+          "Requires connection tracking"
+        ]
+      },
+      {
+        "name": "Consistent Hashing",
+        "pros": [
+          "Good for distributed systems",
+          "Maintains session affinity"
+        ],
+        "cons": [
+          "More complex"
+        ]
+      }
+    ],
+
+    "recommendedApproach": {
+      "architecture": "Distributed API Gateway Cluster",
+
+      "reason": "A stateless gateway cluster with horizontal scaling provides high availability, low latency, and fault tolerance."
+    },
+
+    "databaseDesign": {
+      "configurationStore": "PostgreSQL",
+      "cacheLayer": "Redis",
+      "serviceRegistry": "Consul / Eureka",
+      "loggingStorage": "Elasticsearch",
+      "metricsStorage": "Prometheus"
+    },
+
+    "cachingStrategy": [
+      "Cache routing rules locally.",
+      "Cache authentication metadata.",
+      "Cache service discovery information.",
+      "Use Redis for shared configuration cache.",
+      "Refresh configuration asynchronously."
+    ],
+
+    "scalingStrategy": [
+      "Deploy multiple API Gateway instances.",
+      "Use horizontal auto scaling.",
+      "Keep gateway nodes stateless.",
+      "Deploy gateways closer to users.",
+      "Use global load balancing.",
+      "Use consistent hashing when required."
+    ],
+
+    "securityConsiderations": [
+      "JWT validation.",
+      "OAuth2 authentication.",
+      "API key management.",
+      "TLS termination.",
+      "DDoS protection.",
+      "Request sanitization.",
+      "IP filtering.",
+      "Bot detection."
+    ],
+
+    "failureHandling": [
+      "Circuit breaker for unhealthy services.",
+      "Retry failed requests with backoff.",
+      "Fallback responses.",
+      "Health checks.",
+      "Graceful degradation.",
+      "Multi-region failover."
+    ],
+
+    "bottlenecks": [
+      "Gateway becoming single bottleneck.",
+      "Authentication service latency.",
+      "Configuration propagation delay.",
+      "High traffic spikes.",
+      "Logging overhead."
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Centralized Gateway vs Direct Service Access",
+        "choice": "API Gateway",
+        "reason": "Provides security, monitoring, and consistent policies."
+      },
+      {
+        "decision": "Stateful vs Stateless Gateway",
+        "choice": "Stateless Gateway",
+        "reason": "Allows easy horizontal scaling."
+      },
+      {
+        "decision": "Strong Consistency vs Availability",
+        "choice": "Eventual Consistency",
+        "reason": "Configuration updates can tolerate small delays."
+      }
+    ],
+
+    "monitoringAndObservability": [
+      "Request throughput.",
+      "API latency.",
+      "P99 response time.",
+      "Error rate.",
+      "Authentication failures.",
+      "Rate limit violations.",
+      "Backend service health.",
+      "Gateway CPU and memory usage."
+    ],
+
+    "followUpQuestions": [
+      "How would you scale API Gateway to handle billions of requests?",
+      "How would you avoid API Gateway becoming a bottleneck?",
+      "How would you implement global rate limiting?",
+      "How would you handle backend service failures?",
+      "How would you support API versioning?",
+      "How would you deploy gateway changes without downtime?"
+    ],
+
+    "evaluationCriteria": {
+      "requirementsUnderstanding": 10,
+      "architectureDesign": 25,
+      "scalability": 25,
+      "security": 15,
+      "tradeoffAnalysis": 15,
+      "communication": 10
+    },
+
+    "commonMistakes": [
+      "Making gateway stateful.",
+      "Ignoring rate limiting.",
+      "Not discussing authentication.",
+      "Missing service discovery.",
+      "Ignoring failure scenarios.",
+      "Using a single gateway instance."
+    ],
+
+    "architecturePatterns": [
+      "API Gateway Pattern",
+      "Microservices Architecture",
+      "Circuit Breaker Pattern",
+      "Service Discovery Pattern",
+      "Cache Aside Pattern",
+      "Load Balancing Pattern",
+      "Zero Trust Security Pattern"
+    ],
+
+    "githubSolutions": [
+      {
+        "title": "Kong API Gateway",
+        "url": "https://github.com/Kong/kong"
+      },
+      {
+        "title": "Envoy Proxy",
+        "url": "https://github.com/envoyproxy/envoy"
+      },
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      }
+    ],
+
+    "referenceResources": [
+      {
+        "title": "Amazon API Gateway Documentation",
+        "url": "https://docs.aws.amazon.com/apigateway/"
+      },
+      {
+        "title": "Netflix Zuul Gateway",
+        "url": "https://github.com/Netflix/zuul"
+      },
+      {
+        "title": "Envoy Proxy Documentation",
+        "url": "https://www.envoyproxy.io/"
+      },
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      }
+    ]
+  },
+  {
+    "id": 4,
+
+    "title": "Design Notification System",
+
+    "difficulty": "Medium-Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "45-60 mins",
+
+    "interviewFrequency": "Very High",
+
+    "companies": [
+      "Netflix",
+      "Uber",
+      "LinkedIn",
+      "Amazon",
+      "Meta",
+      "Google",
+      "Twitter",
+      "Airbnb"
+    ],
+
+    "tags": [
+      "Notification System",
+      "Distributed Systems",
+      "Message Queue",
+      "Kafka",
+      "Push Notifications",
+      "Email",
+      "SMS",
+      "Event Driven Architecture",
+      "Scalability"
+    ],
+
+    "description": "Design a large-scale notification platform that delivers billions of notifications through multiple channels such as push notifications, email, SMS, and in-app notifications. The system should support real-time delivery, reliability, personalization, retries, and user preferences.",
+
+    "realWorldExamples": [
+      "Netflix New Release Notifications",
+      "Uber Ride Status Notifications",
+      "LinkedIn Connection Notifications",
+      "Amazon Order Updates",
+      "Google Calendar Reminders"
+    ],
+
+    "functionalRequirements": [
+      "Send push notifications.",
+      "Send email notifications.",
+      "Send SMS notifications.",
+      "Support in-app notifications.",
+      "Support real-time notifications.",
+      "Allow users to configure notification preferences.",
+      "Support scheduled notifications.",
+      "Support notification templates.",
+      "Track delivery status.",
+      "Support retries for failed deliveries.",
+      "Prevent duplicate notifications."
+    ],
+
+    "nonFunctionalRequirements": [
+      "High availability.",
+      "Low delivery latency.",
+      "Support billions of notifications per day.",
+      "Fault tolerant.",
+      "Horizontally scalable.",
+      "Reliable message delivery.",
+      "Eventually consistent where acceptable."
+    ],
+
+    "capacityEstimation": {
+      "dailyNotifications": "100 Billion+",
+      "peakNotificationsPerSecond": "Millions",
+      "activeUsers": "500 Million+",
+      "deliveryLatency": "<5 seconds",
+      "channelsSupported": [
+        "Push",
+        "Email",
+        "SMS",
+        "In-App"
+      ]
+    },
+
+    "apiDesign": [
+      {
+        "method": "POST",
+        "endpoint": "/notifications/send",
+        "purpose": "Create and send notification"
+      },
+      {
+        "method": "GET",
+        "endpoint": "/notifications/{userId}",
+        "purpose": "Fetch user notifications"
+      },
+      {
+        "method": "PUT",
+        "endpoint": "/notifications/preferences/{userId}",
+        "purpose": "Update notification preferences"
+      },
+      {
+        "method": "POST",
+        "endpoint": "/notifications/schedule",
+        "purpose": "Schedule future notification"
+      }
+    ],
+
+    "dataModel": {
+      "Notification": {
+        "id": "UUID",
+        "userId": "UUID",
+        "type": "String",
+        "channel": "Push | Email | SMS | InApp",
+        "templateId": "UUID",
+        "status": "Pending | Sent | Failed",
+        "createdAt": "Timestamp"
+      },
+
+      "UserPreference": {
+        "userId": "UUID",
+        "emailEnabled": "Boolean",
+        "pushEnabled": "Boolean",
+        "smsEnabled": "Boolean",
+        "quietHours": "TimeRange"
+      },
+
+      "NotificationTemplate": {
+        "id": "UUID",
+        "name": "String",
+        "content": "String",
+        "variables": "JSON"
+      },
+
+      "DeliveryLog": {
+        "notificationId": "UUID",
+        "provider": "String",
+        "status": "Success | Failed",
+        "timestamp": "Timestamp"
+      }
+    },
+
+    "highLevelDesign": [
+      "Application generates notification event.",
+      "Event is published to message queue.",
+      "Notification service consumes event.",
+      "User preferences are checked.",
+      "Notification is enriched with template data.",
+      "Notification is routed to delivery channel.",
+      "External providers deliver messages.",
+      "Delivery status is stored.",
+      "Failed notifications are retried."
+    ],
+
+    "architectureComponents": [
+      {
+        "component": "Notification API Service",
+        "responsibility": "Accept notification requests from applications."
+      },
+      {
+        "component": "Message Queue",
+        "responsibility": "Buffer notification events and handle traffic spikes."
+      },
+      {
+        "component": "Notification Processor",
+        "responsibility": "Process events and decide delivery strategy."
+      },
+      {
+        "component": "Preference Service",
+        "responsibility": "Manage user notification settings."
+      },
+      {
+        "component": "Template Service",
+        "responsibility": "Generate personalized notification content."
+      },
+      {
+        "component": "Delivery Workers",
+        "responsibility": "Send notifications through external providers."
+      },
+      {
+        "component": "Tracking Service",
+        "responsibility": "Track delivery status and analytics."
+      }
+    ],
+
+    "highLevelArchitecture": [
+      "User Action",
+      "Event Producer",
+      "Kafka / Message Queue",
+      "Notification Service",
+      "Preference Service",
+      "Template Engine",
+      "Channel Workers",
+      "External Providers",
+      "Delivery Tracking"
+    ],
+
+    "messageFlow": [
+      "Order service creates event.",
+      "Event is published to Kafka topic.",
+      "Notification consumer receives event.",
+      "User preferences are fetched.",
+      "Template is generated.",
+      "Push worker sends notification.",
+      "Delivery response is recorded."
+    ],
+
+    "coreComponents": [
+      {
+        "name": "Kafka",
+        "pros": [
+          "High throughput",
+          "Durable messages",
+          "Handles spikes"
+        ],
+        "cons": [
+          "Operational complexity"
+        ]
+      },
+      {
+        "name": "Redis Queue",
+        "pros": [
+          "Low latency",
+          "Simple implementation"
+        ],
+        "cons": [
+          "Less suitable for huge scale"
+        ]
+      }
+    ],
+
+    "recommendedApproach": {
+      "architecture": "Event Driven Notification Platform",
+
+      "reason": "A queue-based architecture provides scalability, reliability, and decoupling between business services and notification delivery."
+    },
+
+    "databaseDesign": {
+      "notificationStore": "Cassandra / DynamoDB",
+      "userPreferenceStore": "PostgreSQL",
+      "cacheLayer": "Redis",
+      "messageQueue": "Kafka",
+      "analyticsStorage": "Data Warehouse"
+    },
+
+    "cachingStrategy": [
+      "Cache user preferences.",
+      "Cache notification templates.",
+      "Cache frequently used provider configurations.",
+      "Use Redis for rate limiting notification sending."
+    ],
+
+    "scalingStrategy": [
+      "Partition Kafka topics by userId.",
+      "Deploy multiple notification workers.",
+      "Scale delivery workers independently.",
+      "Use asynchronous processing.",
+      "Deploy globally across regions.",
+      "Batch notifications when possible."
+    ],
+
+    "deliveryChannels": [
+      {
+        "channel": "Push Notification",
+        "providers": [
+          "Firebase Cloud Messaging",
+          "Apple Push Notification Service"
+        ]
+      },
+      {
+        "channel": "Email",
+        "providers": [
+          "Amazon SES",
+          "SendGrid"
+        ]
+      },
+      {
+        "channel": "SMS",
+        "providers": [
+          "Twilio"
+        ]
+      }
+    ],
+
+    "failureHandling": [
+      "Retry failed messages.",
+      "Use exponential backoff.",
+      "Dead letter queue for permanent failures.",
+      "Fallback notification channels.",
+      "Circuit breaker for providers.",
+      "Idempotency keys to prevent duplicates."
+    ],
+
+    "bottlenecks": [
+      "Message queue overload.",
+      "External provider failures.",
+      "Notification spikes.",
+      "Duplicate message delivery.",
+      "Template rendering latency."
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Synchronous vs Asynchronous Delivery",
+        "choice": "Asynchronous",
+        "reason": "Improves scalability and prevents blocking business operations."
+      },
+      {
+        "decision": "Exactly Once vs At Least Once Delivery",
+        "choice": "At Least Once Delivery",
+        "reason": "Higher reliability with idempotency handling."
+      },
+      {
+        "decision": "Real Time vs Batch Processing",
+        "choice": "Hybrid Approach",
+        "reason": "Critical alerts are real-time while marketing notifications can be batched."
+      }
+    ],
+
+    "securityConsiderations": [
+      "Encrypt user notification data.",
+      "Secure provider credentials.",
+      "Prevent notification spam.",
+      "Validate notification requests.",
+      "Protect user privacy.",
+      "Implement access control."
+    ],
+
+    "monitoringAndObservability": [
+      "Notifications sent per second.",
+      "Delivery success rate.",
+      "Failed deliveries.",
+      "Queue lag.",
+      "Provider latency.",
+      "Retry count.",
+      "User engagement rate.",
+      "Notification click rate."
+    ],
+
+    "followUpQuestions": [
+      "How would you handle billions of notifications per day?",
+      "How would you prevent duplicate notifications?",
+      "How would you design WhatsApp-like real-time notifications?",
+      "How would you prioritize critical notifications?",
+      "How would you handle provider failures?",
+      "How would you support scheduled notifications?"
+    ],
+
+    "evaluationCriteria": {
+      "requirementsUnderstanding": 10,
+      "architectureDesign": 25,
+      "scalability": 25,
+      "Reliability": 15,
+      "tradeoffAnalysis": 15,
+      "communication": 10
+    },
+
+    "commonMistakes": [
+      "Sending notifications synchronously.",
+      "Ignoring retries.",
+      "Not handling duplicate events.",
+      "Missing user preferences.",
+      "Ignoring external provider failures.",
+      "Using a single queue."
+    ],
+
+    "architecturePatterns": [
+      "Event Driven Architecture",
+      "Producer Consumer Pattern",
+      "Queue Based Architecture",
+      "Retry Pattern",
+      "Circuit Breaker Pattern",
+      "Microservices Architecture",
+      "CQRS Pattern"
+    ],
+
+    "githubSolutions": [
+      {
+        "title": "Apache Kafka",
+        "url": "https://github.com/apache/kafka"
+      },
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      },
+      {
+        "title": "BullMQ Notification Queue",
+        "url": "https://github.com/taskforcesh/bullmq"
+      }
+    ],
+
+    "referenceResources": [
+      {
+        "title": "Amazon Simple Notification Service",
+        "url": "https://aws.amazon.com/sns/"
+      },
+      {
+        "title": "Firebase Cloud Messaging",
+        "url": "https://firebase.google.com/docs/cloud-messaging"
+      },
+      {
+        "title": "Apache Kafka Documentation",
+        "url": "https://kafka.apache.org/documentation/"
+      },
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer"
+      }
+    ]
+  },
+
+{
+    "id": 5,
+
+    "title": "Design Search Engine",
+
+    "difficulty": "Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "60-90 mins",
+
+    "interviewFrequency": "Very High",
+
+    "companies": [
+      "Google",
+      "Amazon",
+      "Microsoft",
+      "Netflix",
+      "LinkedIn",
+      "Meta"
+    ],
+
+    "tags": [
+      "Search Engine",
+      "Web Crawler",
+      "Indexing",
+      "Distributed Systems",
+      "Information Retrieval",
+      "Elasticsearch",
+      "Ranking",
+      "Machine Learning"
+    ],
+
+    "description": "Design a scalable search engine like Google that can crawl billions of documents, build indexes, process user queries, rank results, and return highly relevant results with low latency.",
+
+    "realWorldExamples": [
+      "Google Search",
+      "Amazon Product Search",
+      "LinkedIn Search",
+      "Bing Search",
+      "Elastic Enterprise Search"
+    ],
+
+    "functionalRequirements": [
+      "Crawl web pages.",
+      "Store document metadata.",
+      "Build searchable indexes.",
+      "Process user queries.",
+      "Return ranked search results.",
+      "Support autocomplete.",
+      "Support spelling correction.",
+      "Support filters and categories.",
+      "Update indexes continuously.",
+      "Track search analytics."
+    ],
+
+    "nonFunctionalRequirements": [
+      "Low query latency (<200ms).",
+      "Highly available.",
+      "Support billions of documents.",
+      "Horizontally scalable.",
+      "Fault tolerant.",
+      "Fresh search results."
+    ],
+
+    "capacityEstimation": {
+      "documents": "100 Billion+",
+      "dailySearches": "10 Billion+",
+      "queriesPerSecond": "Millions",
+      "indexSize": "Petabytes",
+      "latencyRequirement": "<200ms"
+    },
+
+    "apiDesign": [
+      {
+        "method": "GET",
+        "endpoint": "/search?q={query}",
+        "purpose": "Search documents"
+      },
+      {
+        "method": "GET",
+        "endpoint": "/autocomplete?q={prefix}",
+        "purpose": "Return search suggestions"
+      },
+      {
+        "method": "POST",
+        "endpoint": "/index/document",
+        "purpose": "Add or update searchable document"
+      }
+    ],
+
+    "dataModel": {
+      "Document": {
+        "id": "UUID",
+        "url": "String",
+        "title": "String",
+        "content": "Text",
+        "metadata": "JSON",
+        "updatedAt": "Timestamp"
+      },
+
+      "Index": {
+        "term": "String",
+        "documentIds": "Array",
+        "frequency": "Integer"
+      },
+
+      "SearchHistory": {
+        "userId": "UUID",
+        "query": "String",
+        "timestamp": "Timestamp"
+      }
+    },
+
+    "highLevelDesign": [
+      "Crawler discovers web pages.",
+      "Documents are downloaded and processed.",
+      "Content parser extracts information.",
+      "Indexer creates inverted index.",
+      "Query service processes user searches.",
+      "Ranking engine scores documents.",
+      "Results are returned to user."
+    ],
+
+    "architectureComponents": [
+      {
+        "component": "Web Crawler",
+        "responsibility": "Discover and fetch documents from the internet."
+      },
+      {
+        "component": "Document Processor",
+        "responsibility": "Extract text, metadata, and links."
+      },
+      {
+        "component": "Indexer",
+        "responsibility": "Create searchable inverted indexes."
+      },
+      {
+        "component": "Search Service",
+        "responsibility": "Process queries and retrieve documents."
+      },
+      {
+        "component": "Ranking Service",
+        "responsibility": "Rank results based on relevance."
+      },
+      {
+        "component": "Suggestion Service",
+        "responsibility": "Provide autocomplete suggestions."
+      }
+    ],
+
+    "coreAlgorithms": [
+      {
+        "name": "Inverted Index",
+        "pros": [
+          "Fast text search",
+          "Industry standard"
+        ],
+        "cons": [
+          "Requires large storage"
+        ]
+      },
+      {
+        "name": "PageRank",
+        "pros": [
+          "Improves relevance"
+        ],
+        "cons": [
+          "Computationally expensive"
+        ]
+      },
+      {
+        "name": "BM25 Ranking",
+        "pros": [
+          "Strong text relevance"
+        ],
+        "cons": [
+          "Requires tuning"
+        ]
+      }
+    ],
+
+    "recommendedApproach": {
+      "architecture": "Distributed Search Architecture",
+
+      "reason": "Separating crawling, indexing, retrieval, and ranking allows independent scaling."
+    },
+
+    "databaseDesign": {
+      "documentStorage": "Distributed Object Storage",
+      "searchIndex": "Elasticsearch / Lucene",
+      "metadataStore": "Cassandra",
+      "cacheLayer": "Redis"
+    },
+
+    "cachingStrategy": [
+      "Cache popular queries.",
+      "Cache autocomplete results.",
+      "Cache trending searches.",
+      "Use distributed cache for query results."
+    ],
+
+    "scalingStrategy": [
+      "Shard indexes by document ID.",
+      "Replicate search clusters.",
+      "Parallelize crawling.",
+      "Deploy regional search clusters.",
+      "Use distributed processing."
+    ],
+
+    "failureHandling": [
+      "Retry crawler failures.",
+      "Replicate indexes.",
+      "Handle stale indexes.",
+      "Fallback ranking models.",
+      "Graceful degradation."
+    ],
+
+    "bottlenecks": [
+      "Index size growth.",
+      "Crawler bandwidth.",
+      "Ranking computation.",
+      "Query spikes.",
+      "Storage costs."
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Freshness vs Cost",
+        "choice": "Incremental Index Updates",
+        "reason": "Balances freshness and infrastructure cost."
+      },
+      {
+        "decision": "Accuracy vs Latency",
+        "choice": "Multi-stage Ranking",
+        "reason": "Fast retrieval followed by deeper ranking."
+      }
+    ],
+
+    "monitoringAndObservability": [
+      "Search latency.",
+      "Crawler success rate.",
+      "Index freshness.",
+      "Query throughput.",
+      "Ranking quality.",
+      "Cache hit ratio."
+    ],
+
+    "followUpQuestions": [
+      "How would you crawl billions of pages?",
+      "How would you support autocomplete?",
+      "How would you improve ranking?",
+      "How would you handle duplicate documents?",
+      "How would you make search results personalized?"
+    ],
+
+    "commonMistakes": [
+      "Ignoring indexing strategy.",
+      "Not discussing ranking.",
+      "Using relational database for search.",
+      "Ignoring crawler scalability.",
+      "Missing caching."
+    ],
+
+    "architecturePatterns": [
+      "Distributed Computing",
+      "Map Reduce Pattern",
+      "Pipeline Architecture",
+      "Microservices Architecture",
+      "Distributed Cache"
+    ]
+  },
+  {
+    "id": 6,
+
+    "title": "Design Recommendation System",
+
+    "difficulty": "Hard",
+
+    "category": "System Design",
+
+    "estimatedTime": "60-90 mins",
+
+    "interviewFrequency": "Very High",
+
+    "companies": [
+      "Netflix",
+      "Amazon",
+      "YouTube",
+      "Spotify",
+      "TikTok",
+      "Meta",
+      "LinkedIn"
+    ],
+
+    "tags": [
+      "Recommendation System",
+      "Machine Learning",
+      "Personalization",
+      "Feature Engineering",
+      "Ranking",
+      "Data Pipeline",
+      "Big Data"
+    ],
+
+    "description": "Design a personalized recommendation platform that suggests relevant content, products, or videos to millions of users based on their behavior, preferences, and contextual information.",
+
+    "realWorldExamples": [
+      "Netflix Movie Recommendations",
+      "Amazon Product Recommendations",
+      "YouTube Video Recommendations",
+      "Spotify Music Recommendations",
+      "TikTok Feed Ranking"
+    ],
+
+    "functionalRequirements": [
+      "Generate personalized recommendations.",
+      "Track user behavior.",
+      "Support real-time recommendations.",
+      "Support trending recommendations.",
+      "Support similar item recommendations.",
+      "Support new user recommendations.",
+      "Perform A/B testing.",
+      "Update recommendations continuously."
+    ],
+
+    "nonFunctionalRequirements": [
+      "Low recommendation latency (<100ms).",
+      "Highly scalable.",
+      "High availability.",
+      "Real-time personalization.",
+      "Support millions of users."
+    ],
+
+    "capacityEstimation": {
+      "users": "500 Million+",
+      "eventsPerDay": "Trillions",
+      "recommendationRequests": "Millions/sec",
+      "featureStorage": "Petabytes",
+      "latencyRequirement": "<100ms"
+    },
+
+    "apiDesign": [
+      {
+        "method": "GET",
+        "endpoint": "/recommendations/{userId}",
+        "purpose": "Fetch personalized recommendations"
+      },
+      {
+        "method": "POST",
+        "endpoint": "/events",
+        "purpose": "Capture user behavior events"
+      },
+      {
+        "method": "GET",
+        "endpoint": "/similar/{itemId}",
+        "purpose": "Find similar items"
+      }
+    ],
+
+    "dataModel": {
+      "UserProfile": {
+        "userId": "UUID",
+        "preferences": "JSON",
+        "interests": "Array",
+        "createdAt": "Timestamp"
+      },
+
+      "Item": {
+        "itemId": "UUID",
+        "category": "String",
+        "metadata": "JSON"
+      },
+
+      "UserEvent": {
+        "userId": "UUID",
+        "itemId": "UUID",
+        "eventType": "Click | View | Like | Purchase",
+        "timestamp": "Timestamp"
+      }
+    },
+
+    "highLevelDesign": [
+      "Collect user interaction events.",
+      "Store events in data pipeline.",
+      "Generate user and item features.",
+      "Train recommendation models.",
+      "Generate candidate items.",
+      "Rank candidates.",
+      "Serve recommendations."
+    ],
+
+    "architectureComponents": [
+      {
+        "component": "Event Collector",
+        "responsibility": "Capture user interactions."
+      },
+      {
+        "component": "Data Pipeline",
+        "responsibility": "Process large-scale user behavior data."
+      },
+      {
+        "component": "Feature Store",
+        "responsibility": "Store ML features."
+      },
+      {
+        "component": "Recommendation Engine",
+        "responsibility": "Generate personalized suggestions."
+      },
+      {
+        "component": "Ranking Service",
+        "responsibility": "Order recommendations."
+      },
+      {
+        "component": "Experiment Platform",
+        "responsibility": "Run A/B tests."
+      }
+    ],
+
+    "recommendationAlgorithms": [
+      {
+        "name": "Collaborative Filtering",
+        "pros": [
+          "Uses user similarity",
+          "Personalized"
+        ],
+        "cons": [
+          "Cold start problem"
+        ]
+      },
+      {
+        "name": "Content Based Filtering",
+        "pros": [
+          "Works for new items"
+        ],
+        "cons": [
+          "Limited discovery"
+        ]
+      },
+      {
+        "name": "Deep Learning Ranking",
+        "pros": [
+          "High accuracy",
+          "Handles complex patterns"
+        ],
+        "cons": [
+          "Expensive computation"
+        ]
+      }
+    ],
+
+    "recommendedApproach": {
+      "architecture": "Hybrid Recommendation System",
+
+      "reason": "Combining collaborative filtering, content-based models, and deep learning provides better personalization."
+    },
+
+    "databaseDesign": {
+      "eventStorage": "Kafka + Data Lake",
+      "featureStore": "Redis / Cassandra",
+      "metadataDatabase": "PostgreSQL",
+      "modelStorage": "Object Storage"
+    },
+
+    "cachingStrategy": [
+      "Cache user recommendations.",
+      "Cache trending items.",
+      "Precompute recommendations.",
+      "Use online feature caching."
+    ],
+
+    "scalingStrategy": [
+      "Use distributed ML training.",
+      "Partition user data.",
+      "Deploy recommendation servers globally.",
+      "Use offline and online pipelines.",
+      "Scale feature computation independently."
+    ],
+
+    "failureHandling": [
+      "Fallback to popular content.",
+      "Use previous recommendations.",
+      "Handle missing features.",
+      "Model rollback support."
+    ],
+
+    "bottlenecks": [
+      "Feature computation.",
+      "Model inference latency.",
+      "Training data size.",
+      "Cold start problem.",
+      "Real-time updates."
+    ],
+
+    "tradeoffs": [
+      {
+        "decision": "Accuracy vs Latency",
+        "choice": "Two Stage Ranking",
+        "reason": "Fast candidate generation followed by expensive ranking."
+      },
+      {
+        "decision": "Real-time vs Batch Processing",
+        "choice": "Hybrid Pipeline",
+        "reason": "Combines fresh events with precomputed models."
+      }
+    ],
+
+    "monitoringAndObservability": [
+      "Recommendation latency.",
+      "Click-through rate.",
+      "Conversion rate.",
+      "Model accuracy.",
+      "User engagement.",
+      "Feature freshness."
+    ],
+
+    "followUpQuestions": [
+      "How would you solve cold start problem?",
+      "How would Netflix personalize homepage?",
+      "How would you handle billions of users?",
+      "How would you perform real-time recommendations?",
+      "How would you test recommendation quality?"
+    ],
+
+    "commonMistakes": [
+      "Ignoring ML pipeline.",
+      "Not discussing feature storage.",
+      "Missing cold start solution.",
+      "Ignoring A/B testing.",
+      "Not separating offline and online processing."
+    ],
+
+    "architecturePatterns": [
+      "Lambda Architecture",
+      "Event Driven Architecture",
+      "Machine Learning Pipeline",
+      "Microservices Architecture",
+      "Feature Store Pattern"
+    ]
+  }
 
 ]

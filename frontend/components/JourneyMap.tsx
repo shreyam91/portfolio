@@ -10,7 +10,7 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
   const [expanded, setExpanded] = useState(false);
   const [selectedProject, setSelectedProject] = useState<any | null>(null);
   const [showScrollIndicator, setShowScrollIndicator] = useState(false);
-  
+
   const visibleProjects = expanded ? projects : projects.slice(0, 4);
 
   const handleViewAll = () => {
@@ -38,7 +38,7 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
 
   // A simple SVG curve that spans across the width dynamically based on visibleProjects count
   const lineWidth = Math.max(1000, visibleProjects.length * 250);
-  
+
   const generatePath = () => {
     let d = "M0,50 ";
     for (let i = 0; i < visibleProjects.length; i++) {
@@ -52,7 +52,12 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
   };
 
   const wavyLine = (
-    <svg className="absolute top-1/2 left-0 h-32 -translate-y-1/2 z-0 pointer-events-none text-slate-300 dark:text-slate-700" style={{ width: `${lineWidth}px` }} preserveAspectRatio="none" viewBox={`0 0 ${lineWidth} 100`}>
+    <svg
+      className="absolute top-1/2 left-0 h-32 -translate-y-1/2 z-0 pointer-events-none text-slate-300 dark:text-slate-700"
+      style={{ width: `${lineWidth}px` }}
+      preserveAspectRatio="none"
+      viewBox={`0 0 ${lineWidth} 100`}
+    >
       <path
         d={generatePath()}
         fill="transparent"
@@ -64,23 +69,38 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
   );
 
   return (
-    <section id="projects" className="relative w-full max-w-7xl mx-auto py-18 px-2">
+    <section
+      id="projects"
+      className="relative w-full max-w-7xl mx-auto py-18 px-2"
+    >
       <div className="mb-20 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
         <div>
-          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 block">01</span>
+          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 block">
+            01
+          </span>
           <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-4">
-            Journey <span className="font-serif italic text-gray-400 dark:text-gray-500">Map</span>
+            Journey{" "}
+            <span className="font-serif italic text-gray-400 dark:text-gray-500">
+              Map
+            </span>
           </h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-md text-lg font-light">
-            A trail of projects, each solving real problems and creating real impact.
+            A trail of projects, each solving real problems and creating real
+            impact.
           </p>
         </div>
-        <button onClick={handleViewAll} className="text-sm font-medium text-[#1a1a1a] dark:text-white hover:text-gray-500 dark:hover:text-gray-300 transition-colors uppercase tracking-widest flex items-center gap-2">
+        <button
+          onClick={handleViewAll}
+          className="text-sm font-medium text-[#1a1a1a] dark:text-white hover:text-gray-500 dark:hover:text-gray-300 transition-colors uppercase tracking-widest flex items-center gap-2"
+        >
           {expanded ? "View less ↑" : "View all projects →"}
         </button>
       </div>
 
-      <div className="relative w-full overflow-x-auto pb-14 hide-scrollbar" ref={containerRef}>
+      <div
+        className="relative w-full overflow-x-auto pb-14 hide-scrollbar"
+        ref={containerRef}
+      >
         <AnimatePresence>
           {showScrollIndicator && (
             <motion.div
@@ -99,10 +119,19 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
           )}
         </AnimatePresence>
 
-        <motion.div layout className="relative h-[500px]" style={{ minWidth: `${Math.max(1000, visibleProjects.length * 250)}px` }}>
+        <motion.div
+          layout
+          className="relative h-[500px]"
+          style={{
+            minWidth: `${Math.max(1000, visibleProjects.length * 250)}px`,
+          }}
+        >
           {wavyLine}
-          
-          <div className="absolute inset-0 flex items-center px-4" style={{ gap: '10px' }}>
+
+          <div
+            className="absolute inset-0 flex items-center px-4"
+            style={{ gap: "10px" }}
+          >
             {visibleProjects.map((project, index) => {
               // Zig-zag up and down
               const isTop = index % 2 !== 0;
@@ -114,9 +143,9 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: (index % 4) * 0.1 }}
-                  className={`relative z-10 w-[240px] flex-shrink-0 flex flex-col ${isTop ? 'mt-[-180px]' : 'mt-[180px]'}`}
+                  className={`relative z-10 w-[240px] flex-shrink-0 flex flex-col ${isTop ? "mt-[-180px]" : "mt-[180px]"}`}
                 >
-                  <div 
+                  <div
                     onClick={() => setSelectedProject(project)}
                     className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 dark:bg-[#1a1a1a] shadow-md mb-4 group cursor-pointer border border-gray-200 dark:border-gray-800"
                   >
@@ -135,8 +164,12 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
                   </div>
                   <div className="flex flex-col">
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-lg font-medium text-[#1a1a1a] dark:text-white">{project.title}</h3>
-                      <span className="text-[10px] font-mono text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded-full">{project.tags[0]}</span>
+                      <h3 className="text-lg font-medium text-[#1a1a1a] dark:text-white">
+                        {project.title}
+                      </h3>
+                      <span className="text-[10px] font-mono text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded-full">
+                        {project.tags[0]}
+                      </span>
                     </div>
                     <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-3 line-clamp-2">
                       {project.description}
@@ -155,9 +188,11 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
                       </span>
                     </div>
                   </div>
-                  
+
                   {/* The dot connector */}
-                  <div className={`absolute left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none ${isTop ? 'bottom-[-40px] h-[40px]' : 'top-[-40px] h-[40px] flex-col-reverse'}`}>
+                  <div
+                    className={`absolute left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none ${isTop ? "bottom-[-40px] h-[40px]" : "top-[-40px] h-[40px] flex-col-reverse"}`}
+                  >
                     <div className="w-[1px] h-[24px] bg-gradient-to-b from-blue-300 to-blue-500 opacity-60" />
                     <div className="relative w-5 h-5 flex items-center justify-center">
                       <div className="absolute w-4 h-4 bg-blue-400/40 rounded-full animate-ping" />
@@ -188,75 +223,80 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-3xl bg-white dark:bg-[#111111] rounded-3xl border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden flex flex-col cursor-default max-h-[90vh] overflow-y-auto scrollbar-none animate-in fade-in zoom-in duration-300"
             >
-                {/* Close Button overlay with backdrop-blur for maximum contrast */}
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="absolute top-6 right-6 p-3 bg-white/80 dark:bg-[#1a1a1a]/80 hover:bg-white dark:hover:bg-[#1a1a1a] backdrop-blur-md rounded-full text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white shadow-md transition-all duration-200 z-10 active:scale-95"
-                >
-                  <FiX size={20} />
-                </button>
-  
-                {/* Full Width landscape layout image container */}
-                <div className="w-full aspect-video relative bg-gray-50 dark:bg-[#1a1a1a] flex-shrink-0 overflow-hidden border-b border-gray-100 dark:border-gray-800">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
-                    src={selectedProject.image} 
-                    alt={selectedProject.title} 
-                    className="w-full h-full object-cover" 
-                  />
+              {/* Close Button overlay with backdrop-blur for maximum contrast */}
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-6 right-6 p-3 bg-white/80 dark:bg-[#1a1a1a]/80 hover:bg-white dark:hover:bg-[#1a1a1a] backdrop-blur-md rounded-full text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white shadow-md transition-all duration-200 z-10 active:scale-95"
+              >
+                <FiX size={20} />
+              </button>
+
+              {/* Full Width landscape layout image container */}
+              <div className="w-full aspect-video relative bg-gray-50 dark:bg-[#1a1a1a] flex-shrink-0 overflow-hidden border-b border-gray-100 dark:border-gray-800">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Content description column below the banner */}
+              <div className="p-8 md:p-12 flex flex-col">
+                <span className="text-xs font-mono text-blue-500 uppercase tracking-widest mb-4 block font-semibold">
+                  Project Overview
+                </span>
+
+                <h2 className="text-3xl font-bold text-[#1a1a1a] dark:text-white mb-4 tracking-tight">
+                  {selectedProject.title}
+                </h2>
+
+                <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6 font-light">
+                  {selectedProject.description}
+                </p>
+
+                {selectedProject.longDescription && (
+                  <div className="prose prose-sm max-w-none prose-headings:font-semibold prose-headings:text-gray-800 dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-a:text-blue-500 mb-6">
+                    <ReactMarkdown>
+                      {selectedProject.longDescription}
+                    </ReactMarkdown>
+                  </div>
+                )}
+
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {selectedProject.tags.map((tag: string) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1.5 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 text-xs font-medium rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-  
-                {/* Content description column below the banner */}
-                <div className="p-8 md:p-12 flex flex-col">
-                  <span className="text-xs font-mono text-blue-500 uppercase tracking-widest mb-4 block font-semibold">
-                    Project Overview
-                  </span>
-                  
-                  <h2 className="text-3xl font-bold text-[#1a1a1a] dark:text-white mb-4 tracking-tight">
-                    {selectedProject.title}
-                  </h2>
-                  
-                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6 font-light">
-                    {selectedProject.description}
-                  </p>
-  
-                  {selectedProject.longDescription && (
-                    <div className="prose prose-sm max-w-none prose-headings:font-semibold prose-headings:text-gray-800 dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-a:text-blue-500 mb-6">
-                      <ReactMarkdown>{selectedProject.longDescription}</ReactMarkdown>
-                    </div>
+
+                <div className="flex items-center gap-4 mt-auto pt-6 border-t border-gray-100 dark:border-gray-800">
+                  {selectedProject.live && (
+                    <a
+                      href={selectedProject.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-6 py-3 bg-[#1a1a1a] dark:bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors shadow-sm"
+                    >
+                      View Live <FiExternalLink />
+                    </a>
                   )}
-  
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {selectedProject.tags.map((tag: string) => (
-                      <span key={tag} className="px-3 py-1.5 bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 text-xs font-medium rounded-full">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-  
-                  <div className="flex items-center gap-4 mt-auto pt-6 border-t border-gray-100 dark:border-gray-800">
-                    {selectedProject.live && (
-                      <a
-                        href={selectedProject.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-[#1a1a1a] dark:bg-blue-600 text-white text-sm font-medium rounded-full hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors shadow-sm"
-                      >
-                        View Live <FiExternalLink />
-                      </a>
-                    )}
-                    {selectedProject.github && (
-                      <a
-                        href={selectedProject.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-[#111111] border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-full hover:bg-gray-50 dark:hover:bg-[#1a1a1a] transition-colors"
-                      >
-                        GitHub <FiGithub />
-                      </a>
-                    )}
-                  </div>
+                  {selectedProject.github && (
+                    <a
+                      href={selectedProject.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-[#111111] border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-full hover:bg-gray-50 dark:hover:bg-[#1a1a1a] transition-colors"
+                    >
+                      GitHub <FiGithub />
+                    </a>
+                  )}
                 </div>
+              </div>
             </motion.div>
           </motion.div>
         )}
