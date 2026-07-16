@@ -74,7 +74,7 @@ export function MachineCodingDetail({ isDashboard = false, challenge }: { isDash
         {/* Left Column: Challenge Content */}
         <div className="flex-1 lg:max-w-[700px] w-full pb-32">
           
-          <Link href="/codestreak/machine-coding" className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors mb-10 group w-fit">
+          <Link href={isDashboard ? "/machine-coding" : "/codestreak/machine-coding"} className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors mb-10 group w-fit">
             <div className="p-1.5 rounded-md bg-muted group-hover:bg-indigo-50 dark:group-hover:bg-indigo-500/10 transition-colors">
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             </div>

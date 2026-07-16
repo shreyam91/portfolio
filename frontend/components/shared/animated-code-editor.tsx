@@ -211,7 +211,7 @@ export function AnimatedCodeEditor({
         {/* Main Editor Area */}
         <div className="flex-1 flex flex-col min-w-0 bg-transparent">
           {/* Tabs & Controls */}
-          <div className="flex bg-zinc-900/30 h-10 border-b border-zinc-800/50 items-center pr-2">
+          <div className="flex bg-zinc-900/30 h-10 border-b border-zinc-800/50 items-center pr-2 overflow-x-auto hide-scrollbar shrink-0">
             <div className="flex items-center gap-2 px-4 bg-zinc-900/50 h-full border-t-[3px] border-t-emerald-500 min-w-[140px] text-zinc-200">
               <svg
                 className="w-4 h-4 text-[#e8c679]"
@@ -369,7 +369,7 @@ export function AnimatedCodeEditor({
       </div>
 
       {/* VS Code Status Bar (Customized for glassmorphism) */}
-      <div className="h-6 w-full bg-zinc-900/80 border-t border-zinc-800/50 text-zinc-400 text-[11px] font-medium flex items-center px-3 justify-between shrink-0">
+      <div className="h-6 w-full bg-zinc-900/80 border-t border-zinc-800/50 text-zinc-400 text-[11px] font-medium flex items-center px-3 justify-between shrink-0 overflow-hidden">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1 hover:bg-white/20 px-1 py-0.5 rounded cursor-pointer transition-colors">
             <svg
@@ -394,7 +394,7 @@ export function AnimatedCodeEditor({
             <Check size={12} />0
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="hidden sm:flex items-center gap-3">
           <div className="hover:bg-white/20 px-1 py-0.5 rounded cursor-pointer transition-colors">
             Ln {currentLineIndex}, Col {currentIndex % 50}
           </div>

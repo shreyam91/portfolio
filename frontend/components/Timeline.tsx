@@ -14,7 +14,7 @@ export default function Timeline({ experience }: { experience: Experience[] }) {
           </span>
           <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-4">
             Journey{" "}
-            <span className="font-serif italic text-gray-500 dark:text-gray-400">
+            <span className="font-serif italic text-gray-500 dark:text-gray-200">
               Timeline
             </span>
           </h2>
@@ -59,7 +59,7 @@ export default function Timeline({ experience }: { experience: Experience[] }) {
                   <h3 className="text-xl font-medium text-[#1a1a1a] dark:text-white mb-1">
                     {exp.role}
                   </h3>
-                  <h4 className="text-base font-serif italic text-gray-500 dark:text-gray-400 mb-6">
+                  <h4 className="text-base font-serif italic text-gray-500 dark:text-gray-200 mb-6">
                     {exp.company}
                   </h4>
 
@@ -67,9 +67,9 @@ export default function Timeline({ experience }: { experience: Experience[] }) {
                     {exp.description.map((desc, idx) => (
                       <li
                         key={idx}
-                        className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex items-start gap-3"
+                        className="text-sm text-gray-600 dark:text-gray-200 leading-relaxed flex items-start gap-3"
                       >
-                        <span className="text-blue-400 mt-1.5">•</span>
+                        <span className="text-blue-400 dark:text-blue-500 mt-1.5">•</span>
                         <span>{desc}</span>
                       </li>
                     ))}

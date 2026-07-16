@@ -153,7 +153,7 @@ export function MachineCodingList({
         try {
           if (isDashboard) {
             const res = await contentApi.getMachineCodingQuestions();
-            data = res.data?.data || res.data || [];
+            data = Array.isArray(res) ? res : (res.data?.data || res.data || []);
           } else {
             // Dummy data for public preview
             data = [
@@ -429,8 +429,8 @@ export function MachineCodingList({
                             <Link
                               href={
                                 isDashboard
-                                  ? `/codestreak/machine-coding/${slug}`
-                                  : `/machine-coding/${slug}`
+                                  ? `/machine-coding/${slug}`
+                                  : `/codestreak/machine-coding/${slug}`
                               }
                               className="w-full inline-flex items-center justify-center gap-2 bg-foreground text-background font-semibold py-3.5 rounded-xl hover:opacity-90 transition-opacity"
                             >
@@ -527,8 +527,8 @@ export function MachineCodingList({
                       key={problem._id}
                       href={
                         isDashboard
-                          ? `/codestreak/machine-coding/${slug}`
-                          : `/machine-coding/${slug}`
+                          ? `/machine-coding/${slug}`
+                          : `/codestreak/machine-coding/${slug}`
                       }
                       className="group flex flex-col bg-card dark:bg-[#111] border dark:border-white/10 border-black/10 rounded-[20px] transition-all duration-300 hover:border-indigo-500/40 hover:shadow-[0_12px_30px_rgb(0,0,0,0.06)] dark:hover:shadow-[0_12px_30px_rgba(79,70,229,0.1)] hover:-translate-y-1 relative"
                     >

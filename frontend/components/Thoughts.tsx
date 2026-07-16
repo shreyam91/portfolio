@@ -21,7 +21,7 @@ export default function Thoughts({ blogs }: { blogs: any[] }) {
             </span>
             <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-4">
               Campfire{" "}
-              <span className="font-serif italic text-gray-500 dark:text-gray-400">
+              <span className="font-serif italic text-gray-500 dark:text-gray-100">
                 Notes
               </span>
             </h2>
@@ -62,13 +62,13 @@ export default function Thoughts({ blogs }: { blogs: any[] }) {
                       {blog.title}
                     </h3>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono text-gray-400">
+                      <span className="text-[10px] font-mono text-gray-400 dark:text-gray-100">
                         {blog.date}
                       </span>
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4 flex-grow pl-14">
+                <p className="text-gray-500 dark:text-gray-100 text-sm leading-relaxed mb-4 flex-grow pl-14">
                   {blog.description}
                 </p>
               </motion.article>
@@ -100,7 +100,7 @@ export default function Thoughts({ blogs }: { blogs: any[] }) {
               </button>
 
               <div className="p-8 md:p-16">
-                <span className="text-xs font-mono text-blue-500 uppercase tracking-widest mb-4 block">
+                <span className="text-xs font-mono text-blue-500 dark:text-blue-400 uppercase tracking-widest mb-4 block">
                   Campfire Note
                 </span>
                 <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-8">
@@ -118,7 +118,7 @@ export default function Thoughts({ blogs }: { blogs: any[] }) {
                   </div>
                 )}
 
-                <div className="prose prose-lg max-w-none prose-headings:font-light prose-h3:text-2xl prose-a:text-blue-500 text-gray-700 dark:text-gray-300 dark:prose-headings:text-white dark:prose-invert">
+                <div className="prose prose-lg max-w-none prose-headings:font-light prose-h3:text-2xl prose-a:text-blue-500 text-gray-700 dark:text-white dark:prose-headings:text-white dark:prose-invert">
                   <ReactMarkdown>{selectedBlog.content}</ReactMarkdown>
                 </div>
               </div>

@@ -234,8 +234,44 @@ export function DSAUniverseExplorer({
         </div>
 
         {/* Main Workspace */}
-        <div className="flex flex-1 overflow-hidden relative">
-          {/* Learning Path Sidebar (Left) */}
+        <div className="flex flex-col md:flex-row flex-1 overflow-hidden relative">
+          
+          {/* Mobile Navigation (Horizontal Chips) */}
+          <div className="block md:hidden border-b dark:border-white/5 border-black/5 bg-background/50 p-4 shrink-0">
+            <div className="mb-2">
+              <h3 className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-2">Topics</h3>
+              <div className="flex overflow-x-auto hide-scrollbar gap-2 pb-2">
+                {DSA_KNOWLEDGE_MAP.map(topic => (
+                  <button
+                    key={topic.id}
+                    onClick={() => handleTopicClick(topic.id)}
+                    className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors ${selectedTopicId === topic.id ? "bg-primary text-primary-foreground" : "bg-muted/50 text-muted-foreground hover:bg-muted"}`}
+                  >
+                    {topic.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {selectedTopic && (
+              <div className="mt-2 animate-in fade-in slide-in-from-top-2">
+                <h3 className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-2">Patterns</h3>
+                <div className="flex overflow-x-auto hide-scrollbar gap-2 pb-2">
+                  {selectedTopic.patterns.map(pattern => (
+                    <button
+                      key={pattern.id}
+                      onClick={() => handlePatternClick(selectedTopic.id, pattern.id)}
+                      className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-colors border ${selectedPatternId === pattern.id ? "border-primary text-primary bg-primary/10" : "border-border/50 text-muted-foreground hover:bg-muted/50"}`}
+                    >
+                      {pattern.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Learning Path Sidebar (Left on Desktop) */}
           <div className="w-72 flex-shrink-0 border-r dark:border-white/5 border-black/5 overflow-y-auto bg-background/50 hidden md:block">
             <div className="p-6">
               <h3 className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-6">
@@ -493,7 +529,7 @@ function QuestionList({
         return (
           <Link
             key={problem._id}
-            href={isDashboard ? `/codestreak/dsa/${slug}` : `/dsa/${slug}`}
+            href={isDashboard ? `/dsa/${slug}` : `/codestreak/dsa/${slug}`}
             className="block group"
           >
             <div className="bg-card/40 hover:bg-card/80 backdrop-blur-sm border dark:border-white/10 border-black/10 rounded-2xl p-5 transition-all duration-300 hover:shadow-md relative overflow-hidden">

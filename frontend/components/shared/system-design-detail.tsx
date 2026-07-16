@@ -62,7 +62,7 @@ export function SystemDesignDetail({ isDashboard = false, question }: { isDashbo
         <div className="hidden lg:block w-[200px] shrink-0">
           <div className="sticky top-32">
             <Link 
-              href="/codestreak/system-design" 
+              href={isDashboard ? "/system-design" : "/codestreak/system-design"} 
               className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors mb-8 group"
             >
               <div className="p-1.5 rounded-md bg-muted group-hover:bg-indigo-50 dark:group-hover:bg-indigo-500/10 transition-colors">
@@ -93,7 +93,7 @@ export function SystemDesignDetail({ isDashboard = false, question }: { isDashbo
         {/* Main Content Area */}
         <div className="flex-1 max-w-[900px] w-full pb-32">
           {/* Mobile Back Button */}
-          <Link href="/codestreak/system-design" className="lg:hidden flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors mb-8">
+          <Link href={isDashboard ? "/system-design" : "/codestreak/system-design"} className="lg:hidden flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors mb-8">
             <ArrowLeft className="w-4 h-4" /> Back to Library
           </Link>
 

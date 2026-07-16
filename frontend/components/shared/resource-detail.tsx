@@ -44,7 +44,7 @@ const getColorForIndex = (index: number) => {
 };
 
 
-export function ResourceDetail({ slug }: { slug: string }) {
+export function ResourceDetail({ slug, isDashboard = false }: { slug: string, isDashboard?: boolean }) {
   const router = useRouter();
   const [resource, setResource] = React.useState<any>(null);
   const [related, setRelated] = React.useState<any[]>([]);
@@ -88,7 +88,7 @@ export function ResourceDetail({ slug }: { slug: string }) {
           <FileText className="w-16 h-16 text-muted-foreground mb-4 opacity-50" />
           <h2 className="text-2xl font-bold mb-2">Resource Not Found</h2>
           <p className="text-muted-foreground mb-6">The resource you are looking for does not exist.</p>
-          <button onClick={() => router.push("/codestreak/resources")} className="px-6 py-3 bg-foreground text-background font-bold rounded-xl shadow-sm hover:opacity-90 transition-opacity">
+          <button onClick={() => router.push(isDashboard ? "/resources" : "/codestreak/resources")} className="px-6 py-3 bg-foreground text-background font-bold rounded-xl shadow-sm hover:opacity-90 transition-opacity">
             Back to Library
           </button>
         </div>
@@ -103,13 +103,14 @@ export function ResourceDetail({ slug }: { slug: string }) {
   return (
     <div className="dark:bg-[#0a0a0a] min-h-screen bg-[#fafafa] flex flex-col text-foreground font-sans">
       <DashboardNavbar />
+      
 
       <div className="flex-1 max-w-[1200px] mx-auto w-full px-6 lg:px-12 py-12">
         {/* Breadcrumb & Top Bar */}
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-12">
           <div>
             <button 
-              onClick={() => router.push("/codestreak/resources")}
+              onClick={() => router.push(isDashboard ? "/resources" : "/codestreak/resources")}
               className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors mb-6"
             >
               <ArrowLeft className="w-4 h-4" /> Back to Library

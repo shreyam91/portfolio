@@ -101,7 +101,7 @@ export function InteractiveDSADetail({
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-background font-sans">
+    <div className="flex flex-col min-h-screen bg-background font-sans overflow-x-hidden">
       {/* Header */}
       {isDashboard && (
         <header className="bg-background/80 backdrop-blur-md sticky top-0 flex h-16 shrink-0 items-center border-b border-border/50 px-4 justify-between z-20 shadow-sm">
@@ -109,7 +109,7 @@ export function InteractiveDSADetail({
             
             <div className="h-4 w-px bg-border"></div>
             <button
-              onClick={() => router.push("/codestreak/dsa")}
+              onClick={() => router.push(isDashboard ? "/dsa" : "/codestreak/dsa")}
               className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1.5 rounded-md hover:bg-muted"
             >
               <ArrowLeft size={16} />
@@ -124,13 +124,13 @@ export function InteractiveDSADetail({
       )}
 
       {/* Main Two-Panel Layout */}
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden bg-dot-pattern">
+      <div className="flex-1 flex flex-col lg:flex-row bg-dot-pattern">
         {/* Left Panel: Problem Context (Sticky/Scrollable) */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="flex-1 overflow-y-auto p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-border/50 bg-background/60 backdrop-blur-3xl relative min-h-0"
+          className="flex-1 lg:h-[calc(100vh-4rem)] lg:overflow-y-auto p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-border/50 bg-background/60 backdrop-blur-3xl relative"
           style={{ scrollbarWidth: "thin" }}
         >
           <div className="max-w-2xl mx-auto">
@@ -646,7 +646,7 @@ export function InteractiveDSADetail({
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-          className="p-4 lg:p-6 bg-zinc-950 flex flex-col h-[50vh] lg:h-auto lg:flex-1 relative min-w-0 min-h-0"
+          className="p-4 lg:p-6 bg-zinc-950 flex flex-col h-[70vh] min-h-[400px] lg:min-h-0 lg:h-[calc(100vh-4rem)] lg:overflow-y-auto lg:flex-1 relative min-w-0"
         >
           {/* subtle background glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-primary/5 blur-[120px] pointer-events-none rounded-full" />

@@ -16,7 +16,7 @@ export default function MachineCodingDashboardDetailPage({ params }: { params: P
         setIsLoading(true);
         // The API returns all challenges in getMachineCodingQuestions
         const res = await contentApi.getMachineCodingQuestions();
-        const data = res.data?.data || [];
+        const data = Array.isArray(res) ? res : (res.data?.data || res.data || []);
         
         // Find matching item (by matching id or converting title to slug to match resolvedParams.id)
         const found = data.find((item: any) => 

@@ -127,10 +127,10 @@ export default function Dashboard() {
           {/* Quick Access Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 -mt-8 relative z-20">
             {[
-              { title: "DSA", subtitle: "Master algorithms and data structures.", href: "/codestreak/dsa", icon: Code2, color: "text-blue-500", bg: "bg-blue-500/10" },
-              { title: "System Design", subtitle: "Learn how large-scale systems are built.", href: "/codestreak/system-design", icon: LayoutTemplate, color: "text-emerald-500", bg: "bg-emerald-500/10" },
-              { title: "Machine Coding", subtitle: "Build real-world software applications.", href: "/codestreak/machine-coding", icon: TerminalSquare, color: "text-indigo-500", bg: "bg-indigo-500/10" },
-              { title: "Blogs", subtitle: "Read engineering articles and guides.", href: "/codestreak/blogs", icon: BookOpen, color: "text-purple-500", bg: "bg-purple-500/10" }
+              { title: "DSA", subtitle: "Master algorithms and data structures.", href: "/dsa", icon: Code2, color: "text-blue-500", bg: "bg-blue-500/10" },
+              { title: "System Design", subtitle: "Learn how large-scale systems are built.", href: "/system-design", icon: LayoutTemplate, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+              { title: "Machine Coding", subtitle: "Build real-world software applications.", href: "/machine-coding", icon: TerminalSquare, color: "text-indigo-500", bg: "bg-indigo-500/10" },
+              { title: "Blogs", subtitle: "Read engineering articles and guides.", href: "/blogs", icon: BookOpen, color: "text-purple-500", bg: "bg-purple-500/10" }
             ].map(card => (
               <Link key={card.title} href={card.href} className="group p-6 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
                 <div className={`w-14 h-14 rounded-2xl ${card.bg} flex items-center justify-center mb-6`}>
@@ -151,7 +151,7 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
               
               {/* Featured DSA - Large Span */}
-              <Link href="/codestreak/dsa" className="group md:col-span-2 md:row-span-2 relative bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 p-8 flex flex-col justify-end">
+              <Link href="/dsa" className="group md:col-span-2 md:row-span-2 relative bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 p-8 flex flex-col justify-end">
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/20 dark:to-purple-500/20 opacity-50 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative z-10 w-2/3">
                   <span className="inline-block px-3 py-1 bg-background/80 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-black/10 dark:border-white/10">Featured DSA</span>
@@ -165,7 +165,7 @@ export default function Dashboard() {
               </Link>
 
               {/* Featured System Design */}
-              <Link href="/codestreak/system-design" className="group relative bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 p-6 flex flex-col">
+              <Link href="/system-design" className="group relative bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 p-6 flex flex-col">
                 <span className="inline-flex self-start px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full text-xs font-bold uppercase tracking-wider mb-4">System Design</span>
                 <h3 className="text-xl font-bold mb-2">Design Twitter</h3>
                 <p className="text-muted-foreground text-sm flex-1">Understand fanout architecture and timeline generation for millions of users.</p>
@@ -175,7 +175,7 @@ export default function Dashboard() {
               </Link>
 
               {/* Featured Blog */}
-              <Link href="/codestreak/blogs" className="group relative bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 p-6 flex flex-col">
+              <Link href="/blogs" className="group relative bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[24px] overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 p-6 flex flex-col">
                 <span className="inline-flex self-start px-3 py-1 bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-full text-xs font-bold uppercase tracking-wider mb-4">Editorial</span>
                 <h3 className="text-xl font-bold mb-2">Cracking the FAANG Interview in 2026</h3>
                 <p className="text-muted-foreground text-sm flex-1">Our comprehensive guide to preparing for top-tier software engineering interviews.</p>
@@ -282,7 +282,7 @@ export default function Dashboard() {
           <div className="space-y-8">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold tracking-tight">Developer Resources</h2>
-              <Link href="/codestreak/resources" className="text-sm font-bold text-indigo-600 hover:text-indigo-500 transition-colors">
+              <Link href="/resources" className="text-sm font-bold text-indigo-600 hover:text-indigo-500 transition-colors">
                 View All
               </Link>
             </div>
@@ -293,7 +293,7 @@ export default function Dashboard() {
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {resources.slice(0, 4).map((res) => (
-                  <Link key={res.title} href="/codestreak/resources" className="p-5 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[16px] hover:border-indigo-500/40 hover:bg-indigo-50/50 dark:hover:bg-indigo-500/10 transition-colors group block">
+                  <Link key={res.title} href="/resources" className="p-5 bg-card dark:bg-[#111] border border-black/10 dark:border-white/10 rounded-[16px] hover:border-indigo-500/40 hover:bg-indigo-50/50 dark:hover:bg-indigo-500/10 transition-colors group block">
                     <div className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-wider">{res.type}</div>
                     <h4 className="font-bold text-sm group-hover:text-indigo-600 transition-colors">{res.title}</h4>
                   </Link>

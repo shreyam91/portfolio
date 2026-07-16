@@ -3,13 +3,6 @@ import type { NextRequest } from 'next/server';
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
-     */
     '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
   ],
 };
@@ -26,11 +19,18 @@ export function middleware(req: NextRequest) {
     hostname.startsWith('codestreak.localhost');
 
   if (isCodestreakSubdomain) {
-    // If we're on the subdomain and the path doesn't already have /codestreak
-    // we rewrite it to serve from /codestreak folder internally
     if (!url.pathname.startsWith('/codestreak')) {
       url.pathname = `/codestreak${url.pathname === '/' ? '' : url.pathname}`;
       return NextResponse.rewrite(url);
+    }
+  } else {
+    // If we are on the main domain and requesting /codestreak
+    if (url.pathname.startsWith('/codestreak')) {
+      const isLocal = hostname.includes('localhost');
+      const targetHost = isLocal ? `http://codestreak.${hostname}` : `https://codestreak.shreyam.online`;
+      const newUrl = new URL(url.pathname.replace('/codestreak', ''), targetHost);
+      if (newUrl.pathname === '') newUrl.pathname = '/';
+      return NextResponse.redirect(newUrl);
     }
   }
 

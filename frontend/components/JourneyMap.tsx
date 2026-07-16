@@ -80,7 +80,7 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
           </span>
           <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-4">
             Journey{" "}
-            <span className="font-serif italic text-gray-400 dark:text-gray-500">
+            <span className="font-serif italic text-gray-400 dark:text-gray-200">
               Map
             </span>
           </h2>
@@ -171,15 +171,15 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
                         {project.tags[0]}
                       </span>
                     </div>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-3 line-clamp-2">
+                    <p className="text-gray-500 dark:text-white text-sm leading-relaxed mb-3 line-clamp-2">
                       {project.description}
                     </p>
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs font-mono text-gray-400">
+                      <div className="flex items-center gap-2 text-xs font-mono text-gray-400 dark:text-white">
                         {project.tags.slice(1, 3).map((tag: string) => (
                           <React.Fragment key={tag}>
                             <span>{tag}</span>
-                            <span className="last:hidden">•</span>
+                            <span className="last:hidden text-gray-400 dark:text-white">•</span>
                           </React.Fragment>
                         ))}
                       </div>
@@ -243,7 +243,7 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
 
               {/* Content description column below the banner */}
               <div className="p-8 md:p-12 flex flex-col">
-                <span className="text-xs font-mono text-blue-500 uppercase tracking-widest mb-4 block font-semibold">
+                <span className="text-xs font-mono text-blue-500 dark:text-blue-400 uppercase tracking-widest mb-4 block font-semibold">
                   Project Overview
                 </span>
 
@@ -256,11 +256,23 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
                 </p>
 
                 {selectedProject.longDescription && (
-                  <div className="prose prose-sm max-w-none prose-headings:font-semibold prose-headings:text-gray-800 dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-a:text-blue-500 mb-6 dark:prose-invert">
-                    <ReactMarkdown>
-                      {selectedProject.longDescription}
-                    </ReactMarkdown>
-                  </div>
+                 <div
+  className="
+  prose prose-sm max-w-none
+  prose-headings:text-gray-900 dark:prose-headings:text-white
+  prose-p:text-gray-700 dark:prose-p:text-gray-300
+  prose-li:text-gray-700 dark:prose-li:text-gray-300
+  prose-strong:text-gray-900 dark:prose-strong:text-white
+  prose-code:text-blue-500 dark:prose-code:text-blue-400
+  prose-a:text-blue-600 dark:prose-a:text-blue-400
+  dark:prose-invert
+  mb-6
+  "
+>
+  <ReactMarkdown>
+    {selectedProject.longDescription}
+  </ReactMarkdown>
+</div>
                 )}
 
                 <div className="flex flex-wrap gap-2 mb-8">

@@ -416,8 +416,8 @@ export function SystemDesignList({
                       key={problem._id}
                       href={
                         isDashboard
-                          ? `/codestreak/system-design/${slug}`
-                          : `/system-design/${slug}`
+                          ? `/system-design/${slug}`
+                          : `/codestreak/system-design/${slug}`
                       }
                       className="group flex flex-col justify-between bg-card dark:bg-[#111] border dark:border-white/10 border-black/10 rounded-[20px] p-6 transition-all duration-300 hover:border-blue-500/40 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:hover:shadow-[0_8px_30px_rgba(59,130,246,0.1)] hover:-translate-y-1 overflow-hidden relative"
                     >
@@ -518,8 +518,8 @@ export function SystemDesignList({
                       key={problem._id}
                       href={
                         isDashboard
-                          ? `/codestreak/system-design/${slug}`
-                          : `/system-design/${slug}`
+                          ? `/system-design/${slug}`
+                          : `/codestreak/system-design/${slug}`
                       }
                       className="group flex flex-col bg-card dark:bg-[#111] border dark:border-white/10 border-black/10 rounded-[20px] transition-all duration-300 hover:border-blue-500/40 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:hover:shadow-[0_8px_30px_rgba(59,130,246,0.1)] hover:-translate-y-1 overflow-hidden"
                     >

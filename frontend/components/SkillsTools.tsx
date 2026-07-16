@@ -55,38 +55,17 @@ const getIconForTech = (name: string): IconType => {
   return iconMap[name] || FaCode;
 };
 
-export default function SkillsJourney({
-  skills = [],
-  techStack = [],
-}: {
-  skills?: string[];
-  techStack?: Tech[];
-}) {
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const [open, setOpen] = useState<string | null>("2021");
-
-  const journey = [
+const journey = [
+    
     {
-      year: "2021",
-      title: "Web Development ",
+      title: "Frontend Technology",
       description:
-        "Began the journey into web development by learning how to build responsive and interactive user interfaces.",
+        "Strengthened frontend development skills with modern frameworks, reusable components, and clean UI practices.",
       techs: [
         "HTML5",
         "CSS3",
         "JavaScript",
         "Responsive Design",
-        "Tailwind CSS",
-        "Git",
-        "GitHub",
-      ],
-    },
-    {
-      year: "2022",
-      title: "Frontend",
-      description:
-        "Strengthened frontend development skills with modern frameworks, reusable components, and clean UI practices.",
-      techs: [
         "React",
         "Next.js",
         "TypeScript",
@@ -97,8 +76,7 @@ export default function SkillsJourney({
       ],
     },
     {
-      year: "2023",
-      title: "Backend",
+      title: "Backend Technology",
       description:
         "Started building server-side applications, APIs, and database-driven systems for full-stack development.",
       techs: [
@@ -109,10 +87,12 @@ export default function SkillsJourney({
         "JWT Authentication",
         "REST APIs",
         "Postman",
+        "Java",
+        "Spring Boot",
+        "SQL"
       ],
     },
     {
-      year: "2024",
       title: "Software Architecture",
       description:
         "Explored scalable system design, deployment workflows, and engineering best practices for production-ready applications.",
@@ -124,10 +104,10 @@ export default function SkillsJourney({
         "NGINX",
         "Git",
         "Spring Boot",
+        "GitHub"
       ],
     },
     {
-      year: "2025",
       title: "Distributed Systems",
       description:
         "Focused on advanced backend architecture, scalability, and designing reliable distributed applications.",
@@ -141,7 +121,6 @@ export default function SkillsJourney({
       ],
     },
     {
-      year: "2026",
       title: "Cloud, DevOps & AI",
       description:
         "Expanding expertise in cloud-native infrastructure, automation, monitoring, and highly available production systems.",
@@ -149,8 +128,19 @@ export default function SkillsJourney({
     },
   ];
 
+export default function SkillsJourney({
+  skills = [],
+  techStack = [],
+}: {
+  skills?: string[];
+  techStack?: Tech[];
+}) {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+const [open, setOpen] = useState<string | null>(journey[0]?.title || null);
+  
+
   return (
-    <section className="relative w-full py-10 md:py-18 bg-[#fafafa] dark:bg-[#0a0a0a] transition-colors duration-300 overflow-hidden">
+    <section className="relative w-full py-10 md:py-14 bg-[#fafafa] dark:bg-[#0a0a0a] transition-colors duration-300 overflow-hidden">
       {/* Style Injection to Hide Scrollbars */}
       <style>{`
         .scrollbar-none::-webkit-scrollbar {
@@ -162,9 +152,9 @@ export default function SkillsJourney({
         }
       `}</style>
 
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6">
         {/* HEADER */}
-        <div className="text-center mb-20">
+        <div className="text-center">
           <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-[0.3em] mb-3 block">
             02
           </span>
@@ -196,8 +186,7 @@ export default function SkillsJourney({
             {journey.map((item, index) => {
               return (
                 <div
-                  key={item.year}
-                  className="snap-center flex-shrink-0 w-[420px] relative flex flex-col"
+key={item.title}                  className="snap-center flex-shrink-0 w-[420px] relative flex flex-col"
                 >
                   {/* Centered Circle Dot (Vertically centered perfectly on the horizontal line) */}
                   <div className="absolute left-1/2 -translate-x-1/2 top-[22px] z-20">
@@ -214,15 +203,15 @@ export default function SkillsJourney({
                     {/* Hover Glow effect */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 via-transparent to-blue-100/10 dark:to-blue-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                    <span className="text-xs font-mono text-blue-500 dark:text-blue-400 tracking-[0.3em] block mb-2 font-semibold">
+                    {/* <span className="text-xs font-mono text-blue-500 dark:text-blue-400 tracking-[0.3em] block mb-2 font-semibold">
                       {item.year}
-                    </span>
+                    </span> */}
 
                     <h3 className="text-xl font-bold text-[#1a1a1a] dark:text-white mb-2 tracking-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                       {item.title}
                     </h3>
 
-                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6 flex-grow font-light">
+                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed flex-grow font-light mb-4">
                       {item.description}
                     </p>
 
@@ -267,16 +256,16 @@ export default function SkillsJourney({
         {/* ========================= */}
         <div className="md:hidden space-y-4">
           {journey.map((item) => {
-            const isOpen = open === item.year;
+  const isOpen = open === item.title;
 
             return (
               <div
-                key={item.year}
+                key={item.title}
                 className="bg-white dark:bg-[#111111] border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm transition-colors duration-300"
               >
                 {/* HEADER */}
                 <button
-                  onClick={() => setOpen(isOpen ? null : item.year)}
+                  onClick={() => setOpen(isOpen ? null : item.title)}
                   className="w-full flex items-center justify-between px-5 py-4"
                 >
                   {/* LEFT STRIP */}
@@ -294,9 +283,9 @@ export default function SkillsJourney({
                     </div>
 
                     <div className="text-left">
-                      <p className="text-[10px] font-mono tracking-widest text-blue-500 dark:text-blue-400">
+                      {/* <p className="text-[10px] font-mono tracking-widest text-blue-500 dark:text-blue-400">
                         {item.year}
-                      </p>
+                      </p> */}
                       <p className="text-sm font-medium text-[#1a1a1a] dark:text-white">
                         {item.title}
                       </p>

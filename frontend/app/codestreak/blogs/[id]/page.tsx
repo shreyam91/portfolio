@@ -141,7 +141,7 @@ export default function BlogPost({ params }: { params: Promise<{ id: string }> }
         
         {/* Left Spacer (Desktop) */}
         <div className="hidden lg:block w-48 shrink-0">
-          <Link href="/codestreak/blogs" className="fixed top-32 flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors group">
+          <Link href="/blogs" className="fixed top-32 flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors group">
             <div className="p-2 rounded-full bg-muted group-hover:bg-indigo-50 dark:group-hover:bg-indigo-500/10 transition-colors">
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             </div>
@@ -152,7 +152,7 @@ export default function BlogPost({ params }: { params: Promise<{ id: string }> }
         {/* Main Content Column */}
         <div className="flex-1 max-w-[700px] mx-auto w-full" ref={contentRef}>
           {/* Mobile Back Button */}
-          <Link href="/codestreak/blogs" className="lg:hidden flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors mb-8">
+          <Link href="/blogs" className="lg:hidden flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors mb-8">
             <ArrowLeft className="w-4 h-4" /> Back to Blogs
           </Link>
 
