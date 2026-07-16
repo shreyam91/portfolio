@@ -256,7 +256,7 @@ export default function JourneyMap({ projects }: { projects: any[] }) {
                 </p>
 
                 {selectedProject.longDescription && (
-                  <div className="prose prose-sm max-w-none prose-headings:font-semibold prose-headings:text-gray-800 dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-a:text-blue-500 mb-6">
+                  <div className="prose prose-sm max-w-none prose-headings:font-semibold prose-headings:text-gray-800 dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-a:text-blue-500 mb-6 dark:prose-invert">
                     <ReactMarkdown>
                       {selectedProject.longDescription}
                     </ReactMarkdown>

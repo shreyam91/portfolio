@@ -87,11 +87,20 @@ export function DSAUniverseExplorer({
       filtered = filtered.filter((q) => {
         const qPattern =
           typeof q.pattern === "string" ? q.pattern : q.pattern?.primary || "";
-        // Simple heuristic: if the question's pattern name matches the config pattern name
-        // (often they share a very similar string like "Sliding Window")
+        const lowerQ = qPattern.toLowerCase();
+        const lowerP = selectedPattern.name.toLowerCase();
+        
+        // Special mapping for Array Basics since DB has "Arrays"
+        const isArrayBasics = 
+          selectedPattern.id === "basics" && 
+          selectedTopic?.id === "arrays" && 
+          (lowerQ === "arrays" || lowerQ === "array basics");
+
         return (
           normalize(qPattern) === patternNameNormalized ||
-          qPattern.toLowerCase().includes(selectedPattern.name.toLowerCase())
+          lowerQ.includes(lowerP) ||
+          lowerP.includes(lowerQ) ||
+          isArrayBasics
         );
       });
     }

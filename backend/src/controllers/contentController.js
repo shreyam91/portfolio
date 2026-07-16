@@ -289,7 +289,36 @@ Java, Apache POI
   }
 };
 
-exports.getDSA = getList(DSAQuestion);
+exports.getDSA = async (req, res, next) => {
+  try {
+    const filter = {};
+    
+    // Filter by primary pattern
+    if (req.query.pattern) {
+      filter['pattern.primary'] = req.query.pattern;
+    }
+    
+    // Filter by secondary pattern
+    if (req.query.secondaryPattern) {
+      filter['pattern.secondary'] = { $in: [req.query.secondaryPattern] };
+    }
+    
+    // Filter by difficulty
+    if (req.query.difficulty) {
+      filter.difficulty = req.query.difficulty;
+    }
+    
+    const result = await paginate(DSAQuestion, filter, {
+      page: req.query.page,
+      limit: req.query.limit,
+      sort: { createdAt: -1 }
+    });
+    sendSuccess(res, result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.getSingleDSA = getSingle(DSAQuestion);
 
 exports.getMachineCoding = getList(MachineCodingQuestion);

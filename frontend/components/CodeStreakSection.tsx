@@ -1,277 +1,173 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import {
-  FiActivity,
   FiCode,
-  FiLayers,
-  FiExternalLink,
   FiServer,
+  FiLayers,
+  FiBook,
+  FiEdit3,
+  FiExternalLink,
 } from "react-icons/fi";
 import Link from "next/link";
-import { useTheme } from "next-themes";
+
+const features = [
+  {
+    title: "DSA Problems",
+    description:
+      "Curated coding challenges covering essential data structures and algorithms.",
+    icon: <FiCode className="text-blue-400" />,
+    bg: "bg-blue-500/10",
+    border: "border-blue-500/20 group-hover:border-blue-500/40",
+    shadow: "group-hover:shadow-blue-500/10",
+  },
+  {
+    title: "System Design",
+    description: "Real-world architecture questions and design case studies.",
+    icon: <FiServer className="text-purple-400" />,
+    bg: "bg-purple-500/10",
+    border: "border-purple-500/20 group-hover:border-purple-500/40",
+    shadow: "group-hover:shadow-purple-500/10",
+  },
+  {
+    title: "Machine Coding",
+    description:
+      "Practical coding assignments that simulate technical interviews.",
+    icon: <FiLayers className="text-indigo-400" />,
+    bg: "bg-indigo-500/10",
+    border: "border-indigo-500/20 group-hover:border-indigo-500/40",
+    shadow: "group-hover:shadow-indigo-500/10",
+  },
+  {
+    title: "Resources",
+    description:
+      "Curated notes, cheat sheets, roadmaps, and interview preparation material.",
+    icon: <FiBook className="text-teal-400" />,
+    bg: "bg-teal-500/10",
+    border: "border-teal-500/20 group-hover:border-teal-500/40",
+    shadow: "group-hover:shadow-teal-500/10",
+  },
+  {
+    title: "Blogs",
+    description:
+      "Technical articles, interview experiences, and engineering insights.",
+    icon: <FiEdit3 className="text-pink-400" />,
+    bg: "bg-pink-500/10",
+    border: "border-pink-500/20 group-hover:border-pink-500/40",
+    shadow: "group-hover:shadow-pink-500/10",
+  },
+];
 
 export default function CodeStreakSection() {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const [stats, setStats] = useState({
-    dsa: 0,
-    sysDesign: 0,
-    machineCoding: 0,
-    streak: 0,
-  });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setMounted(true);
-
-    // Fetch live data from CodeStreak Backend
-    const fetchCodeStreakData = async () => {
-      try {
-        const baseUrl =
-          process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
-
-        const [dsaRes, sysRes, mcRes] = await Promise.all([
-          fetch(`/api/proxy/dsa?limit=1000`)
-            .then((res) => res.json())
-            .catch(() => ({ data: { data: [] } })),
-          fetch(`/api/proxy/system-design?limit=1000`)
-            .then((res) => res.json())
-            .catch(() => ({ data: { data: [] } })),
-          fetch(`/api/proxy/machine-coding?limit=1000`)
-            .then((res) => res.json())
-            .catch(() => ({ data: { data: [] } })),
-        ]);
-
-        const dsa = dsaRes?.data?.data || [];
-        const sys = sysRes?.data?.data || [];
-        const mc = mcRes?.data?.data || [];
-
-        const allContent = [...dsa, ...sys, ...mc];
-
-        const getLocalDateStr = (date: Date) => {
-          return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-        };
-
-        const activityMap: Record<string, number> = {};
-        allContent.forEach((q: any) => {
-          if (!q.createdAt) return;
-          try {
-            const date = new Date(q.createdAt);
-            const dateStr = getLocalDateStr(date);
-            activityMap[dateStr] = (activityMap[dateStr] || 0) + 1;
-          } catch (e) {}
-        });
-
-        let currentStreak = 0;
-        const today = new Date();
-        let checkDate = new Date(today);
-        const todayStr = getLocalDateStr(checkDate);
-        checkDate.setDate(checkDate.getDate() - 1);
-        const yesterdayStr = getLocalDateStr(checkDate);
-
-        let streakStart = new Date(today);
-        if (activityMap[todayStr]) {
-          // Start from today
-        } else if (activityMap[yesterdayStr]) {
-          streakStart.setDate(streakStart.getDate() - 1);
-        }
-
-        while (true) {
-          const dateStr = getLocalDateStr(streakStart);
-          if (activityMap[dateStr]) {
-            currentStreak++;
-            streakStart.setDate(streakStart.getDate() - 1);
-          } else {
-            break;
-          }
-        }
-
-        setStats({
-          dsa: dsa.length,
-          sysDesign: sys.length,
-          machineCoding: mc.length,
-          streak: currentStreak,
-        });
-      } catch (error) {
-        // console.error("Failed to fetch CodeStreak data", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCodeStreakData();
-  }, []);
-
-  if (!mounted) return null;
-
   return (
-    <section className="relative w-full py-24 bg-white dark:bg-[#0a0a0a] overflow-hidden transition-colors duration-300">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent" />
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-500/10 dark:bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative w-full py-10 bg-[#f8fafc] dark:bg-[#0B0F19] overflow-hidden transition-colors duration-500">
+      {/* Animated Gradient Background Orbs */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-br from-blue-500/20 to-purple-600/20 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-500/10 blur-[100px] rounded-full pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3 block">
-              05
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col items-center">
+        <div className="text-center mb-6">
+          <span className="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3 block">
+            05
+          </span>
+          <h2 className="text-3xl md:text-6xl font-light text-[#1a1a1a] dark:text-white mb-6">
+            Platform
+            <span className="font-serif italic text-gray-500 dark:text-gray-400">
+              Showcase
             </span>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="px-3 py-1 text-xs font-medium tracking-wider uppercase bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 rounded-full">
-                Interactive Tracker
-              </span>
-              <span className="flex items-center gap-2 text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
-                Live Sync
-              </span>
-            </div>
-
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 dark:text-white mb-4 tracking-tight">
-              CodeStreak{" "}
-              <span className="font-serif italic text-gray-400 dark:text-gray-500">
-                Dashboard
-              </span>
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-xl text-lg">
-              A real-time synchronization with my personal problem-solving
-              tracker, reflecting my daily coding consistency and progress.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <Link
-              href="/codestreak"
-              className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-all shadow-sm hover:shadow-md group gap-2"
-            >
-              Enter Dashboard
-              <FiExternalLink className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </Link>
-          </motion.div>
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
-          {[
-            // {
-            //   label:
-            //     stats.streak === 0
-            //       ? "Just Starting"
-            //       : stats.streak <= 7
-            //         ? "Newbie Streak"
-            //         : stats.streak <= 30
-            //           ? "Consistent"
-            //           : "Unstoppable",
-            //   desc: "Current active streak",
-            //   value: stats.streak,
-            //   icon: (
-            //     <FiActivity className="text-orange-500 dark:text-orange-400" />
-            //   ),
-            //   suffix: " Days",
-            //   bg: "bg-orange-50 dark:bg-orange-500/10",
-            //   border:
-            //     "group-hover:border-orange-200 dark:group-hover:border-orange-500/30",
-            //   codeBg: `git commit -m "streak"\n[main 8a2b4c1]\n2 files changed, 45 (+)\nnpm run build\n> build successful\ndeploy --prod`,
-            // },
-            {
-              label: "DSA Solved",
-              desc: "Data structures & algorithms",
-              value: stats.dsa,
-              icon: <FiCode className="text-blue-500 dark:text-blue-400" />,
-              bg: "bg-blue-50 dark:bg-blue-500/10",
-              border:
-                "group-hover:border-blue-200 dark:group-hover:border-blue-500/30",
-              codeBg: `function solve(n) {\n  let dp = [0, 1];\n  for(let i=2; i<=n; i++) {\n    dp[i] = dp[i-1] + dp[i-2];\n  }\n  return dp[n];\n}`,
-            },
-            {
-              label: "System Design",
-              desc: "Architecture problems solved",
-              value: stats.sysDesign,
-              icon: (
-                <FiServer className="text-indigo-500 dark:text-indigo-400" />
-              ),
-              bg: "bg-indigo-50 dark:bg-indigo-500/10",
-              border:
-                "group-hover:border-indigo-200 dark:group-hover:border-indigo-500/30",
-              codeBg: `[LB] -> [API Gateway]\n          |\n   +------+------+\n   |             |\n[Cache]        [Auth]\n   |             |\n[DB-M] <====> [DB-S]`,
-            },
-            {
-              label: "Machine Coding",
-              desc: "Low-level design & UI tasks",
-              value: stats.machineCoding,
-              icon: (
-                <FiLayers className="text-purple-500 dark:text-purple-400" />
-              ),
-              bg: "bg-purple-50 dark:bg-purple-500/10",
-              border:
-                "group-hover:border-purple-200 dark:group-hover:border-purple-500/30",
-              codeBg: `const UI = () => {\n  const [s, setS] = useState();\n  return (\n    <div className="app">\n      <Header />\n      <List />\n    </div>\n  );\n}`,
-            },
-          ].map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 * i }}
-              className={`relative bg-white dark:bg-[#111111] border border-gray-100 dark:border-gray-800 rounded-2xl p-6 flex flex-col shadow-sm hover:shadow-lg transition-all group overflow-hidden ${stat.border}`}
-            >
-              <div className="absolute inset-0 z-0 opacity-15 dark:opacity-25 group-hover:opacity-30 dark:group-hover:opacity-40 transition-opacity duration-500 pointer-events-none overflow-hidden select-none flex items-start justify-end">
-                <pre className="text-[10px] md:text-[11px] font-mono text-gray-400 dark:text-gray-500 font-bold leading-relaxed whitespace-pre text-right transform translate-x-2 -translate-y-2 group-hover:scale-105 transition-transform duration-500">
-                  {stat.codeBg}
-                </pre>
+        {/* Browser Mockup */}
+        <div className="w-full max-w-7xl mx-auto rounded-[24px] border border-gray-200 dark:border-white/10 bg-white/60 dark:bg-[#0f172a]/80 backdrop-blur-2xl shadow-2xl shadow-blue-900/10 dark:shadow-blue-900/30 overflow-hidden">
+          {/* Browser Header */}
+          <div className="flex items-center px-4 py-3 border-b border-gray-200 dark:border-white/10 bg-gray-100/50 dark:bg-white/5">
+            <div className="flex space-x-2 w-20">
+              <div className="w-3 h-3 rounded-full bg-[#ff5f56] border border-[#e0443e]" />
+              <div className="w-3 h-3 rounded-full bg-[#ffbd2e] border border-[#dea123]" />
+              <div className="w-3 h-3 rounded-full bg-[#27c93f] border border-[#1aab29]" />
+            </div>
+            <div className="flex-1 flex justify-center">
+              <div className="px-6 py-1 rounded-md bg-white dark:bg-white/5 text-xs text-gray-500 dark:text-gray-400 font-mono flex items-center gap-2 border border-gray-200 dark:border-white/5 shadow-sm dark:shadow-inner">
+                codestreak.dev
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-[#111111] dark:via-[#111111]/80 dark:to-transparent z-0 pointer-events-none" />
+            </div>
+            <div className="w-20" /> {/* Spacer for centering */}
+          </div>
 
-              <div className="relative z-10 flex items-center justify-between mb-6">
-                <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 ${stat.bg}`}
+          {/* Browser Content */}
+          <div className="p-8 md:p-14 lg:p-16">
+            {/* Hero Section inside Browser */}
+            <div className="text-center mb-10">
+              <h3 className="text-4xl md:text-5xl lg:text-6xl font-serif italic text-gray-900 dark:text-white tracking-tight mb-3">
+                CodeStreak
+              </h3>
+              <p className="text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 font-semibold mb-2">
+                Your all-in-one interview preparation platform.
+              </p>
+              <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+                Practice coding, master system design, solve machine coding
+                challenges, and learn from curated resources—all in one place.
+              </p>
+            </div>
+
+            {/* Feature Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+              {features.map((f, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ y: -5 }}
+                  className={`group p-6 rounded-2xl border ${f.border} border-gray-200 bg-white/50 dark:bg-white/5 backdrop-blur-sm transition-all duration-300 hover:bg-white hover:dark:bg-white/10 hover:shadow-xl ${f.shadow}`}
                 >
-                  {stat.icon}
-                </div>
-                <div className="h-8 w-8 rounded-full border border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-black/50 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <FiExternalLink className="text-gray-600 text-sm group-hover:text-gray-900 dark:group-hover:text-white transition-colors" />
-                </div>
-              </div>
-
-              <div className="relative z-10 mt-auto">
-                {loading ? (
-                  <div className="w-16 h-10 bg-gray-100 dark:bg-gray-800 animate-pulse rounded mb-2" />
-                ) : (
-                  <div className="text-5xl font-semibold text-gray-900 dark:text-white mb-2 tracking-tight flex items-baseline gap-1">
-                    {stat.value}
-                    {stat.suffix && (
-                      <span className="text-base text-gray-500 font-medium">
-                        {stat.suffix}
-                      </span>
-                    )}
+                  <div
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 ${f.bg} text-xl border border-gray-100 dark:border-white/5`}
+                  >
+                    {f.icon}
                   </div>
-                )}
-                <div className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-1">
-                  {stat.label}
+                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    {f.title}
+                  </h4>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                    {f.description}
+                  </p>
+                </motion.div>
+              ))}
+              {/* Optional 6th card or fill empty space nicely */}
+              <motion.div
+                whileHover={{ y: -5 }}
+                className="group p-6 rounded-2xl border border-gray-200 dark:border-white/5 bg-white/30 dark:bg-white/5 backdrop-blur-sm transition-all duration-300 flex flex-col items-center justify-center text-center min-h-[200px]"
+              >
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-gray-100 dark:bg-white/5 text-gray-400 dark:text-gray-500 text-xl border border-gray-200 dark:border-white/5">
+                  <FiExternalLink />
                 </div>
-                <div className="text-xs text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
-                  {stat.desc}
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  And much more...
+                </h4>
+                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                  Join the platform to unlock all available features.
+                </p>
+              </motion.div>
+            </div>
+
+            {/* CTA */}
+            <div className="flex justify-center">
+              <Link
+                href="/codestreak"
+                target="_blank"
+                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium text-lg rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(59,130,246,0.6)]"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  Explore Platform
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+

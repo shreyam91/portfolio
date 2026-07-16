@@ -118,7 +118,7 @@ export default function Thoughts({ blogs }: { blogs: any[] }) {
                   </div>
                 )}
 
-                <div className="prose prose-lg max-w-none prose-headings:font-light prose-h3:text-2xl prose-a:text-blue-500 text-gray-700 dark:text-gray-300 dark:prose-headings:text-white">
+                <div className="prose prose-lg max-w-none prose-headings:font-light prose-h3:text-2xl prose-a:text-blue-500 text-gray-700 dark:text-gray-300 dark:prose-headings:text-white dark:prose-invert">
                   <ReactMarkdown>{selectedBlog.content}</ReactMarkdown>
                 </div>
               </div>

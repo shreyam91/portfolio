@@ -6,7 +6,7 @@
 
     "pattern": {
       "primary": "Arrays",
-      "secondary": ["Traversal"]
+      "secondary": ["Traversal", "basic"]
     },
 
     "patternImportance": 5,
@@ -79,10 +79,22 @@
 
     "approaches": [
       {
-        "name": "Linear Traversal",
+        "name": "Brute Force (Built-in Max)",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(1)",
+        "code": "class Solution {\\n    public int findMax(int[] arr) {\\n\\n        // Use built-in max function (brute force approach)\\n        int max = arr[0];\\n\\n        // Check every element\\n        for (int i = 1; i < arr.length; i++) {\\n            if (arr[i] > max) {\\n                max = arr[i];\\n            }\\n        }\\n\\n        return max;\\n    }\\n}"
+      },
+      {
+        "name": "Linear Traversal (Optimal)",
         "timeComplexity": "O(n)",
         "spaceComplexity": "O(1)",
         "code": "class Solution {\\n    public int findMax(int[] arr) {\\n\\n        // Store the first element as the initial maximum value\\n        int max = arr[0];\\n\\n        // Traverse the array starting from the second element\\n        for (int i = 1; i < arr.length; i++) {\\n\\n            // Check if the current element is greater than maximum found so far\\n            if (arr[i] > max) {\\n\\n                // Update maximum value with the current larger element\\n                max = arr[i];\\n            }\\n        }\\n\\n        // Return the largest element found in the array\\n        return max;\\n    }\\n}"
+      },
+      {
+        "name": "Java Streams (Modern Approach)",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(1)",
+        "code": "class Solution {\\n    public int findMax(int[] arr) {\\n\\n        // Using Java 8 streams to find maximum\\n        return Arrays.stream(arr)\\n                .max()\\n                .getAsInt();\\n    }\\n}"
       }
     ],
 
@@ -142,7 +154,7 @@
 
     "pattern": {
       "primary": "Arrays",
-      "secondary": ["Traversal"]
+      "secondary": ["Traversal", "basic"]
     },
 
     "patternImportance": 5,
@@ -209,10 +221,22 @@
 
     "approaches": [
       {
-        "name": "Linear Traversal",
+        "name": "Brute Force (Built-in Min)",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(1)",
+        "code": "class Solution {\\n    public int findMin(int[] arr) {\\n\\n        // Use built-in min function (brute force approach)\\n        int min = arr[0];\\n\\n        // Check every element\\n        for (int i = 1; i < arr.length; i++) {\\n            if (arr[i] < min) {\\n                min = arr[i];\\n            }\\n        }\\n\\n        return min;\\n    }\\n}"
+      },
+      {
+        "name": "Linear Traversal (Optimal)",
         "timeComplexity": "O(n)",
         "spaceComplexity": "O(1)",
         "code": "class Solution {\\n    public int findMin(int[] arr) {\\n\\n        // Store the first element as the initial minimum value\\n        int min = arr[0];\\n\\n        // Traverse the array to find the smallest element\\n        for (int i = 1; i < arr.length; i++) {\\n\\n            // If current element is smaller, update minimum\\n            if (arr[i] < min) {\\n                min = arr[i];\\n            }\\n        }\\n\\n        // Return the smallest element found\\n        return min;\\n    }\\n}"
+      },
+      {
+        "name": "Java Streams (Modern Approach)",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(1)",
+        "code": "class Solution {\\n    public int findMin(int[] arr) {\\n\\n        // Using Java 8 streams to find minimum\\n        return Arrays.stream(arr)\\n                .min()\\n                .getAsInt();\\n    }\\n}"
       }
     ],
 
@@ -262,7 +286,7 @@
 
     "pattern": {
       "primary": "Arrays",
-      "secondary": ["Traversal"]
+      "secondary": ["Traversal", "basic"]
     },
 
     "patternImportance": 4,
@@ -328,10 +352,22 @@
 
     "approaches": [
       {
-        "name": "Simple Traversal",
+        "name": "Brute Force (Index-based)",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(1)",
+        "code": "class Solution {\\n    public long arraySum(int[] arr) {\\n\\n        // Variable to store the running sum\\n        long sum = 0;\\n\\n        // Traverse using index\\n        for (int i = 0; i < arr.length; i++) {\\n            sum += arr[i];\\n        }\\n\\n        // Return final calculated sum\\n        return sum;\\n    }\\n}"
+      },
+      {
+        "name": "Enhanced For Loop (Optimal)",
         "timeComplexity": "O(n)",
         "spaceComplexity": "O(1)",
         "code": "class Solution {\\n    public long arraySum(int[] arr) {\\n\\n        // Variable to store the running sum\\n        long sum = 0;\\n\\n        // Traverse every element of the array\\n        for (int num : arr) {\\n\\n            // Add current element to total sum\\n            sum += num;\\n        }\\n\\n        // Return final calculated sum\\n        return sum;\\n    }\\n}"
+      },
+      {
+        "name": "Java Streams (Modern Approach)",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(1)",
+        "code": "class Solution {\\n    public long arraySum(int[] arr) {\\n\\n        // Using Java 8 streams to calculate sum\\n        return Arrays.stream(arr)\\n                .asLongStream()\\n                .sum();\\n    }\\n}"
       }
     ],
 
@@ -448,10 +484,22 @@
 
     "approaches": [
       {
-        "name": "Two Pointer Approach",
+        "name": "Brute Force (Extra Array)",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(n)",
+        "code": "class Solution {\\n    public void reverseArray(int[] arr) {\\n\\n        // Create a new array to store reversed elements\\n        int[] reversed = new int[arr.length];\\n\\n        // Copy elements in reverse order\\n        for (int i = 0; i < arr.length; i++) {\\n            reversed[i] = arr[arr.length - 1 - i];\\n        }\\n\\n        // Copy back to original array\\n        for (int i = 0; i < arr.length; i++) {\\n            arr[i] = reversed[i];\\n        }\\n    }\\n}"
+      },
+      {
+        "name": "Two Pointer Approach (Optimal)",
         "timeComplexity": "O(n)",
         "spaceComplexity": "O(1)",
         "code": "class Solution {\\n    public void reverseArray(int[] arr) {\\n\\n        // Pointer starting from the first index\\n        int left = 0;\\n\\n        // Pointer starting from the last index\\n        int right = arr.length - 1;\\n\\n        // Continue swapping until both pointers meet\\n        while (left < right) {\\n\\n            // Store left value temporarily before swapping\\n            int temp = arr[left];\\n\\n            // Move right element to left position\\n            arr[left] = arr[right];\\n\\n            // Move stored left element to right position\\n            arr[right] = temp;\\n\\n            // Move left pointer forward\\n            left++;\\n\\n            // Move right pointer backward\\n            right--;\\n        }\\n    }\\n}"
+      },
+      {
+        "name": "Built-in Method (Java)",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(1)",
+        "code": "class Solution {\\n    public void reverseArray(int[] arr) {\\n\\n        // Using built-in Collections.reverse (requires conversion)\\n        // For primitive arrays, use manual reversal or Apache Commons\\n        int left = 0, right = arr.length - 1;\\n        while (left < right) {\\n            int temp = arr[left];\\n            arr[left++] = arr[right];\\n            arr[right--] = temp;\\n        }\\n    }\\n}"
       }
     ],
 
@@ -723,6 +771,18 @@
 
     "approaches": [
       {
+        "name": "Brute Force",
+        "timeComplexity": "O(n²)",
+        "spaceComplexity": "O(1)",
+        "code": "class Solution {\\n    public int trap(int[] height) {\\n\\n        int totalWater = 0;\\n\\n        // For each element, find left max and right max\\n        for (int i = 0; i < height.length; i++) {\\n\\n            int leftMax = 0;\\n            int rightMax = 0;\\n\\n            // Find maximum height to the left of i\\n            for (int j = 0; j <= i; j++) {\\n                leftMax = Math.max(leftMax, height[j]);\\n            }\\n\\n            // Find maximum height to the right of i\\n            for (int j = i; j < height.length; j++) {\\n                rightMax = Math.max(rightMax, height[j]);\\n            }\\n\\n            // Water trapped at i is min(leftMax, rightMax) - height[i]\\n            totalWater += Math.min(leftMax, rightMax) - height[i];\\n        }\\n\\n        return totalWater;\\n    }\\n}"
+      },
+      {
+        "name": "Prefix/Suffix Arrays",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(n)",
+        "code": "class Solution {\\n    public int trap(int[] height) {\\n\\n        int n = height.length;\\n        int[] leftMax = new int[n];\\n        int[] rightMax = new int[n];\\n\\n        // Fill leftMax array\\n        leftMax[0] = height[0];\\n        for (int i = 1; i < n; i++) {\\n            leftMax[i] = Math.max(leftMax[i - 1], height[i]);\\n        }\\n\\n        // Fill rightMax array\\n        rightMax[n - 1] = height[n - 1];\\n        for (int i = n - 2; i >= 0; i--) {\\n            rightMax[i] = Math.max(rightMax[i + 1], height[i]);\\n        }\\n\\n        // Calculate trapped water\\n        int water = 0;\\n        for (int i = 0; i < n; i++) {\\n            water += Math.min(leftMax[i], rightMax[i]) - height[i];\\n        }\\n\\n        return water;\\n    }\\n}"
+      },
+      {
         "name": "Two Pointer (Optimal)",
         "timeComplexity": "O(n)",
         "spaceComplexity": "O(1)",
@@ -862,6 +922,12 @@
 
     "approaches": [
       {
+        "name": "Brute Force (String Builder)",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(n)",
+        "code": "class Solution {\\n    public boolean isPalindrome(String s) {\\n\\n        // Build cleaned string with only alphanumeric characters\\n        StringBuilder cleaned = new StringBuilder();\\n\\n        for (char c : s.toCharArray()) {\\n            if (Character.isLetterOrDigit(c)) {\\n                cleaned.append(Character.toLowerCase(c));\\n            }\\n        }\\n\\n        // Compare with reversed string\\n        String reversed = cleaned.reverse().toString();\\n        return cleaned.toString().equals(reversed);\\n    }\\n}"
+      },
+      {
         "name": "Two Pointer (Optimal)",
         "timeComplexity": "O(n)",
         "spaceComplexity": "O(1)",
@@ -988,6 +1054,12 @@
 
     "approaches": [
       {
+        "name": "Brute Force (Extra Array)",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(n)",
+        "code": "class Solution {\\n    public int removeDuplicates(int[] nums) {\\n\\n        // Use a set to store unique elements\\n        Set<Integer> unique = new LinkedHashSet<>();\\n\\n        for (int num : nums) {\\n            unique.add(num);\\n        }\\n\\n        // Copy back to original array\\n        int index = 0;\\n        for (int num : unique) {\\n            nums[index++] = num;\\n        }\\n\\n        return unique.size();\\n    }\\n}"
+      },
+      {
         "name": "Two Pointer (Optimal)",
         "timeComplexity": "O(n)",
         "spaceComplexity": "O(1)",
@@ -1108,6 +1180,18 @@
     },
 
     "approaches": [
+      {
+        "name": "Brute Force (Extra Array)",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(n)",
+        "code": "class Solution {\\n    public void moveZeroes(int[] nums) {\\n\\n        // Create new array to store non-zero elements\\n        int[] result = new int[nums.length];\\n        int index = 0;\\n\\n        // Copy non-zero elements first\\n        for (int num : nums) {\\n            if (num != 0) {\\n                result[index++] = num;\\n            }\\n        }\\n\\n        // Remaining positions are already zero\\n        // Copy back to original array\\n        for (int i = 0; i < nums.length; i++) {\\n            nums[i] = result[i];\\n        }\\n    }\\n}"
+      },
+      {
+        "name": "Two Pointer Without Swap",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(1)",
+        "code": "class Solution {\\n    public void moveZeroes(int[] nums) {\\n\\n        // Position where next non-zero element should be placed\\n        int slow = 0;\\n\\n        // First pass: move all non-zero elements to front\\n        for (int fast = 0; fast < nums.length; fast++) {\\n            if (nums[fast] != 0) {\\n                nums[slow++] = nums[fast];\\n            }\\n        }\\n\\n        // Second pass: fill remaining positions with zeros\\n        for (int i = slow; i < nums.length; i++) {\\n            nums[i] = 0;\\n        }\\n    }\\n}"
+      },
       {
         "name": "Two Pointer Swap (Optimal)",
         "timeComplexity": "O(n)",
@@ -1242,6 +1326,18 @@
 
     "approaches": [
       {
+        "name": "Brute Force",
+        "timeComplexity": "O(n²)",
+        "spaceComplexity": "O(1)",
+        "code": "class Solution {\\n    public int[] twoSum(int[] numbers, int target) {\\n\\n        // Check every possible pair\\n        for (int i = 0; i < numbers.length; i++) {\\n            for (int j = i + 1; j < numbers.length; j++) {\\n                if (numbers[i] + numbers[j] == target) {\\n                    return new int[]{i + 1, j + 1};\\n                }\\n            }\\n        }\\n\\n        return new int[]{};\\n    }\\n}"
+      },
+      {
+        "name": "HashMap Approach",
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(n)",
+        "code": "class Solution {\\n    public int[] twoSum(int[] numbers, int target) {\\n\\n        Map<Integer, Integer> map = new HashMap<>();\\n\\n        for (int i = 0; i < numbers.length; i++) {\\n            int complement = target - numbers[i];\\n            if (map.containsKey(complement)) {\\n                return new int[]{map.get(complement) + 1, i + 1};\\n            }\\n            map.put(numbers[i], i);\\n        }\\n\\n        return new int[]{};\\n    }\\n}"
+      },
+      {
         "name": "Two Pointer (Optimal)",
         "timeComplexity": "O(n)",
         "spaceComplexity": "O(1)",
@@ -1372,6 +1468,12 @@
     },
 
     "approaches": [
+      {
+        "name": "Brute Force (Sort After Square)",
+        "timeComplexity": "O(n log n)",
+        "spaceComplexity": "O(n)",
+        "code": "class Solution {\\n    public int[] sortedSquares(int[] nums) {\\n\\n        // Square all elements\\n        for (int i = 0; i < nums.length; i++) {\\n            nums[i] = nums[i] * nums[i];\\n        }\\n\\n        // Sort the squared array\\n        Arrays.sort(nums);\\n\\n        return nums;\\n    }\\n}"
+      },
       {
         "name": "Two Pointer (Optimal)",
         "timeComplexity": "O(n)",
@@ -5580,8 +5682,8 @@
     "difficulty": "Easy",
 
     "pattern": {
-      "primary": "Anagram",
-      "secondary": ["Hash Map", "Frequency Counting", "Sorting"]
+      "primary": "String Manipulation",
+      "secondary": ["Anagram", "Hash Map", "Frequency Counting", "Sorting"]
     },
 
     "patternImportance": 5,
