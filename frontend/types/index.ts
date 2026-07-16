@@ -27,6 +27,7 @@ export interface DSAQuestion {
   category?: string;
   problemStatement?: string;
   description?: string;
+  pattern?: string | { primary?: string; [key: string]: any };
   companies?: string[];
   status: "solved" | "unsolved";
   createdAt: string;
