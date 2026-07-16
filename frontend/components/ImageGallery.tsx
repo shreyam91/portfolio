@@ -25,6 +25,42 @@ const desktopPositions = [
   { left: "30%", top: "85%", width: "20%", depth: 0.6, rotation: -4 },
 ];
 
+const DesktopImageCard = ({ img, pos, springX, springY, setSelectedImage }: any) => {
+  const parallaxX = useTransform(springX, (value: number) => value * pos.depth * -10);
+  const parallaxY = useTransform(springY, (value: number) => value * pos.depth * -10);
+
+  return (
+    <motion.div
+      onClick={() => setSelectedImage(img)}
+      className="absolute rounded-xl overflow-hidden cursor-pointer shadow-2xl group border-[4px] border-white/5"
+      style={{
+        left: pos.left,
+        top: pos.top,
+        width: pos.width,
+        rotate: pos.rotation,
+        x: parallaxX,
+        y: parallaxY,
+      }}
+      whileHover={{
+        scale: 1.1,
+        rotate: 0,
+        zIndex: 50,
+        transition: { duration: 0.4 },
+      }}
+    >
+      <div className="relative w-full h-full">
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/0 transition-colors duration-500 z-10" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={img.thumbnail}
+          alt={img.title}
+          className="w-full h-auto object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
+        />
+      </div>
+    </motion.div>
+  );
+};
+
 export default function ImageGallery() {
   const [selectedImage, setSelectedImage] = useState<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -106,18 +142,6 @@ export default function ImageGallery() {
         {houses.slice(0, desktopPositions.length).map((img, i) => {
           const pos = desktopPositions[i % desktopPositions.length];
 
-          // Create derived motion values for parallax unconditionally (Rules of Hooks)
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const parallaxX = useTransform(
-            springX,
-            (value) => value * pos.depth * -10,
-          );
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const parallaxY = useTransform(
-            springY,
-            (value) => value * pos.depth * -10,
-          );
-
           // If mobile, render a horizontal scroll snapping carousel.
           if (isMobile) {
             return (
@@ -142,36 +166,14 @@ export default function ImageGallery() {
 
           // Desktop Parallax Render
           return (
-            <motion.div
+            <DesktopImageCard
               key={img.id}
-              onClick={() => setSelectedImage(img)}
-              className="absolute rounded-xl overflow-hidden cursor-pointer shadow-2xl group border-[4px] border-white/5"
-              style={{
-                left: pos.left,
-                top: pos.top,
-                width: pos.width,
-                rotate: pos.rotation,
-                x: parallaxX,
-                y: parallaxY,
-              }}
-              whileHover={{
-                scale: 1.1,
-                rotate: 0,
-                zIndex: 50,
-                transition: { duration: 0.4 },
-              }}
-            >
-              {/* Image with grayscale that transitions to full color on hover */}
-              <div className="relative w-full h-full">
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/0 transition-colors duration-500 z-10" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={img.thumbnail}
-                  alt={img.title}
-                  className="w-full h-auto object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
-                />
-              </div>
-            </motion.div>
+              img={img}
+              pos={pos}
+              springX={springX}
+              springY={springY}
+              setSelectedImage={setSelectedImage}
+            />
           );
         })}
       </div>
