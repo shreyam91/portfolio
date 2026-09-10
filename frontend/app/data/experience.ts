@@ -2,6 +2,15 @@ import { Experience } from "./types";
 
 export const experience: Experience[] = [
   {
+  role: "AI Developer — Learning & Development",
+  company: "Self-Learning / Personal Projects",
+  duration: "2026 — Present",
+  content: "gradient1",
+  description: [
+    "Currently building expertise in AI development through hands-on learning and projects focused on Python, machine learning, Generative AI, LLMs, prompt engineering, RAG systems, AI APIs, vector databases, and AI-powered applications while exploring modern AI tools, frameworks, and best practices.",
+  ],
+},
+  {
     role: "Full Stack Developer",
     company: "Freelance / Personal Projects",
     duration: "May 2024 — Present",
@@ -31,13 +40,5 @@ export const experience: Experience[] = [
     ],
   },
 
-  {
-  role: "AI Developer — Learning & Development",
-  company: "Self-Learning / Personal Projects",
-  duration: "2025 — Present",
-  content: "gradient1",
-  description: [
-    "Currently building expertise in AI development through hands-on learning and projects focused on Python, machine learning, Generative AI, LLMs, prompt engineering, RAG systems, AI APIs, vector databases, and AI-powered applications while exploring modern AI tools, frameworks, and best practices.",
-  ],
-},
+  
 ];

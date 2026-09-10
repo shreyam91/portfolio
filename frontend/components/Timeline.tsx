@@ -24,11 +24,11 @@ const STAGES = [
   },
   {
     tag: "03",
-    stage: "Building for a team",
+    stage: "Independent product builder",
   },
   {
     tag: "04",
-    stage: "Independent product builder",
+    stage: "AI Engineer in the making",
   },
 ];
 
@@ -78,34 +78,33 @@ export default function Timeline({ experience }: { experience: Experience[] }) {
           </p>
         </motion.div>
 
-        {/* Vertical journey route */}
+        {/* Vertical journey route — NOW at top, START at bottom */}
         <div className="relative mt-4">
           {/* Spine */}
-          <div className="absolute left-[7px] md:left-1/2 top-2 bottom-2 w-px md:-translate-x-1/2 bg-gradient-to-b from-[#3b82f6]/60 via-gray-300 dark:via-gray-700 to-transparent" />
+          <div className="absolute left-[7px] md:left-1/2 top-2 bottom-2 w-px md:-translate-x-1/2 bg-gradient-to-t from-[#3b82f6]/60 via-gray-300 dark:via-gray-700 to-transparent" />
 
-          {/* START marker */}
+          {/* NOW destination — top of timeline */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7 }}
             className="relative flex flex-col md:flex-row gap-6 md:gap-14 pb-16 pl-10 md:pl-0"
           >
-            <div className="md:w-1/2 md:pr-14 flex md:justify-end">
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500">
-                  Start
-                </span>
-                <span className="text-xs font-light text-gray-500 dark:text-gray-400">
-                  →
-                </span>
-              </div>
+            <div className="hidden md:block w-1/2" />
+            <div className="w-full md:w-1/2 md:pl-14 flex items-center gap-3">
+              <span className="inline-block h-3 w-3 rounded-full bg-[#3b82f6] shadow-[0_0_14px_rgba(59,130,246,0.8)]" />
+              <span className="text-sm font-mono tracking-[0.3em] text-[#1a1a1a] dark:text-[#fcfcfc]">
+                NOW
+              </span>
+              <span className="text-xs font-light text-gray-500 dark:text-gray-400">
+                — building the next chapter
+              </span>
             </div>
-            <span className="hidden md:block absolute left-0 top-1.5 rounded-full bg-[#3b82f6] p-[5px] md:left-1/2 md:-translate-x-1/2" />
           </motion.div>
 
-          {/* Milestones */}
-          {nodes.map((node, i) => (
+          {/* Milestones — latest first, oldest at bottom */}
+          {[...nodes].reverse().map((node, i) => (
             <motion.div
               key={node.tag}
               initial={{ opacity: 0, y: 26 }}
@@ -170,24 +169,25 @@ export default function Timeline({ experience }: { experience: Experience[] }) {
             </motion.div>
           ))}
 
-          {/* NOW destination */}
+          {/* START marker — bottom of timeline */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="relative flex flex-col md:flex-row gap-6 md:gap-14 pl-10 md:pl-0"
+            transition={{ duration: 0.6 }}
+            className="relative flex flex-col md:flex-row gap-6 md:gap-14 pb-16 pl-10 md:pl-0"
           >
-            <div className="hidden md:block w-1/2" />
-            <div className="w-full md:w-1/2 md:pl-14 flex items-center gap-3">
-              <span className="inline-block h-3 w-3 rounded-full bg-[#3b82f6] shadow-[0_0_14px_rgba(59,130,246,0.8)]" />
-              <span className="text-sm font-mono tracking-[0.3em] text-[#1a1a1a] dark:text-[#fcfcfc]">
-                NOW
-              </span>
-              <span className="text-xs font-light text-gray-500 dark:text-gray-400">
-                — building the next chapter
-              </span>
+            <div className="md:w-1/2 md:pr-14 flex md:justify-end">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500">
+                  Start
+                </span>
+                <span className="text-xs font-light text-gray-500 dark:text-gray-400">
+                  →
+                </span>
+              </div>
             </div>
+            <span className="hidden md:block absolute left-0 top-1.5 rounded-full bg-[#3b82f6] p-[5px] md:left-1/2 md:-translate-x-1/2" />
           </motion.div>
         </div>
       </div>
