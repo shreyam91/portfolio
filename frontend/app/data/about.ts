@@ -1,4 +1,4 @@
-import { AboutData } from "./types";
+import type { AboutData } from "./types";
 
 export const aboutData: AboutData = {
   highlights: {
@@ -44,12 +44,16 @@ export const aboutData: AboutData = {
     Cloud: ["AWS", "Vercel", "Netlify", "Firebase"],
 
     AI: [
+      "AI Product Integration",
+      "OpenAI API",
+      "LLM API Integration",
+      "Prompt Engineering",
+      "AI-assisted Development",
       "GitHub Copilot",
       "Cursor",
       "Gemini",
-      "OpenAI API",
-      "Prompt Engineering",
-      "AI-assisted Development",
+      "RAG & Embeddings (Exploring)",
+      "Vercel AI SDK (Exploring)",
     ],
 
     Other: [

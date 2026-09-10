@@ -1,5 +1,5 @@
 // Define the interface for a house
-interface Images {
+export interface Images {
   id: number;
   title: string;
   description: string;
@@ -33,7 +33,8 @@ const images: Images[] = [
   {
     id: 4,
     title: "House in the Mountains",
-    description: "A serene and tranquil retreat, this house offers peace away from the city.",
+    description:
+      "A serene and tranquil retreat, this house offers peace away from the city.",
     thumbnail: "/images/mountains.jpeg",
     full: "/images/mountains.jpeg",
   },
@@ -71,7 +72,7 @@ const images: Images[] = [
     description: "Macro photography of water droplets.",
     thumbnail: "/images/water-drops.jpg",
     full: "/images/water-drops.jpg",
-  }
+  },
 ];
 
 export default images;

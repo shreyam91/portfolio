@@ -1,9 +1,13 @@
-import { Highlight } from "./types";
+import type { Highlight } from "./types";
 
 export const highlights: Highlight[] = [
   {
     icon: "🚀",
     text: "Built and deployed 10+ full-stack applications using React, Next.js, Node.js, and MongoDB with scalable backend architectures.",
+  },
+  {
+    icon: "🤖",
+    text: "Engineered AI product experiences — integrating LLM APIs and prompt engineering into real applications like AI-powered job matching and resume optimization.",
   },
   {
     icon: "🎨",

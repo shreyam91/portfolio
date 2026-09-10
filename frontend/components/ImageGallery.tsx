@@ -1,15 +1,19 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
 import {
-  motion,
   AnimatePresence,
+  motion,
   useMotionValue,
   useSpring,
   useTransform,
 } from "framer-motion";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiX } from "react-icons/fi";
-import houses from "../app/data/imagesData";
+import houses, { type Images } from "../app/data/imagesData";
+
+// MotionValue types for the springs passed to the parallax card.
+type SpringValue = ReturnType<typeof useSpring>;
 
 // Predefined scattering patterns for desktop
 const desktopPositions = [
@@ -25,9 +29,29 @@ const desktopPositions = [
   { left: "30%", top: "85%", width: "20%", depth: 0.6, rotation: -4 },
 ];
 
-const DesktopImageCard = ({ img, pos, springX, springY, setSelectedImage }: any) => {
-  const parallaxX = useTransform(springX, (value: number) => value * pos.depth * -10);
-  const parallaxY = useTransform(springY, (value: number) => value * pos.depth * -10);
+interface DesktopImageCardProps {
+  img: Images;
+  pos: (typeof desktopPositions)[number];
+  springX: SpringValue;
+  springY: SpringValue;
+  setSelectedImage: (img: Images | null) => void;
+}
+
+const DesktopImageCard = ({
+  img,
+  pos,
+  springX,
+  springY,
+  setSelectedImage,
+}: DesktopImageCardProps) => {
+  const parallaxX = useTransform(
+    springX,
+    (value: number) => value * pos.depth * -10,
+  );
+  const parallaxY = useTransform(
+    springY,
+    (value: number) => value * pos.depth * -10,
+  );
 
   return (
     <motion.div
@@ -62,7 +86,7 @@ const DesktopImageCard = ({ img, pos, springX, springY, setSelectedImage }: any)
 };
 
 export default function ImageGallery() {
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<Images | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -114,21 +138,19 @@ export default function ImageGallery() {
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-200/50 dark:from-gray-900/50 via-[#fafafa] dark:via-[#0a0a0a] to-[#fafafa] dark:to-[#0a0a0a] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 mb-8 md:mb-0">
-        <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 block text-center md:text-left">
-          07
+        <span className="text-xs font-mono text-[#3b82f6] uppercase tracking-[0.3em] mb-2 block text-center md:text-left">
+          Photography
         </span>
-        <h2 className="text-3xl md:text-6xl font-light text-black dark:text-white mb-4 text-center md:text-left">
-          Visual{" "}
-          <span className="font-serif italic text-gray-400 dark:text-gray-500">
-            Diary
-          </span>
+        <h2 className="text-3xl md:text-5xl font-light tracking-tight text-[#1a1a1a] dark:text-[#fcfcfc] mb-4 text-center md:text-left">
+          Visual <span className="font-serif italic text-[#3b82f6]">Diary</span>
         </h2>
-        <p className="text-gray-500 dark:text-gray-400 max-w-xl text-lg font-light text-center md:text-left">
+        <p className="text-gray-600 dark:text-gray-400 max-w-xl text-lg font-light text-center md:text-left">
           Moments captured through the lens. Hover to reveal color and depth.
         </p>
       </div>
 
       {/* Gallery Container */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: decorative parallax scroll container */}
       <div
         ref={containerRef}
         onMouseMove={handleMouseMove}
@@ -189,6 +211,7 @@ export default function ImageGallery() {
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl cursor-zoom-out"
           >
             <button
+              type="button"
               onClick={() => setSelectedImage(null)}
               className="absolute top-6 right-6 p-4 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-50 backdrop-blur-md border border-white/10"
             >

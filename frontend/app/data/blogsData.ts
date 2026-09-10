@@ -1,4 +1,4 @@
-interface BlogPost {
+export interface BlogPost {
   id: number;
   slug: string;
   title: string;

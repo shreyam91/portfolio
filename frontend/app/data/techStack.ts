@@ -1,4 +1,4 @@
-import { Tech } from "./types";
+import type { Tech } from "./types";
 
 export const techStack: Tech[] = [
   // Frontend
@@ -94,11 +94,32 @@ export const techStack: Tech[] = [
   },
 
   // AI & Productivity
-  { name: "GitHub Copilot", color: "text-violet-400", proficiency: "Advanced" },
-  { name: "Cursor AI", color: "text-purple-400", proficiency: "Advanced" },
+  { name: "OpenAI API", color: "text-emerald-400", proficiency: "Advanced" },
+  {
+    name: "LLM APIs (GPT · Gemini · Claude)",
+    color: "text-teal-400",
+    proficiency: "Intermediate",
+  },
   {
     name: "Prompt Engineering",
     color: "text-pink-400",
     proficiency: "Intermediate",
   },
+  {
+    name: "Vercel AI SDK",
+    color: "text-sky-400",
+    proficiency: "Exploring",
+  },
+  {
+    name: "RAG & Embeddings",
+    color: "text-indigo-400",
+    proficiency: "Exploring",
+  },
+  {
+    name: "Vector DBs (Pinecone)",
+    color: "text-lime-400",
+    proficiency: "Exploring",
+  },
+  { name: "GitHub Copilot", color: "text-violet-400", proficiency: "Advanced" },
+  { name: "Cursor AI", color: "text-purple-400", proficiency: "Advanced" },
 ];

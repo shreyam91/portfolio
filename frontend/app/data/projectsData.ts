@@ -33,18 +33,32 @@ Job seekers struggle with:
 - Time-consuming manual filtering
 
 ## Solution
-JobPulse was built as an AI-powered career assistant that simplifies the entire job search journey.
+JobPulse is an AI-powered career assistant that simplifies the entire job search journey.
 
-It analyzes user resumes using AI, understands skill sets, and recommends relevant jobs. It also provides a centralized dashboard to track all applications.
+It analyzes user resumes with AI, understands skill sets, and recommends relevant jobs. It also provides a centralized dashboard to track every application.
+
+## How the AI layer works
+The AI isn't bolted on as a novelty — it sits at the core of the matching loop:
+
+- **Resume parsing.** The system extracts skills, experience level, and role signals from a user's resume.
+- **Smart matching.** OpenAI reasons over how a candidate's profile maps to live job postings, scoring relevance and surfacing roles that would otherwise stay buried.
+- **Recommendation logic.** The backend turns those signals into a ranked list, persisted alongside application data in PostgreSQL.
+- **Prompt design.** Every AI call uses a deliberately structured prompt that returns consistent, parseable results — so the model's output plugs straight into the product logic.
+
+## AI Architecture
+OpenAI (model) → recommendation logic → backend API → PostgreSQL → frontend
 
 ## What I Built
 - AI-based job recommendation engine
-- Resume parsing and optimization system
+- Resume parsing and optimization grounded in the AI layer
 - Application tracking dashboard
 - Smart filtering based on skills, experience, and role
 - Secure authentication system
 
-## Impact
+## Challenge
+Making the AI output reliable. The hard part wasn't calling the API — it was engineering the prompts and the parsing so the model's answers consistently mapped to structured data the rest of the app could trust.
+
+## Result
 - Reduces job search time significantly
 - Improves resume quality using AI suggestions
 - Centralizes job applications in one platform
@@ -52,7 +66,7 @@ It analyzes user resumes using AI, understands skill sets, and recommends releva
 ## Tech Stack
 Next.js, Node.js, PostgreSQL, OpenAI API, Tailwind CSS
 `,
-    tags: ["Next.js", "AI", "Node.js", "PostgreSQL", "OpenAI"],
+    tags: ["Next.js", "AI", "OpenAI", "LLM", "Node.js", "PostgreSQL"],
     github: "https://github.com/shreyam91/AI-Job",
     featured: true,
     year: "2025",
