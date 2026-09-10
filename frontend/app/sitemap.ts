@@ -1,16 +1,15 @@
-import { projects } from "@/app/data/projectsData";
-
 export default function sitemap() {
-  const projectUrls = projects.map((p) => ({
-    url: `https://shreyam.online/projects/${p.id}`,
-    lastModified: new Date(),
-  }));
-
+  const origin = "https://shreyam.online";
+  // Only routes that actually resolve today. Dedicated per-project case-study
+  // pages (section 08) aren't built yet — excluded until they exist.
   return [
     {
-      url: "https://shreyam.online",
+      url: origin,
       lastModified: new Date(),
     },
-    ...projectUrls,
+    {
+      url: `${origin}/codestreak`,
+      lastModified: new Date(),
+    },
   ];
 }

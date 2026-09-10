@@ -1,6 +1,7 @@
 export interface Hero {
   name: string;
   title: string;
+  headline: string;
   tagline: string;
   photo: string;
   resume: string;

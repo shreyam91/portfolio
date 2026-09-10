@@ -422,3 +422,30 @@
   background: linear-gradient(90deg, #00ffff, #0070f3);
   box-shadow: 0 0 10px #00ffff80;
 }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================================
+   JourneyLoader — helper styles
+   The journey intro itself lives in components/JourneyLoader.tsx.
+   These small, theme-agnostic building blocks support it.
+   ============================================================ */
+
+/* Very subtle film grain — adds depth without busy-ness */
+.welcome-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}

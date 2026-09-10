@@ -1,24 +1,30 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Hero from "@/components/Hero";
-import JourneyMap from "@/components/JourneyMap";
-import SkillsTools from "@/components/SkillsTools";
-import Timeline from "@/components/Timeline";
-import Thoughts from "@/components/Thoughts";
-import CodeStreakSection from "@/components/CodeStreakSection";
+import { AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import Certifications from "@/components/Certifications";
 import Destination from "@/components/Destination";
 import GlobalHeader from "@/components/GlobalHeader";
-import Certifications from "@/components/Certifications";
+import Hero from "@/components/Hero";
 import ImageGallery from "@/components/ImageGallery";
+import JourneyLoader from "@/components/JourneyLoader";
+import LiveProjects from "@/components/LiveProjects";
+import Now from "@/components/Now";
+import SelectedWork from "@/components/SelectedWork";
+import SocialProof from "@/components/SocialProof";
+import Thoughts from "@/components/Thoughts";
+import Timeline from "@/components/Timeline";
+import WhyWorkWithMe from "@/components/WhyWorkWithMe";
+import { contentApi } from "@/lib/api";
+import { blogs } from "./data/blogsData";
+import { liveProjects } from "./data/liveProjects";
 import { portfolioData } from "./data/portfolioData";
 import { projects } from "./data/projectsData";
-import { blogs } from "./data/blogsData";
-
-import { contentApi } from "@/lib/api";
 
 export default function AdventurePage() {
   const [mounted, setMounted] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
+  const [revealed, setRevealed] = useState(false);
   const [dbBlogs, setDbBlogs] = useState(blogs);
   const [dbProjects, setDbProjects] = useState(projects);
 
@@ -50,6 +56,18 @@ export default function AdventurePage() {
 
   return (
     <div className="min-h-screen bg-[#fcfcfc] dark:bg-[#0a0a0a] text-[#1a1a1a] dark:text-[#fcfcfc] transition-colors duration-300 font-sans selection:bg-[#3b82f6] selection:text-white overflow-hidden">
+      {/* Journey intro overlay — slides up to reveal the homepage */}
+      <AnimatePresence>
+        {showLoader && (
+          <JourneyLoader
+            onFinish={() => {
+              setRevealed(true);
+              setShowLoader(false);
+            }}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Ambient background glow */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#e0e7ff] dark:bg-[#0f172a] rounded-full blur-[150px] opacity-60 mix-blend-multiply dark:mix-blend-screen" />
@@ -58,17 +76,16 @@ export default function AdventurePage() {
 
       <div className="relative z-10 flex flex-col items-center">
         <GlobalHeader />
-        <Hero heroData={portfolioData.hero} />
-        <JourneyMap projects={dbProjects} />
-        <SkillsTools
-          skills={portfolioData.skills}
-          techStack={portfolioData.techStack}
-        />
+        {revealed && <Hero heroData={portfolioData.hero} />}
+        <SelectedWork projects={dbProjects} />
+        <WhyWorkWithMe />
         <Timeline experience={portfolioData.experience} />
+        <Now />
         <Thoughts blogs={dbBlogs} />
-        <CodeStreakSection />
+        <LiveProjects projects={liveProjects} />
         <Certifications />
         <ImageGallery />
+        <SocialProof />
         <Destination
           contact={portfolioData.contact}
           socialLinks={portfolioData.socialLinks}

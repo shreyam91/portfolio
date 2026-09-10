@@ -7,11 +7,7 @@ export const experience: Experience[] = [
     duration: "May 2024 — Present",
     content: "gradient1",
     description: [
-      "Developed and deployed 10+ full-stack web applications and portfolio platforms using Next.js, React, Node.js, and Framer Motion.",
-      "Built responsive, accessible, and SEO-friendly user interfaces with Tailwind CSS, improving cross-device user experience and engagement.",
-      "Optimized application performance through lazy loading, image optimization, and code splitting, reducing page load times by up to 30%.",
-      "Integrated REST APIs, authentication systems, and third-party services to enhance scalability, security, and real-time functionality.",
-      "Managed end-to-end deployment workflows using Vercel, GitHub Actions, and CI/CD pipelines for seamless production releases.",
+      "Developed and deployed 10+ scalable, responsive, and SEO-friendly full-stack applications using Next.js, React, Node.js, Tailwind CSS, and Framer Motion, integrating REST APIs, authentication, third-party services, performance optimizations, and automated CI/CD deployment workflows with Vercel and GitHub Actions.",
     ],
   },
 
@@ -21,11 +17,7 @@ export const experience: Experience[] = [
     duration: "Sep 2022 — May 2024",
     content: "gradient1",
     description: [
-      "Designed and developed enterprise-grade web applications using Java, Spring Boot, React, and PostgreSQL in Agile development environments.",
-      "Built and maintained scalable RESTful APIs and microservices architecture, supporting high-performance business-critical applications.",
-      "Collaborated with cross-functional teams including QA, DevOps, and business stakeholders to deliver features within sprint timelines.",
-      "Enhanced backend efficiency and database query performance, improving API response times and application reliability.",
-      "Maintained high code quality through peer code reviews, secure coding standards, automated testing, and CI/CD integration.",
+      "Designed and developed scalable enterprise applications using Java, Spring Boot, React, PostgreSQL, REST APIs, and microservices, while collaborating in Agile teams to optimize performance, maintain code quality, implement automated testing and CI/CD, and deliver reliable business-critical solutions.",
     ],
   },
 
@@ -35,11 +27,17 @@ export const experience: Experience[] = [
     duration: "Feb 2022 — Sep 2022",
     content: "gradient1",
     description: [
-      "Contributed to full-stack application development using Java, Spring Boot, React, and RESTful APIs under senior developer mentorship.",
-      "Assisted in implementing reusable UI components and backend modules, improving development efficiency and maintainability.",
-      "Performed debugging, testing, and issue resolution for frontend and backend systems to ensure stable application performance.",
-      "Collaborated with development teams using Git, Agile methodologies, and version control workflows in enterprise projects.",
-      "Gained hands-on experience with software development lifecycle (SDLC), code reviews, deployment practices, and production support.",
+      "Contributed to enterprise full-stack applications using Java, Spring Boot, React, and REST APIs, developing reusable components, debugging and testing features, collaborating through Git and Agile workflows, and gaining hands-on experience across the SDLC, code reviews, deployments, and production support.",
     ],
   },
+
+  {
+  role: "AI Developer — Learning & Development",
+  company: "Self-Learning / Personal Projects",
+  duration: "2025 — Present",
+  content: "gradient1",
+  description: [
+    "Currently building expertise in AI development through hands-on learning and projects focused on Python, machine learning, Generative AI, LLMs, prompt engineering, RAG systems, AI APIs, vector databases, and AI-powered applications while exploring modern AI tools, frameworks, and best practices.",
+  ],
+},
 ];

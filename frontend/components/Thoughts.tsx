@@ -1,125 +1,183 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiEdit3, FiBook, FiX } from "react-icons/fi";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { FiBook, FiEdit3, FiX } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
+import type { BlogPost } from "../app/data/blogsData";
 
-export default function Thoughts({ blogs }: { blogs: any[] }) {
-  const [selectedBlog, setSelectedBlog] = useState<any | null>(null);
+/**
+ * Thoughts — Campfire Notes (blog section).
+ *
+ * A quiet, editorial list of notes. Cards reveal on scroll, open into a
+ * focused reading modal that renders the full note as markdown. Design follows
+ * the site language: mono eyebrow, serif-italic secondary voice, light weight.
+ */
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+function NoteIcon({ index }: { index: number }) {
+  return index % 2 === 0 ? <FiBook /> : <FiEdit3 />;
+}
+
+export default function Thoughts({ blogs }: { blogs: BlogPost[] }) {
+  const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
   const [expanded, setExpanded] = useState(false);
 
   const visibleBlogs = expanded ? blogs : blogs.slice(0, 3);
 
   return (
-    <section className="relative w-full py-18 bg-[#fafafa] dark:bg-[#0a0a0a] transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-          <div>
-            <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 block">
-              04
+    <section className="relative w-full py-20 md:py-24 bg-white dark:bg-[#0d0d0d] transition-colors duration-300">
+      <div className="max-w-6xl mx-auto px-6 md:px-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-14 md:mb-20 gap-8"
+        >
+          <div className="max-w-2xl">
+            <span className="text-xs font-mono text-[#3b82f6] uppercase tracking-[0.3em] mb-5 block">
+              Writing
             </span>
-            <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-4">
+            <h2 className="text-3xl md:text-5xl font-light tracking-tight text-[#1a1a1a] dark:text-[#fcfcfc] leading-tight">
               Campfire{" "}
-              <span className="font-serif italic text-gray-500 dark:text-gray-100">
-                Notes
-              </span>
+              <span className="font-serif italic text-[#3b82f6]">Notes</span>
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-xl text-lg font-light">
+            <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 font-light leading-relaxed mt-4">
               Thoughts on engineering, design, and growth.
             </p>
           </div>
           <button
+            type="button"
             onClick={() => setExpanded(!expanded)}
-            className="text-sm font-medium text-[#1a1a1a] dark:text-white hover:text-gray-500 dark:hover:text-gray-300 transition-colors uppercase tracking-widest flex items-center gap-2"
+            className="text-sm font-light text-gray-600 dark:text-gray-400 hover:text-[#1a1a1a] dark:hover:text-white transition-colors uppercase tracking-[0.2em] flex items-center gap-2"
           >
             {expanded ? "Hide all notes ↑" : "Explore all notes →"}
           </button>
-        </div>
+        </motion.div>
 
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        {/* Notes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence>
             {visibleBlogs.map((blog, i) => (
               <motion.article
                 layout
-                key={blog._id || blog.id || i}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}
+                key={blog.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{
+                  duration: 0.55,
+                  delay: (i % 3) * 0.08,
+                  ease: EASE,
+                }}
                 onClick={() => setSelectedBlog(blog)}
-                className="group cursor-pointer flex flex-col p-6 rounded-2xl bg-white dark:bg-[#111111] border border-gray-200 dark:border-gray-800 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-700 transition-all"
+                className="group cursor-pointer flex flex-col p-6 rounded-2xl bg-[#fafafa] dark:bg-[#111111] border border-gray-200 dark:border-white/10 hover:border-[#3b82f6]/40 transition-colors"
               >
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-[#1a1a1a] flex items-center justify-center flex-shrink-0 text-gray-500 dark:text-gray-400 group-hover:text-blue-500 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/30 transition-colors">
-                    {i % 2 === 0 ? <FiBook /> : <FiEdit3 />}
+                  <div className="w-10 h-10 rounded-full bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-white/10 flex items-center justify-center flex-shrink-0 text-gray-500 dark:text-gray-400 group-hover:text-[#3b82f6] group-hover:border-[#3b82f6]/40 transition-colors">
+                    <NoteIcon index={i} />
                   </div>
                   <div>
-                    <h3 className="text-base font-medium text-[#1a1a1a] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">
+                    <h3 className="text-base font-normal text-[#1a1a1a] dark:text-white group-hover:text-[#3b82f6] dark:group-hover:text-[#3b82f6] transition-colors mb-1 tracking-tight">
                       {blog.title}
                     </h3>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono text-gray-400 dark:text-gray-100">
-                        {blog.date}
-                      </span>
+                    <div className="flex items-center gap-2 text-[11px] font-mono text-gray-400 dark:text-gray-500">
+                      {blog.date && <span>{blog.date}</span>}
+                      {blog.readTime && (
+                        <>
+                          <span className="w-0.5 h-0.5 rounded-full bg-gray-300 dark:bg-gray-600" />
+                          <span>{blog.readTime}</span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-500 dark:text-gray-100 text-sm leading-relaxed mb-4 flex-grow pl-14">
+                <p className="text-gray-600 dark:text-gray-400 text-sm font-light leading-relaxed flex-grow">
                   {blog.description}
                 </p>
               </motion.article>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Modal / Expanded View for Blog */}
+      {/* Reading modal */}
       <AnimatePresence>
         {selectedBlog && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-8 bg-white/80 dark:bg-[#111111]/80 backdrop-blur-md"
+            onClick={() => setSelectedBlog(null)}
+            className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-3 md:p-8 bg-black/60 backdrop-blur-md cursor-pointer overflow-y-auto"
           >
             <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 20, opacity: 0 }}
-              className="relative w-full max-w-4xl max-h-full overflow-y-auto bg-white dark:bg-[#111111] rounded-3xl border border-gray-200 dark:border-gray-800 shadow-2xl"
+              initial={{ y: 32, opacity: 0, scale: 0.98 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 20, opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.35, ease: EASE }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-3xl max-h-[90vh] my-6 flex flex-col bg-white dark:bg-[#121212] rounded-3xl border border-gray-200 dark:border-white/10 shadow-2xl overflow-hidden cursor-default"
             >
-              <button
-                onClick={() => setSelectedBlog(null)}
-                className="sticky top-6 right-6 float-right p-3 bg-gray-100 dark:bg-[#1a1a1a] rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-[#222222] hover:text-black dark:hover:text-white transition-colors z-10"
-              >
-                <FiX size={20} />
-              </button>
-
-              <div className="p-8 md:p-16">
-                <span className="text-xs font-mono text-blue-500 dark:text-blue-400 uppercase tracking-widest mb-4 block">
+              {/* Header bar */}
+              <div className="flex items-center justify-between px-6 md:px-8 py-4 border-b border-gray-100 dark:border-white/10">
+                <span className="text-[11px] font-mono text-[#3b82f6] uppercase tracking-[0.25em]">
                   Campfire Note
                 </span>
-                <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-8">
-                  {selectedBlog.title}
-                </h2>
+                <button
+                  type="button"
+                  onClick={() => setSelectedBlog(null)}
+                  aria-label="Close note"
+                  className="p-2 rounded-full bg-gray-100 dark:bg-[#1a1a1a] text-gray-500 dark:text-gray-400 hover:text-[#1a1a1a] dark:hover:text-white transition-colors"
+                >
+                  <FiX size={18} />
+                </button>
+              </div>
 
+              {/* Scrollable body */}
+              <div className="overflow-y-auto flex-1">
                 {selectedBlog.image && (
-                  <div className="relative w-full h-[300px] md:h-[400px] mb-12 rounded-xl overflow-hidden bg-gray-100 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800">
+                  <div className="relative w-full aspect-video bg-gray-100 dark:bg-[#151515]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={selectedBlog.image}
                       alt={selectedBlog.title}
                       className="w-full h-full object-cover"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-80" />
+                    <div className="absolute bottom-5 left-6 right-6 md:left-8">
+                      <h2 className="text-xl md:text-2xl font-light text-white tracking-tight leading-tight">
+                        {selectedBlog.title}
+                      </h2>
+                    </div>
                   </div>
                 )}
 
-                <div className="prose prose-lg max-w-none prose-headings:font-light prose-h3:text-2xl prose-a:text-blue-500 text-gray-700 dark:text-white dark:prose-headings:text-white dark:prose-invert">
-                  <ReactMarkdown>{selectedBlog.content}</ReactMarkdown>
+                <div className="p-7 md:p-10">
+                  {(selectedBlog.date || selectedBlog.readTime) && (
+                    <div className="flex items-center gap-2 text-[11px] font-mono text-gray-400 dark:text-gray-500 mb-6 uppercase tracking-widest">
+                      {selectedBlog.date && <span>{selectedBlog.date}</span>}
+                      {selectedBlog.readTime && (
+                        <>
+                          <span className="w-0.5 h-0.5 rounded-full bg-gray-300 dark:bg-gray-600" />
+                          <span>{selectedBlog.readTime}</span>
+                        </>
+                      )}
+                    </div>
+                  )}
+
+                  {!selectedBlog.image && (
+                    <h2 className="text-2xl md:text-3xl font-light tracking-tight text-[#1a1a1a] dark:text-white mb-6">
+                      {selectedBlog.title}
+                    </h2>
+                  )}
+
+                  <div className="prose prose-sm max-w-none prose-headings:font-light prose-h3:text-2xl prose-a:text-[#3b82f6] text-gray-700 dark:text-gray-300 dark:prose-headings:text-white dark:prose-invert">
+                    <ReactMarkdown>{selectedBlog.content}</ReactMarkdown>
+                  </div>
                 </div>
               </div>
             </motion.div>

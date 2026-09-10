@@ -1,90 +1,195 @@
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
-import { Experience } from "../app/data/types";
+import type { Experience } from "../app/data/types";
+
+/**
+ * Journey — the personal/building journey (section 11).
+ *
+ * The travel metaphor returns, now as the site's own spine: a vertical route
+ * from START to NOW that echoes the intro loader. Real milestones (from the
+ * `experience` data) sit along the way. The message: "my work is a journey,
+ * not a collection of disconnected projects."
+ */
+
+const STAGES = [
+  {
+    tag: "START",
+    stage: "Learning",
+    note: "Foundation, curiosity, and way too many browser tabs.",
+  },
+  {
+    tag: "02",
+    stage: "First steps in industry",
+  },
+  {
+    tag: "03",
+    stage: "Building for a team",
+  },
+  {
+    tag: "04",
+    stage: "Independent product builder",
+  },
+];
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+interface Node {
+  tag: string;
+  stage: string;
+  note?: string;
+  exp?: Experience;
+}
 
 export default function Timeline({ experience }: { experience: Experience[] }) {
+  // Merge curated stages with the real experience data.
+  // experience is ordered newest-first, so reverse it: START gets the oldest
+  // milestone and the journey progresses chronologically up to NOW.
+  const nodes: Node[] = STAGES.map((s, i) => ({
+    ...s,
+    exp: experience[experience.length - 1 - i] ?? undefined,
+  }));
+
   return (
-    <section className="relative w-full py-18 bg-white dark:bg-[#111111] transition-colors duration-300">
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="text-center mb-24">
-          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 block">
-            03
+    <section
+      id="journey"
+      className="relative w-full py-24 md:py-36 bg-white dark:bg-[#0d0d0d] transition-colors duration-300 overflow-hidden"
+    >
+      <div className="max-w-5xl mx-auto px-6 md:px-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="max-w-3xl mb-16 md:mb-20"
+        >
+          <span className="text-xs font-mono text-[#3b82f6] uppercase tracking-[0.3em] mb-5 block">
+            Journey
           </span>
-          <h2 className="text-3xl md:text-5xl font-light text-[#1a1a1a] dark:text-white mb-4">
-            Journey{" "}
-            <span className="font-serif italic text-gray-500 dark:text-gray-200">
-              Timeline
-            </span>
+          <h2 className="text-3xl md:text-5xl font-light tracking-tight text-[#1a1a1a] dark:text-[#fcfcfc] leading-tight">
+            My work is a <span className="text-[#3b82f6]">journey</span>, not a
+            list of projects.
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto text-lg font-light">
-            Milestones from learning to building impact.
+          <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 font-light leading-relaxed mt-6 max-w-2xl">
+            Every build is a chapter — learning, experimenting, shipping, and
+            iterating. Here&apos;s the route I&apos;ve travelled so far, and
+            where the next chapter starts.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="relative">
-          {/* Timeline Line (Mobile: left-4, Desktop: center) */}
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-gray-200 dark:from-gray-800 via-gray-300 dark:via-gray-700 to-transparent -translate-x-1/2 opacity-70" />
+        {/* Vertical journey route */}
+        <div className="relative mt-4">
+          {/* Spine */}
+          <div className="absolute left-[7px] md:left-1/2 top-2 bottom-2 w-px md:-translate-x-1/2 bg-gradient-to-b from-[#3b82f6]/60 via-gray-300 dark:via-gray-700 to-transparent" />
 
-          {experience.map((exp, i) => (
+          {/* START marker */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative flex flex-col md:flex-row gap-6 md:gap-14 pb-16 pl-10 md:pl-0"
+          >
+            <div className="md:w-1/2 md:pr-14 flex md:justify-end">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500">
+                  Start
+                </span>
+                <span className="text-xs font-light text-gray-500 dark:text-gray-400">
+                  →
+                </span>
+              </div>
+            </div>
+            <span className="hidden md:block absolute left-0 top-1.5 rounded-full bg-[#3b82f6] p-[5px] md:left-1/2 md:-translate-x-1/2" />
+          </motion.div>
+
+          {/* Milestones */}
+          {nodes.map((node, i) => (
             <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
+              key={node.tag}
+              initial={{ opacity: 0, y: 26 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
-              className={`relative flex flex-col md:flex-row gap-8 md:gap-16 mb-20 last:mb-0 ${
-                i % 2 === 0 ? "md:flex-row-reverse" : "md:flex-row"
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.6, ease: EASE }}
+              className={`relative flex flex-col md:flex-row gap-6 md:gap-14 pb-16 pl-10 md:pl-0 ${
+                i % 2 === 1 ? "md:flex-row-reverse" : ""
               }`}
             >
-              {/* Timeline Dot */}
-              <div className="absolute left-4 md:left-1/2 top-0 md:top-4 w-10 h-10 -translate-x-1/2 rounded-full bg-white dark:bg-[#111111] border border-gray-300 dark:border-gray-700 flex items-center justify-center z-10 shadow-sm transition-colors duration-300">
-                <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+              {/* Spine dot */}
+              <span className="absolute left-[3px] md:left-1/2 md:-translate-x-1/2 top-2 h-2.5 w-2.5 rounded-full bg-[#3b82f6] shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+
+              {/* Stage label (opposite side of card on desktop) */}
+              <div
+                className={`hidden md:flex w-1/2 md:pr-14 items-start ${
+                  i % 2 === 1
+                    ? "md:order-none md:justify-start md:pl-14 md:pr-0"
+                    : "justify-end"
+                }`}
+              >
+                <div className="text-right">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500">
+                    {node.tag}
+                  </span>
+                  <p className="text-sm font-light text-gray-500 dark:text-gray-400 mt-1 md:text-left">
+                    {node.stage}
+                  </p>
+                </div>
               </div>
 
-              {/* Empty side for desktop alignment */}
-              <div className="hidden md:block w-1/2" />
-
-              {/* Content Side */}
-              <div className="w-full pl-12 md:pl-0 md:w-1/2 flex flex-col">
-                <div
-                  className={`p-8 rounded-2xl bg-[#fafafa] dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-800 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-700 transition-all ${
-                    i % 2 === 0 ? "md:mr-8" : "md:ml-8"
-                  }`}
-                >
-                  <span className="text-[10px] font-mono text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">
-                    {exp.duration}
+              {/* Card */}
+              <div className="w-full md:w-1/2">
+                <div className="rounded-xl bg-[#fafafa] dark:bg-[#171717] border border-gray-200 dark:border-white/10 p-7">
+                  {/* Mobile stage chip */}
+                  <span className="inline-block md:hidden text-[10px] font-mono uppercase tracking-[0.2em] text-[#3b82f6] mb-3">
+                    {node.tag} · {node.stage}
                   </span>
-                  <h3 className="text-xl font-medium text-[#1a1a1a] dark:text-white mb-1">
-                    {exp.role}
-                  </h3>
-                  <h4 className="text-base font-serif italic text-gray-500 dark:text-gray-200 mb-6">
-                    {exp.company}
-                  </h4>
 
-                  <ul className="space-y-3">
-                    {exp.description.map((desc, idx) => (
-                      <li
-                        key={idx}
-                        className="text-sm text-gray-600 dark:text-gray-200 leading-relaxed flex items-start gap-3"
-                      >
-                        <span className="text-blue-400 dark:text-blue-500 mt-1.5">•</span>
-                        <span>{desc}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {node.exp ? (
+                    <>
+                      <h3 className="text-lg md:text-xl font-normal text-[#1a1a1a] dark:text-white">
+                        {node.exp.role}
+                      </h3>
+                      <p className="text-sm font-serif italic text-gray-500 dark:text-gray-400 mt-0.5">
+                        {node.exp.company}
+                      </p>
+                      <p className="text-[11px] font-mono text-gray-400 dark:text-gray-500 mt-3 mb-3">
+                        {node.exp.duration}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 font-light leading-relaxed">
+                        {node.exp.description[0]}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text-base text-gray-500 dark:text-gray-400 font-light italic leading-relaxed">
+                      {node.note}
+                    </p>
+                  )}
                 </div>
               </div>
             </motion.div>
           ))}
-        </div>
 
-        {/* <div className="flex justify-center mt-20">
-          <button className="flex items-center gap-2 text-sm font-medium text-[#1a1a1a] hover:text-gray-500 transition-colors uppercase tracking-widest">
-            View full timeline →
-          </button>
-        </div> */}
+          {/* NOW destination */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="relative flex flex-col md:flex-row gap-6 md:gap-14 pl-10 md:pl-0"
+          >
+            <div className="hidden md:block w-1/2" />
+            <div className="w-full md:w-1/2 md:pl-14 flex items-center gap-3">
+              <span className="inline-block h-3 w-3 rounded-full bg-[#3b82f6] shadow-[0_0_14px_rgba(59,130,246,0.8)]" />
+              <span className="text-sm font-mono tracking-[0.3em] text-[#1a1a1a] dark:text-[#fcfcfc]">
+                NOW
+              </span>
+              <span className="text-xs font-light text-gray-500 dark:text-gray-400">
+                — building the next chapter
+              </span>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
