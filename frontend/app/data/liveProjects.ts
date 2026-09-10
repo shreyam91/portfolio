@@ -22,7 +22,7 @@ export const liveProjects: LiveProject[] = [
     title: "CodeStreak",
     description:
       "All-in-one interview prep platform — DSA problems, system design, machine coding, resources, and blogs.",
-    url: "https://codestreak.dev",
+    url: "https://codestreak.shreyam.online/",
     domain: "codestreak.dev",
     image: "/images/projects/codestreak.png",
     github: "https://github.com/shreyam91/Code-Streak",
