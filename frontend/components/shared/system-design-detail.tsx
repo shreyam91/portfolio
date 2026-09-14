@@ -1,271 +1,334 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { DashboardNavbar } from "@/components/shared/DashboardNavbar";
-import { 
-  ArrowLeft, Clock, Database, Cloud, Zap, 
-  ShieldCheck, CheckCircle2, 
-  XCircle, ChevronDown, ChevronUp,
-  Server, Monitor, Box, Layers, Play
+import { motion } from "framer-motion";
+import {
+  ArrowLeft,
+  Check,
+  Clock,
+  Database,
+  Layers,
+  Server,
+  X,
 } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { CodeStreakNav } from "@/components/shared/CodeStreakNav";
+import {
+  DifficultyBadge,
+  EASE,
+  SectionLabel,
+  TagPill,
+} from "@/components/shared/codestreak-ui";
+import { toSlug, useCodeStreakBasePath } from "@/lib/codestreak";
 
 const SECTIONS = [
   { id: "overview", label: "Overview" },
-  { id: "components", label: "Core Components" },
-  { id: "flow", label: "System Flow" },
-  { id: "algorithms", label: "Algorithms & Trade-offs" },
-  { id: "interview", label: "Follow-up Questions" }
+  { id: "requirements", label: "Requirements" },
+  { id: "components", label: "Deep Dive" },
+  { id: "flow", label: "HLD Flow" },
+  { id: "algorithms", label: "Algorithms" },
+  { id: "followups", label: "Follow-ups" },
 ];
 
-export function SystemDesignDetail({ isDashboard = false, question }: { isDashboard?: boolean, question: any }) {
-  const [activeSection, setActiveSection] = useState("overview");
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
+export function SystemDesignDetail({ question }: { question: any }) {
+  const basePath = useCodeStreakBasePath();
+  const [active, setActive] = useState("overview");
 
-  // Scroll spy
   useEffect(() => {
-    const handleScroll = () => {
-      const offsets = SECTIONS.map(s => {
-        const el = document.getElementById(s.id);
-        return { id: s.id, offset: el ? el.offsetTop - 200 : 0 };
-      });
-      
-      const scrollPos = window.scrollY;
+    const onScroll = () => {
       let current = SECTIONS[0].id;
-      
-      for (const section of offsets) {
-        if (scrollPos >= section.offset) {
-          current = section.id;
-        }
+      for (const s of SECTIONS) {
+        const el = document.getElementById(s.id);
+        if (el && el.getBoundingClientRect().top <= 160) current = s.id;
       }
-      setActiveSection(current);
+      setActive(current);
     };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleScrollTo = (id: string) => {
+  const scrollTo = (id: string) => {
     const el = document.getElementById(id);
-    if (el) {
-      window.scrollTo({ top: el.offsetTop - 100, behavior: "smooth" });
-    }
+    if (el)
+      window.scrollTo({
+        top: el.getBoundingClientRect().top + window.scrollY - 96,
+        behavior: "smooth",
+      });
   };
 
+  const Card = ({
+    children,
+    className = "",
+  }: {
+    children: React.ReactNode;
+    className?: string;
+  }) => (
+    <div
+      className={`rounded-2xl border border-gray-200 dark:border-white/10 bg-white/60 dark:bg-white/[0.03] p-6 md:p-8 ${className}`}
+    >
+      {children}
+    </div>
+  );
+
   return (
-    <div className="dark:bg-[#0a0a0a] min-h-screen bg-[#fafafa] flex flex-col font-sans text-foreground">
-      <DashboardNavbar />
-
-      <div className="flex-1 max-w-[1400px] mx-auto w-full px-6 lg:px-12 py-12 flex flex-col lg:flex-row gap-16 relative">
-        
-        {/* Left Sticky Navigation (Desktop) */}
-        <div className="hidden lg:block w-[200px] shrink-0">
-          <div className="sticky top-32">
-            <Link 
-              href={isDashboard ? "/system-design" : "/codestreak/system-design"} 
-              className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors mb-8 group"
-            >
-              <div className="p-1.5 rounded-md bg-muted group-hover:bg-indigo-50 dark:group-hover:bg-indigo-500/10 transition-colors">
-                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-              </div>
-              Back to Library
-            </Link>
-            
-            <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">Workspace</h4>
-            <nav className="flex flex-col gap-1 border-l-2 border-border/50">
-              {SECTIONS.map((section) => (
-                <button
-                  key={section.id}
-                  onClick={() => handleScrollTo(section.id)}
-                  className={`text-sm text-left py-2 px-4 transition-all -ml-[2px] border-l-2 ${
-                    activeSection === section.id 
-                      ? "border-indigo-600 text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50/50 dark:bg-indigo-500/10" 
-                      : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground"
-                  }`}
-                >
-                  {section.label}
-                </button>
-              ))}
-            </nav>
-          </div>
-        </div>
-
-        {/* Main Content Area */}
-        <div className="flex-1 max-w-[900px] w-full pb-32">
-          {/* Mobile Back Button */}
-          <Link href={isDashboard ? "/system-design" : "/codestreak/system-design"} className="lg:hidden flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" /> Back to Library
-          </Link>
-
-          {/* Header Section */}
-          <header className="mb-6">
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">{question.title}</h1>
-            <p className="text-xl text-muted-foreground leading-relaxed mb-8 border-l-4 border-indigo-500/30 pl-4">{question.description}</p>
-            
-            <div className="flex flex-wrap items-center gap-4 mb-8">
-              <span className={`px-3 py-1.5 text-sm font-bold uppercase tracking-wider rounded-md border shadow-sm ${
-                question.difficulty === 'Hard' ? 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20' : 
-                question.difficulty === 'Medium' ? 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20' :
-                'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
-              }`}>
-                {question.difficulty}
-              </span>
-              <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-md border border-black/5 dark:border-white/5">
-                <Clock className="w-4 h-4" /> {question.estimatedTime}
-              </div>
-              <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-md border border-black/5 dark:border-white/5">
-                <Database className="w-4 h-4" /> {question.category}
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2 mb-10">
-              {question.tags?.map((concept: string) => (
-                <span key={concept} className="px-3 py-1 bg-[#111] dark:bg-[#222] text-white text-xs font-mono rounded border border-white/10 shadow-sm">
-                  {concept}
-                </span>
-              ))}
-            </div>
-
-            {/* <div className="flex flex-col sm:flex-row items-center gap-4">
-              <button className="w-full sm:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md shadow-indigo-600/20 transition-all flex items-center justify-center gap-2">
-                <Monitor className="w-5 h-5" /> Start Interview Mode
+    <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0a] transition-colors duration-300">
+      <CodeStreakNav />
+      <div className="max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-20 flex flex-col lg:flex-row gap-12">
+        {/* Sticky section nav */}
+        <aside className="hidden lg:block w-48 shrink-0">
+          <div className="sticky top-28 flex flex-col gap-1">
+            {SECTIONS.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => scrollTo(s.id)}
+                className={`text-left text-sm font-light py-1.5 border-l pl-4 transition-colors ${
+                  active === s.id
+                    ? "border-[#3b82f6] text-[#3b82f6]"
+                    : "border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:text-[#1a1a1a] dark:hover:text-white"
+                }`}
+              >
+                {s.label}
               </button>
-            </div> */}
-          </header>
+            ))}
+          </div>
+        </aside>
 
-          <hr className="border-border mb-6" />
+        <div className="flex-1 max-w-3xl pb-16">
+          {/* Back */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE }}
+          >
+            <Link
+              href={`${basePath}/system-design`}
+              className="inline-flex items-center gap-2 text-xs font-mono text-gray-500 dark:text-gray-400 hover:text-[#3b82f6] transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              All case studies
+            </Link>
+          </motion.div>
 
-          {/* Problem Overview Section */}
-          <section id="overview" className="mb-20 scroll-mt-24">
-            <h2 className="text-3xl font-extrabold tracking-tight mb-8">Problem Overview</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-card dark:bg-[#111] p-6 rounded-2xl border border-black/10 dark:border-white/10 shadow-sm">
-                <h3 className="text-lg font-bold flex items-center gap-2 mb-4 text-emerald-600 dark:text-emerald-400">
-                  <CheckCircle2 className="w-5 h-5" /> Functional Requirements
-                </h3>
-                <ul className="space-y-3">
-                  {question.functionalRequirements?.map((req: string, i: number) => (
-                    <li key={i} className="text-sm text-foreground/80 flex items-start gap-2">
-                      <span className="text-emerald-500 font-bold mt-0.5">✓</span> {req}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="bg-card dark:bg-[#111] p-6 rounded-2xl border border-black/10 dark:border-white/10 shadow-sm">
-                <h3 className="text-lg font-bold flex items-center gap-2 mb-4 text-blue-600 dark:text-blue-400">
-                  <Zap className="w-5 h-5" /> Non-Functional Requirements
-                </h3>
-                <ul className="space-y-3">
-                  {question.nonFunctionalRequirements?.map((req: string, i: number) => (
-                    <li key={i} className="text-sm text-foreground/80 flex items-start gap-2">
-                      <span className="text-blue-500 font-bold mt-0.5">✓</span> {req}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: EASE, delay: 0.05 }}
+            className="mt-10 mb-10"
+          >
+            <div className="flex items-center gap-2 mb-4 flex-wrap">
+              <DifficultyBadge difficulty={question.difficulty} />
+              {question.category && (
+                <TagPill className="text-[#3b82f6] border-[#3b82f6]/30">
+                  {question.category}
+                </TagPill>
+              )}
+              {question.estimatedTime && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 dark:border-white/10 px-2.5 py-1 text-[11px] font-mono text-gray-600 dark:text-gray-400">
+                  <Clock className="w-3 h-3" /> {question.estimatedTime}
+                </span>
+              )}
             </div>
-          </section>
+            <h1 className="text-3xl md:text-4xl font-light tracking-tight text-[#1a1a1a] dark:text-[#fcfcfc] leading-tight">
+              {question.title}
+            </h1>
+            {question.description && (
+              <p className="mt-5 text-base md:text-lg font-light leading-relaxed text-gray-600 dark:text-gray-400">
+                {question.description}
+              </p>
+            )}
+            {(question.tags?.length ?? 0) > 0 && (
+              <div className="flex flex-wrap gap-1.5 mt-6">
+                {question.tags.map((tag: string) => (
+                  <TagPill key={tag}>{tag}</TagPill>
+                ))}
+              </div>
+            )}
+          </motion.div>
 
-          {/* Core Components Section */}
-          <section id="components" className="mb-20 scroll-mt-24">
-            <h2 className="text-3xl font-extrabold tracking-tight mb-8">Deep Dive Components</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {question.deepDiveComponents?.map((comp: any, i: number) => (
-                <div key={i} className="bg-card dark:bg-[#111] p-6 rounded-2xl border border-black/10 dark:border-white/10 shadow-sm hover:border-indigo-500/50 hover:shadow-md transition-all">
-                  <div className="w-10 h-10 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center mb-4">
-                    <Server className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-lg font-bold mb-2">{comp.component}</h3>
-                  <p className="text-sm text-muted-foreground">{comp.responsibility}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* System Flow Section */}
-          <section id="flow" className="mb-20 scroll-mt-24">
-            <h2 className="text-3xl font-extrabold tracking-tight mb-8">High Level Design Flow</h2>
-            <div className="space-y-4">
-              {question.highLevelDesign?.map((step: string, i: number) => (
-                <div key={i} className="flex gap-6 group">
-                  <div className="flex flex-col items-center">
-                    <div className="w-10 h-10 rounded-full bg-card dark:bg-[#111] border-2 border-border shadow-sm flex items-center justify-center font-mono font-bold text-sm group-hover:border-indigo-500 group-hover:text-indigo-600 transition-colors z-10">
-                      {i + 1}
-                    </div>
-                    {i < question.highLevelDesign.length - 1 && (
-                      <div className="w-0.5 h-full min-h-[40px] bg-border group-hover:bg-indigo-500/50 transition-colors my-1"></div>
-                    )}
-                  </div>
-                  <div className="flex-1 bg-card dark:bg-[#111] border border-border p-5 rounded-2xl shadow-sm group-hover:shadow-md group-hover:border-indigo-500/30 transition-all mt-1 mb-2">
-                    <p className="text-foreground/90 font-medium leading-relaxed flex items-start gap-3">
-                      <Play className="w-4 h-4 text-indigo-500 mt-1 shrink-0" />
-                      {step}
+          {/* Problem overview */}
+          <section id="overview" className="mb-8 scroll-mt-28">
+            <Card>
+              <SectionLabel>Overview</SectionLabel>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {(question.functionalRequirements?.length ?? 0) > 0 && (
+                  <div>
+                    <p className="text-xs font-mono text-[#3b82f6] mb-3">
+                      Functional Requirements
                     </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Algorithms & Trade-offs Section */}
-          <section id="algorithms" className="mb-20 scroll-mt-24">
-            <h2 className="text-3xl font-extrabold tracking-tight mb-8">Algorithms & Trade-offs</h2>
-            <div className="grid grid-cols-1 gap-6">
-              {question.coreAlgorithms?.map((algo: any, i: number) => (
-                <div key={i} className="bg-card dark:bg-[#111] rounded-2xl border border-black/10 dark:border-white/10 overflow-hidden shadow-sm">
-                  <div className="px-6 py-4 bg-muted/30 border-b border-black/10 dark:border-white/10 font-bold text-lg flex items-center gap-2">
-                    <div className="w-2 h-6 bg-indigo-500 rounded-full"></div> {algo.name}
-                  </div>
-                  <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-3 flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> Pros</h4>
-                      <ul className="space-y-2">
-                        {algo.pros.map((pro: string, j: number) => (
-                          <li key={j} className="text-sm text-foreground/80 flex items-start gap-2">
-                            <span className="text-emerald-500 mt-0.5">•</span> {pro}
+                    <ul className="space-y-2.5">
+                      {question.functionalRequirements.map(
+                        (req: string, i: number) => (
+                          <li
+                            key={i}
+                            className="flex items-start gap-2 text-sm font-light text-gray-600 dark:text-gray-400"
+                          >
+                            <Check className="w-3.5 h-3.5 mt-0.5 text-green-600 dark:text-green-400 shrink-0" />
+                            {req}
                           </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-red-600 dark:text-red-400 uppercase tracking-wider mb-3 flex items-center gap-1"><XCircle className="w-4 h-4" /> Cons</h4>
-                      <ul className="space-y-2">
-                        {algo.cons.map((con: string, j: number) => (
-                          <li key={j} className="text-sm text-foreground/80 flex items-start gap-2">
-                            <span className="text-red-500 mt-0.5">•</span> {con}
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                )}
+                {(question.nonFunctionalRequirements?.length ?? 0) > 0 && (
+                  <div>
+                    <p className="text-xs font-mono text-[#3b82f6] mb-3">
+                      Non-Functional Requirements
+                    </p>
+                    <ul className="space-y-2.5">
+                      {question.nonFunctionalRequirements.map(
+                        (req: string, i: number) => (
+                          <li
+                            key={i}
+                            className="flex items-start gap-2 text-sm font-light text-gray-600 dark:text-gray-400"
+                          >
+                            <Database className="w-3.5 h-3.5 mt-0.5 text-[#3b82f6] shrink-0" />
+                            {req}
                           </li>
-                        ))}
-                      </ul>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </Card>
+          </section>
+
+          {/* Deep dive components */}
+          {(question.deepDiveComponents?.length ?? 0) > 0 && (
+            <section id="components" className="mb-8 scroll-mt-28">
+              <Card>
+                <SectionLabel>Deep Dive Components</SectionLabel>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {question.deepDiveComponents.map((comp: any, i: number) => (
+                    <div
+                      key={i}
+                      className="rounded-xl border border-gray-200 dark:border-white/10 bg-white/40 dark:bg-white/[0.02] p-5"
+                    >
+                      <div className="flex items-center gap-2 mb-2 text-[#3b82f6]">
+                        <Server className="w-4 h-4" />
+                        <h3 className="text-sm font-normal tracking-tight text-[#1a1a1a] dark:text-[#fcfcfc]">
+                          {comp.component}
+                        </h3>
+                      </div>
+                      <p className="text-sm font-light text-gray-500 dark:text-gray-400 leading-relaxed">
+                        {comp.responsibility}
+                      </p>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </section>
+              </Card>
+            </section>
+          )}
 
-          {/* Interview Questions Section */}
-          <section id="interview" className="mb-20 scroll-mt-24">
-            <h2 className="text-3xl font-extrabold tracking-tight mb-8">Follow-up Questions</h2>
-            <div className="space-y-4">
-              {question.followUpQuestions?.map((q: string, i: number) => (
-                <div 
-                  key={i} 
-                  className="bg-card dark:bg-[#111] border border-border rounded-2xl overflow-hidden hover:border-indigo-500/50 hover:shadow-sm transition-all duration-300"
-                >
-                  <div className="w-full px-6 py-5 flex items-start gap-4 font-bold text-left text-foreground/90">
-                    <ShieldCheck className="w-5 h-5 shrink-0 text-indigo-500 mt-0.5" />
-                    <span>{q}</span>
-                  </div>
+          {/* HLD flow */}
+          {(question.highLevelDesign?.length ?? 0) > 0 && (
+            <section id="flow" className="mb-8 scroll-mt-28">
+              <Card>
+                <SectionLabel>High Level Design Flow</SectionLabel>
+                <div className="space-y-4">
+                  {question.highLevelDesign.map((step: string, i: number) => (
+                    <div key={i} className="flex gap-4">
+                      <div className="flex flex-col items-center">
+                        <div className="w-8 h-8 rounded-full border border-[#3b82f6]/40 text-[#3b82f6] flex items-center justify-center font-mono text-xs shrink-0">
+                          {i + 1}
+                        </div>
+                        {i < question.highLevelDesign.length - 1 && (
+                          <div className="w-px flex-1 bg-gray-200 dark:bg-white/10 my-1" />
+                        )}
+                      </div>
+                      <p className="flex-1 text-sm font-light text-gray-600 dark:text-gray-400 leading-relaxed pt-2">
+                        {step}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </section>
+              </Card>
+            </section>
+          )}
 
+          {/* Algorithms & trade-offs */}
+          {(question.coreAlgorithms?.length ?? 0) > 0 && (
+            <section id="algorithms" className="mb-8 scroll-mt-28">
+              <SectionLabel>Algorithms &amp; Trade-offs</SectionLabel>
+              <div className="space-y-4">
+                {question.coreAlgorithms.map((algo: any, i: number) => (
+                  <Card key={i}>
+                    <h3 className="flex items-center gap-2 text-sm font-normal tracking-tight text-[#1a1a1a] dark:text-[#fcfcfc] mb-4">
+                      <Layers className="w-4 h-4 text-[#3b82f6]" />
+                      {algo.name}
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      {(algo.pros?.length ?? 0) > 0 && (
+                        <div>
+                          <p className="text-xs font-mono text-green-600 dark:text-green-400 mb-2">
+                            Pros
+                          </p>
+                          <ul className="space-y-1.5">
+                            {algo.pros.map((p: string, j: number) => (
+                              <li
+                                key={j}
+                                className="flex items-start gap-2 text-sm font-light text-gray-600 dark:text-gray-400"
+                              >
+                                <Check className="w-3.5 h-3.5 mt-0.5 text-green-600 dark:text-green-400 shrink-0" />
+                                {p}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      {(algo.cons?.length ?? 0) > 0 && (
+                        <div>
+                          <p className="text-xs font-mono text-red-600 dark:text-red-400 mb-2">
+                            Cons
+                          </p>
+                          <ul className="space-y-1.5">
+                            {algo.cons.map((c: string, j: number) => (
+                              <li
+                                key={j}
+                                className="flex items-start gap-2 text-sm font-light text-gray-600 dark:text-gray-400"
+                              >
+                                <X className="w-3.5 h-3.5 mt-0.5 text-red-600 dark:text-red-400 shrink-0" />
+                                {c}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Follow-up questions */}
+          {(question.followUpQuestions?.length ?? 0) > 0 && (
+            <section id="followups" className="mb-8 scroll-mt-28">
+              <Card>
+                <SectionLabel>Follow-up Questions</SectionLabel>
+                <div className="space-y-3">
+                  {question.followUpQuestions.map((q: string, i: number) => (
+                    <p
+                      key={i}
+                      className="text-sm font-light text-gray-600 dark:text-gray-400 border-l-2 border-[#3b82f6]/40 pl-4"
+                    >
+                      {q}
+                    </p>
+                  ))}
+                </div>
+              </Card>
+            </section>
+          )}
+
+          {/* Skip-to-slug link for convenience */}
+          <p className="mt-6 text-xs font-mono text-gray-400 dark:text-gray-600">
+            slug / {toSlug(question.title)}
+          </p>
         </div>
       </div>
-
     </div>
   );
 }

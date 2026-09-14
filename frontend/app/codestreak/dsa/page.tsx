@@ -1,7 +1,7 @@
 "use client";
 
-import { DSAUniverseExplorer } from "@/components/shared/dsa-universe-explorer";
+import { DSAProblems } from "@/components/shared/dsa-problems";
 
 export default function DSADashboardPage() {
-  return <DSAUniverseExplorer isDashboard={true} />;
+  return <DSAProblems />;
 }

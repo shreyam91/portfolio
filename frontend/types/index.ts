@@ -20,16 +20,40 @@ export interface Pomodoro {
   createdAt: string;
 }
 
+export interface DSASubmission {
+  code?: string;
+  language?: string;
+  submissionId?: string;
+  status?: number | string;
+  viewMode?: string;
+  runtime?: string | number;
+  testCases?: unknown;
+  submittedAt?: string;
+  githubPath?: string;
+}
+
 export interface DSAQuestion {
   _id: string;
+  // Source identification (from DSAForge metadata)
+  platform: "leetcode" | "gfg";
+  pid: string;
+  slug: string;
   title: string;
-  difficulty: "Easy" | "Medium" | "Hard";
-  category?: string;
-  problemStatement?: string;
-  description?: string;
-  pattern?: string | { primary?: string; [key: string]: any };
+  problemUrl?: string;
+  // Problem details
+  difficulty?: "Easy" | "Medium" | "Hard";
+  description?: string; // LC: HTML, GFG: plain text statement
+  examples?: { input?: string; output?: string; explanation?: string }[];
+  inputFormat?: unknown;
+  constraints?: unknown;
+  expectedTimeComplexity?: string;
+  expectedAuxiliarySpace?: string;
+  // Tags
+  topics: string[];
   companies?: string[];
-  status: "solved" | "unsolved";
+  // Submission
+  submission?: DSASubmission;
+  status?: string;
   createdAt: string;
 }
 

@@ -1,7 +1,9 @@
 "use client";
 
-import { InteractiveDSADetail } from "@/components/shared/interactive-dsa-detail";
+import { useParams } from "next/navigation";
+import { DSAProblemDetail } from "@/components/shared/dsa-problem-detail";
 
 export default function DSADetailDashboardPage() {
-  return <InteractiveDSADetail isDashboard={true} />;
+  const { id } = useParams<{ id: string }>();
+  return <DSAProblemDetail slug={id} />;
 }
