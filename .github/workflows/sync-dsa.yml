@@ -6,8 +6,8 @@ on:
       - dsa-updated
 
   schedule:
-    # Daily fallback
-    - cron: '0 2 * * *'
+    # Daily safety-net sync
+    - cron: "0 2 * * *"
 
 jobs:
   sync-dsa:
@@ -32,5 +32,4 @@ jobs:
           DSA_BRANCH: dsaforge
           GITHUB_TOKEN: ${{ secrets.DSA_REPO_TOKEN }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-        run: |
-          node backend/scripts/syncDsaForge.js
+        run: node backend/scripts/syncDsaForge.js
