@@ -6,12 +6,6 @@ const router = express.Router();
 // DSA
 router.get('/dsa', contentController.getDSA);
 router.get('/dsa/:id', contentController.getSingleDSA);
-router.post('/dsa/sync', async (req, res, next) => {
-  if (process.env.ADMIN_SECRET && req.headers.authorization !== process.env.ADMIN_SECRET) {
-    return next(new (require('../utils/AppError'))('Unauthorized', 401));
-  }
-  next();
-}, contentController.syncDsa);
 
 // Machine Coding
 router.get('/machine-coding', contentController.getMachineCoding);
