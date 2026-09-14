@@ -292,22 +292,11 @@ Java, Apache POI
 exports.getDSA = async (req, res, next) => {
   try {
     const filter = {};
-    
-    // Filter by primary pattern
-    if (req.query.pattern) {
-      filter['pattern.primary'] = req.query.pattern;
-    }
-    
-    // Filter by secondary pattern
-    if (req.query.secondaryPattern) {
-      filter['pattern.secondary'] = { $in: [req.query.secondaryPattern] };
-    }
-    
-    // Filter by difficulty
+
     if (req.query.difficulty) {
       filter.difficulty = req.query.difficulty;
     }
-    
+
     const result = await paginate(DSAQuestion, filter, {
       page: req.query.page,
       limit: req.query.limit,
@@ -337,3 +326,14 @@ exports.getSingleProject = getSingle(Project);
 
 exports.getResources = getList(Resource);
 exports.getSingleResource = getSingle(Resource);
+
+const { syncDsaForgeFromGithub } = require('../services/dsaForgeImport');
+
+exports.syncDsa = async (req, res, next) => {
+  try {
+    const result = await syncDsaForgeFromGithub();
+    sendSuccess(res, { message: 'Sync completed successfully', data: result });
+  } catch (error) {
+    next(error);
+  }
+};

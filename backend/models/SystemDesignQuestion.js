@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const systemDesignQuestionSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  difficulty: { type: String, enum: ['Easy', 'Medium', 'Hard'], required: true },
+  difficulty: { type: String, enum: ['Easy', 'Medium', 'Medium-Hard', 'Hard'], required: true },
   category: { type: String },
   timeLimit: { type: String },
   problemStatement: { type: String },
