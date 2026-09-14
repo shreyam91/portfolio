@@ -326,14 +326,3 @@ exports.getSingleProject = getSingle(Project);
 
 exports.getResources = getList(Resource);
 exports.getSingleResource = getSingle(Resource);
-
-const { syncDsaForgeFromGithub } = require('../services/dsaForgeImport');
-
-exports.syncDsa = async (req, res, next) => {
-  try {
-    const result = await syncDsaForgeFromGithub();
-    sendSuccess(res, { message: 'Sync completed successfully', data: result });
-  } catch (error) {
-    next(error);
-  }
-};
