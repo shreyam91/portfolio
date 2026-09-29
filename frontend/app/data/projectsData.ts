@@ -114,7 +114,7 @@ Next.js 14, React, TypeScript, Tailwind CSS, shadcn/ui, FastAPI, Python, SQLAlch
   {
     id: "devboard",
     title: "DevBoard – Architectural Decision Intelligence Platform",
-    image: "/images/projects/devboard.png",
+    image: "/images/projects/DevHub.png",
     description:
       "AI-powered developer platform that analyzes GitHub repositories, git history, and pull requests to reconstruct architectural decisions and detect potential conflicts before they become technical debt.",
     longDescription: `

@@ -59,11 +59,11 @@ async function syncDsaForge() {
         }
         const metadata = await metaRes.json();
 
-        // Find solution file in the tree
+        // Find solution file in the tree (could be solution.* or slug.*)
         const solutionNode = allBlobs.find(node => 
-          node.path.startsWith(`${folderPath}/solution.`) && 
-          node.path !== `${folderPath}/metadata.json` && 
-          node.path !== `${folderPath}/README.md`
+          node.path.startsWith(`${folderPath}/`) && 
+          !node.path.endsWith('/metadata.json') && 
+          !node.path.endsWith('/README.md')
         );
 
         let code = null;

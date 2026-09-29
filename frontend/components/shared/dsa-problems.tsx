@@ -17,7 +17,15 @@ const PLATFORMS = [
   { value: "gfg", label: "GeeksforGeeks" },
 ] as const;
 
+const DIFFICULTIES = [
+  { value: "all", label: "All" },
+  { value: "Easy", label: "Easy" },
+  { value: "Medium", label: "Medium" },
+  { value: "Hard", label: "Hard" },
+] as const;
+
 type PlatformFilter = (typeof PLATFORMS)[number]["value"];
+type DifficultyFilter = (typeof DIFFICULTIES)[number]["value"];
 
 const difficultyStyles: Record<string, { label: string; className: string }> = {
   Easy: {
@@ -40,6 +48,7 @@ export function DSAProblems() {
   const [questions, setQuestions] = useState<DSAQuestion[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [platform, setPlatform] = useState<PlatformFilter>("all");
+  const [difficulty, setDifficulty] = useState<DifficultyFilter>("all");
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
 
@@ -67,10 +76,11 @@ export function DSAProblems() {
     const q = deferredSearch.trim().toLowerCase();
     return questions.filter((item) => {
       if (platform !== "all" && item.platform !== platform) return false;
+      if (difficulty !== "all" && item.difficulty !== difficulty) return false;
       if (q && !item.title.toLowerCase().includes(q)) return false;
       return true;
     });
-  }, [questions, platform, deferredSearch]);
+  }, [questions, platform, difficulty, deferredSearch]);
 
   return (
     <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0a] transition-colors duration-300">
@@ -135,6 +145,26 @@ export function DSAProblems() {
                   }`}
                 >
                   {p.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center gap-2 flex-wrap">
+            {DIFFICULTIES.map((d) => {
+              const active = difficulty === d.value;
+              return (
+                <button
+                  key={d.value}
+                  type="button"
+                  onClick={() => setDifficulty(d.value)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-mono border transition-colors ${
+                    active
+                      ? "bg-[#3b82f6] text-white border-[#3b82f6]"
+                      : "border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-[#3b82f6]/40 hover:text-[#3b82f6]"
+                  }`}
+                >
+                  {d.label}
                 </button>
               );
             })}

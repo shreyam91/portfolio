@@ -74,6 +74,7 @@ const certifications: Certification[] = [
 
 export default function Certifications() {
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
+  const [selectedBadge, setSelectedBadge] = useState<string | null>(null);
 
   return (
     <section
@@ -153,20 +154,49 @@ export default function Certifications() {
             Digital{" "}
             <span className="font-serif italic text-[#3b82f6]">Badges</span>
           </h3>
-          <div className="flex flex-wrap justify-center gap-8">
-            <div
-              data-iframe-width="150"
-              data-iframe-height="270"
-              data-share-badge-id="54b2729e-dcdc-4c26-89cc-a895ea780d0d"
-              data-share-badge-host="https://www.credly.com"
-            />
-            <div
-              data-iframe-width="150"
-              data-iframe-height="270"
-              data-share-badge-id="7f480e0c-e61b-4a92-9f92-b86383b48831"
-              data-share-badge-host="https://www.credly.com"
-            />
+          
+          <div className="flex flex-col items-center gap-16">
+            {/* Custom Streak Badges */}
+            <div className="flex flex-wrap justify-center gap-12">
+              {[50, 100, 200].map((days) => (
+                <motion.div
+                  key={days}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSelectedBadge(`/images/badges/${days}.png`)}
+                  className="cursor-pointer flex flex-col items-center"
+                >
+                  <div className="w-32 h-32 md:w-40 md:h-40 relative rounded-2xl overflow-hidden bg-white/5 dark:bg-white/5 border border-gray-200 dark:border-white/10 shadow-sm flex items-center justify-center p-2 hover:border-[#3b82f6]/50 transition-colors">
+                    <img
+                      src={`/images/badges/${days}.gif`}
+                      alt={`${days} Days Badge`}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <p className="mt-4 font-mono text-sm text-gray-500 dark:text-gray-400">
+                    {days} Days Streak
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Credly Badges */}
+            <div className="flex flex-wrap justify-center gap-8">
+              <div
+                data-iframe-width="150"
+                data-iframe-height="270"
+                data-share-badge-id="54b2729e-dcdc-4c26-89cc-a895ea780d0d"
+                data-share-badge-host="https://www.credly.com"
+              />
+              <div
+                data-iframe-width="150"
+                data-iframe-height="270"
+                data-share-badge-id="7f480e0c-e61b-4a92-9f92-b86383b48831"
+                data-share-badge-host="https://www.credly.com"
+              />
+            </div>
           </div>
+          
           <Script
             src="//cdn.credly.com/assets/utilities/embed.js"
             strategy="lazyOnload"
@@ -174,7 +204,7 @@ export default function Certifications() {
         </motion.div>
       </div>
 
-      {/* Modal */}
+      {/* Cert Modal */}
       <AnimatePresence>
         {selectedCert && (
           <motion.div
@@ -239,6 +269,42 @@ export default function Certifications() {
                   </button>
                 </div>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Badge Modal */}
+      <AnimatePresence>
+        {selectedBadge && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedBadge(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm cursor-pointer"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3, ease: EASE }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl max-h-[90vh] flex items-center justify-center p-2 rounded-2xl cursor-default"
+            >
+              <button
+                type="button"
+                onClick={() => setSelectedBadge(null)}
+                className="absolute -top-12 right-0 p-2 text-white hover:text-gray-300 transition-colors z-10"
+                aria-label="Close badge"
+              >
+                <FiX size={24} />
+              </button>
+              <img
+                src={selectedBadge}
+                alt="Badge Detail"
+                className="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl"
+              />
             </motion.div>
           </motion.div>
         )}
