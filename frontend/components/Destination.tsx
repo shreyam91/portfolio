@@ -7,7 +7,6 @@ import {
   FiGithub,
   FiLinkedin,
   FiMail,
-  FiTwitter,
 } from "react-icons/fi";
 import { SiGeeksforgeeks, SiLeetcode } from "react-icons/si";
 import type { Contact, SocialLink } from "../app/data/types";
@@ -105,7 +104,7 @@ export default function Destination({
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mt-14 flex flex-wrap justify-center items-center gap-4"
         >
-          {socialLinks
+          {/* {socialLinks
             .filter((social) => social.name.toLowerCase() !== "email")
             .map((social) => {
               const { Icon, size } = getSocial(social.name);
@@ -125,7 +124,7 @@ export default function Destination({
                   <Icon size={size} />
                 </a>
               );
-            })}
+            })} */}
         </motion.div>
       </div>
 

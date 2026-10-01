@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
-import { SiGeeksforgeeks, SiGithub, SiLeetcode, SiLinkedin } from "react-icons/si";
+import { SiGeeksforgeeks, SiGithub, SiLeetcode, SiLinkedin, SiMedium } from "react-icons/si";
 import { track } from "../lib/track";
 
 /**
@@ -44,6 +44,13 @@ const PROOF = [
   url: "https://www.linkedin.com/in/shreyam-kanaujiya/",
   Icon: SiLinkedin,
   meta: "linkedin.com/in/shreyam91",
+},
+{
+name: "Medium",
+detail: "Developer, tech, and travel stories",
+url: "https://medium.com/@shreyam91183",
+Icon: SiMedium,
+meta: "medium.com",
 },
 
 ];

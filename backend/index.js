@@ -6,6 +6,8 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const logger = require('./src/utils/logger');
 const errorHandler = require('./src/middlewares/errorHandler');
+const cron = require('node-cron');
+const syncMediumBlogs = require('./scripts/syncMedium');
 
 const app = express();
 
@@ -109,6 +111,28 @@ mongoose.connection.on('connected', () => {
 connectWithRetry();
 
 const contentRoutes = require('./src/routes/contentRoutes');
+
+// Medium RSS Sync Cron Job - Runs every day at 2:00 AM
+cron.schedule('0 2 * * *', () => {
+  logger.info('Running scheduled Medium RSS sync');
+  syncMediumBlogs();
+});
+
+// Admin manual sync route
+app.post('/api/admin/sync-medium', async (req, res) => {
+  // Very basic security for manual sync if needed
+  const token = req.headers['x-admin-token'];
+  if (process.env.ADMIN_SYNC_TOKEN && token !== process.env.ADMIN_SYNC_TOKEN) {
+    return res.status(401).json({ success: false, error: 'Unauthorized' });
+  }
+  
+  try {
+    await syncMediumBlogs();
+    res.json({ success: true, message: 'Sync completed successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Sync failed' });
+  }
+});
 
 // Routes
 app.use('/api/v1', contentRoutes);       // public

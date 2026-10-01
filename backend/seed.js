@@ -15,7 +15,6 @@ const { loadDsaForgeQuestions } = require('./src/services/dsaForgeImport');
 const dsaData = loadDsaForgeQuestions();
 const mcData = require('./data/machineCodingQuestions.json');
 const sdData = require('./data/systemDesignQuestions.json');
-const blogData = require('./data/blogs.json');
 const projectData = require('./data/projects.json');
 const resourceData = require('./data/resources.json');
 
@@ -61,7 +60,6 @@ const seedData = async () => {
       pruneStaleDSA(DSAQuestion, dsaData),
       replaceAll(MachineCodingQuestion, mcData),
       replaceAll(SystemDesignQuestion, sdData),
-      replaceAll(Blog, blogData),
       replaceAll(Project, projectData),
       replaceAll(Resource, resourceData),
     ]);
@@ -69,7 +67,6 @@ const seedData = async () => {
     console.log(`DSA          — inserted: ${dsa.upsertedCount}, updated: ${dsa.modifiedCount}, pruned stale: ${stalled}`);
     console.log(`MachineCoding— inserted: ${mc.upsertedCount}, updated: ${mc.modifiedCount}`);
     console.log(`SystemDesign — inserted: ${sd.upsertedCount}, updated: ${sd.modifiedCount}`);
-    console.log(`Blogs        — inserted: ${blogs.upsertedCount}, updated: ${blogs.modifiedCount}`);
     console.log(`Projects     — inserted: ${projects.upsertedCount}, updated: ${projects.modifiedCount}`);
     console.log(`Resources    — inserted: ${resources.upsertedCount}, updated: ${resources.modifiedCount}`);
 

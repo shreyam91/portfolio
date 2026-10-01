@@ -26,4 +26,9 @@ export const socialLinks: SocialLink[] = [
     url: "https://www.geeksforgeeks.org/profile/shreyam91",
     icon: "/icons/gfg.svg",
   },
+  {
+    name: "Medium",
+    url: "https://medium.com/@shreyam91183",
+    icon: "/icons/medium.svg",
+  },
 ];

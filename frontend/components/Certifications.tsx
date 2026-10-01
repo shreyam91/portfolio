@@ -158,23 +158,28 @@ export default function Certifications() {
           <div className="flex flex-col items-center gap-16">
             {/* Custom Streak Badges */}
             <div className="flex flex-wrap justify-center gap-12">
-              {[50, 100, 200].map((days) => (
+              {[
+                { id: "50", label: "50 Days Streak" },
+                { id: "100", label: "100 Days Streak" },
+                { id: "200", label: "200 Days Streak" },
+                { id: "SQL", label: "SQL Badge" }
+              ].map((badge) => (
                 <motion.div
-                  key={days}
+                  key={badge.id}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedBadge(`/images/badges/${days}.png`)}
+                  onClick={() => setSelectedBadge(`/images/badges/${badge.id}.png`)}
                   className="cursor-pointer flex flex-col items-center"
                 >
                   <div className="w-32 h-32 md:w-40 md:h-40 relative rounded-2xl overflow-hidden bg-white/5 dark:bg-white/5 border border-gray-200 dark:border-white/10 shadow-sm flex items-center justify-center p-2 hover:border-[#3b82f6]/50 transition-colors">
                     <img
-                      src={`/images/badges/${days}.gif`}
-                      alt={`${days} Days Badge`}
+                      src={`/images/badges/${badge.id}.gif`}
+                      alt={badge.label}
                       className="w-full h-full object-contain"
                     />
                   </div>
                   <p className="mt-4 font-mono text-sm text-gray-500 dark:text-gray-400">
-                    {days} Days Streak
+                    {badge.label}
                   </p>
                 </motion.div>
               ))}

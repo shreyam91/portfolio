@@ -12,7 +12,7 @@ const requiredEnvs = [
 const missingEnvs = requiredEnvs.filter((env) => !process.env[env]);
 
 if (missingEnvs.length > 0) {
-  process.exit(1);
+  console.error("MISSING ENVS:", missingEnvs); process.exit(1);
 }
 
 module.exports = {

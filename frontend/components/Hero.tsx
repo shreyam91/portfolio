@@ -10,7 +10,7 @@ import {
   FiLinkedin,
   FiMail,
 } from "react-icons/fi";
-import { SiLeetcode } from "react-icons/si";
+import { SiLeetcode, SiMedium } from "react-icons/si";
 import type { Hero as HeroData } from "@/app/data/types";
 import { track } from "@/lib/track";
 
@@ -138,7 +138,7 @@ export default function Hero({ heroData }: { heroData: HeroData }) {
             onClick={() => track("hero_cta")}
             className="group inline-flex items-center gap-2 text-[#1a1a1a] dark:text-white font-medium text-sm tracking-wide"
           >
-            <span className="border-b border-[#3b82f6]/60 pb-1 transition-colors group-hover:border-[#3b82f6]">
+            <span className="border-b border-[#3b82f6]/60 pb-1 transition-colors group-hover:border-[#3b82f6] font-mono uppercase">
               Start a project
             </span>
             <FiArrowRight className="text-[#3b82f6] transition-transform group-hover:translate-x-1" />
@@ -148,7 +148,7 @@ export default function Hero({ heroData }: { heroData: HeroData }) {
           <a
             href="#work"
             onClick={() => track("explore_work")}
-            className="group inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-[#1a1a1a] dark:hover:text-white transition-colors font-light"
+            className="group inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-[#1a1a1a] dark:hover:text-white transition-colors font-mono uppercase"
           >
             Explore my work
             <FiArrowDown className="transition-transform group-hover:translate-y-0.5" />
@@ -158,10 +158,10 @@ export default function Hero({ heroData }: { heroData: HeroData }) {
             href={heroData.resume}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-[#1a1a1a] dark:hover:text-white transition-colors font-light"
+            className="group inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-[#1a1a1a] dark:hover:text-white transition-colors font-mono uppercase"
           >
             <FiFileText className="text-gray-400" />
-            Résumé
+            Resume
           </a>
         </motion.div>
       </div>
@@ -194,6 +194,11 @@ export default function Hero({ heroData }: { heroData: HeroData }) {
             href: "https://leetcode.com/u/Shrey91leet/",
             label: "LeetCode",
           },
+          {
+            Icon: SiMedium,
+            href: "https://medium.com/@shreyam91183",
+            label: "Medium",
+          },
         ].map(({ Icon, href, label }) => (
           <a
             key={label}
@@ -204,7 +209,7 @@ export default function Hero({ heroData }: { heroData: HeroData }) {
             onClick={() => track("click_social", { platform: label })}
             className="text-gray-400 dark:text-gray-500 hover:text-[#3b82f6] transition-colors"
           >
-            <Icon size={17} />
+            <Icon size={20} />
           </a>
         ))}
       </motion.div>
