@@ -19,6 +19,7 @@ type Blog = {
   author?: string;
   image?: string;
   date?: string;
+  mediumUrl?: string;
 };
 
 export default function BlogsPage() {
