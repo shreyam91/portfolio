@@ -36,9 +36,10 @@ async function functionProxy(
           response.headers.get("Content-Type") || "application/json",
       },
     });
-  } catch (error) {
+  } catch (error: any) {
+    console.error("Proxy error:", error);
     return NextResponse.json(
-      { message: "Internal Server Error (Proxy)" },
+      { message: "Internal Server Error (Proxy)", details: error.message },
       { status: 500 },
     );
   }

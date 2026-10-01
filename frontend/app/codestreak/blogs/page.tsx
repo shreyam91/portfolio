@@ -66,7 +66,7 @@ export default function BlogsPage() {
   return (
     <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0a] transition-colors duration-300">
       <CodeStreakNav />
-      <div className="max-w-5xl mx-auto px-6 md:px-10 py-16 md:py-20">
+      <div className="max-w-5xl mx-auto px-6 md:py-20">
         <PageHeader
           eyebrow="Blogs"
           title="Notes &"
@@ -130,8 +130,10 @@ export default function BlogsPage() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, ease: EASE, delay: i * 0.05 }}
               >
-                <Link
-                  href={`${basePath}/blogs/${toSlug(blog.title)}`}
+                <a
+                  href={blog.mediumUrl || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group flex flex-col h-full rounded-2xl border border-gray-200 dark:border-white/10 bg-white/60 dark:bg-white/[0.03] overflow-hidden hover:border-[#3b82f6]/40 hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <div className="relative h-44 overflow-hidden bg-gray-100 dark:bg-white/5">
@@ -181,7 +183,7 @@ export default function BlogsPage() {
                       </span>
                     </div>
                   </div>
-                </Link>
+                </a>
               </motion.div>
             ))}
           </div>

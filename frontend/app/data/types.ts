@@ -52,12 +52,9 @@ export interface Highlight {
 export interface PortfolioData {
   hero: Hero;
   experience: Experience[];
-  techStack: Tech[];
   skills: string[];
-  aboutData: AboutData;
   contact: Contact;
   socialLinks: SocialLink[];
-  highlights: Highlight[];
 }
 
 export interface Project {
