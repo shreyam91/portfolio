@@ -19,6 +19,12 @@ type Blog = {
   author?: string;
   image?: string;
   date?: string;
+  sourceUrl?: string;
+  source?: string;
+  publishedAt?: string;
+  content?: string;
+  tags?: string[];
+  published?: boolean;
 };
 
 export default function BlogsPage() {
@@ -131,7 +137,7 @@ export default function BlogsPage() {
                 transition={{ duration: 0.5, ease: EASE, delay: i * 0.05 }}
               >
                 <Link
-                  href={`${basePath}/blogs/${toSlug(blog.title)}`}
+                  href={`${basePath}/blogs/${blog._id ?? (blog as any).id ?? toSlug(blog.title)}`}
                   className="group flex flex-col h-full rounded-2xl border border-gray-200 dark:border-white/10 bg-white/60 dark:bg-white/[0.03] overflow-hidden hover:border-[#3b82f6]/40 hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <div className="relative h-44 overflow-hidden bg-gray-100 dark:bg-white/5">
@@ -140,6 +146,7 @@ export default function BlogsPage() {
                         src={blog.image}
                         alt={blog.title ?? ""}
                         fill
+                        unoptimized={Boolean(blog.image?.startsWith("http"))}
                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                     ) : (

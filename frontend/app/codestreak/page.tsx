@@ -77,7 +77,7 @@ export default function Dashboard() {
           })),
           ...(Array.isArray(blogs) ? blogs.slice(0, 2) : []).map((b: any) => ({
             key: b._id ?? b.id,
-            href: `${basePath}/blogs/${toSlug(b.title)}`,
+            href: `${basePath}/blogs/${b._id ?? b.id ?? toSlug(b.title)}`,
             section: "Blog",
             title: b.title,
           })),

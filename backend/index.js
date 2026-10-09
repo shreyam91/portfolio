@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const logger = require('./src/utils/logger');
 const errorHandler = require('./src/middlewares/errorHandler');
+const { initMediumCron } = require('./src/services/mediumSync');
 
 const app = express();
 
@@ -74,6 +75,7 @@ const connectWithRetry = async () => {
     });
     logger.info('Connected to MongoDB Atlas successfully');
     retryCount = 0; // Reset retry count on successful connection
+    initMediumCron();
   } catch (err) {
     retryCount++;
     console.error(`MongoDB connection error (attempt ${retryCount}/${MAX_RETRIES}):`, err.message);
@@ -103,6 +105,7 @@ mongoose.connection.on('disconnected', () => {
 mongoose.connection.on('connected', () => {
   console.log('MongoDB connected successfully');
   retryCount = 0; // Reset retry count on successful connection
+  initMediumCron();
 });
 
 // Initial connection

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Check, Copy } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Check, Copy } from "lucide-react";
 import Link from "next/link";
 import { use, useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -45,26 +45,44 @@ export default function BlogPost({
     const loadBlog = async () => {
       try {
         setIsLoading(true);
-        const res = await contentApi.getBlogs();
-        const data = res.data?.data || [];
+        let found: any = null;
+        let allBlogs: any[] = [];
 
-        // Find matching item (by matching id or converting title to slug to match resolvedParams.id)
-        const found = data.find(
-          (item: any) =>
-            item.id?.toString() === resolvedParams.id ||
-            item._id === resolvedParams.id ||
-            item.title
-              ?.toLowerCase()
-              .replace(/[^a-z0-9]+/g, "-")
-              .replace(/(^-|-$)+/g, "") === resolvedParams.id,
-        );
+        // 1. Try single fetch by ID (hits backend Model.findById(req.params.id))
+        try {
+          const res = await contentApi.getSingleBlog(resolvedParams.id);
+          found = res?.data ?? res;
+        } catch {
+          // If not found by ID or invalid ObjectId, search in blog list below
+        }
+
+        // 2. Fetch all blogs for related blogs and fallback search
+        try {
+          const listRes = await contentApi.getBlogs();
+          allBlogs = listRes?.data?.data ?? listRes?.data ?? [];
+        } catch (err) {
+          console.error("Failed to load blog list", err);
+        }
+
+        // 3. Fallback search by slug or id if not found directly
+        if (!found || !found.title) {
+          found = allBlogs.find(
+            (item: any) =>
+              item._id === resolvedParams.id ||
+              item.id?.toString() === resolvedParams.id ||
+              item.title
+                ?.toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/(^-|-$)+/g, "") === resolvedParams.id,
+          );
+        }
 
         if (found) {
           setBlog(found);
-          // Set some related blogs (excluding the current one)
+          const currentId = found._id || found.id;
           setRelatedBlogs(
-            data
-              .filter((b: any) => b.id !== found.id && b._id !== found._id)
+            allBlogs
+              .filter((b: any) => (b._id || b.id) !== currentId)
               .slice(0, 3),
           );
         }
@@ -175,48 +193,70 @@ export default function BlogPost({
 
           {/* Article Header */}
           <header className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-6 flex-wrap">
               <span className="px-3 py-1 font-mono text-[11px] text-[#3b82f6] border border-[#3b82f6]/30 rounded-full">
                 {blog.category || "Engineering"}
               </span>
+              {blog.source === "medium" && (
+                <span className="px-3 py-1 font-mono text-[11px] text-emerald-500 border border-emerald-500/30 rounded-full">
+                  Medium
+                </span>
+              )}
             </div>
             <h1 className="text-4xl md:text-5xl font-light tracking-tight text-[#1a1a1a] dark:text-[#fcfcfc] mb-6 leading-[1.15]">
               {blog.title}
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed mb-8">
-              {blog.summary ||
+              {blog.excerpt ||
+                blog.summary ||
                 "An insightful look into modern software engineering practices."}
             </p>
 
-            <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
-              <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0 border border-black/10 dark:border-white/10 overflow-hidden">
-                {blog.authorAvatar ? (
-                  <img
-                    src={blog.authorAvatar}
-                    alt={blog.author}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span className="text-gray-500 dark:text-gray-400 font-mono text-sm">
-                    {blog.author?.charAt(0) || "U"}
+            <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground flex-wrap justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0 border border-black/10 dark:border-white/10 overflow-hidden">
+                  {blog.authorAvatar ? (
+                    <img
+                      src={blog.authorAvatar}
+                      alt={blog.author}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-gray-500 dark:text-gray-400 font-mono text-sm">
+                      {blog.author?.charAt(0) || "U"}
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-foreground font-bold">
+                    {blog.author || "Guest Author"}
                   </span>
-                )}
-              </div>
-              <div className="flex flex-col">
-                <span className="text-foreground font-bold">
-                  {blog.author || "Guest Author"}
-                </span>
-                <div className="flex items-center gap-2">
-                  <span>
-                    {new Date(blog.createdAt || Date.now()).toLocaleDateString(
-                      "en-US",
-                      { month: "short", day: "numeric", year: "numeric" },
-                    )}
-                  </span>
-                  <span>•</span>
-                  <span>{blog.readTime || "5 min read"}</span>
+                  <div className="flex items-center gap-2">
+                    <span>
+                      {new Date(
+                        blog.publishedAt || blog.createdAt || Date.now(),
+                      ).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </span>
+                    <span>•</span>
+                    <span>{blog.readTime || "5 min read"}</span>
+                  </div>
                 </div>
               </div>
+
+              {blog.sourceUrl && (
+                <a
+                  href={blog.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-black/10 dark:border-white/10 text-xs font-mono text-muted-foreground hover:text-foreground hover:border-[#3b82f6]/50 transition-colors"
+                >
+                  Read on Medium <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              )}
             </div>
           </header>
 
@@ -224,6 +264,7 @@ export default function BlogPost({
           <div className="w-full h-[300px] md:h-[450px] rounded-[24px] overflow-hidden mb-16 shadow-lg border border-black/10 dark:border-white/10">
             <img
               src={
+                blog.image ||
                 blog.coverImage ||
                 "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80"
               }
@@ -471,13 +512,13 @@ export default function BlogPost({
             {relatedBlogs.map((b) => (
               <Link
                 key={b.id || b._id}
-                href={`${basePath}/blogs/${toSlug(b.title)}`}
+                href={`${basePath}/blogs/${b._id ?? b.id ?? toSlug(b.title)}`}
                 className="group block"
               >
                 <div className="w-full h-48 bg-muted rounded-[20px] mb-6 overflow-hidden border border-black/10 dark:border-white/10 relative">
-                  {b.coverImage ? (
+                  {b.image || b.coverImage ? (
                     <img
-                      src={b.coverImage}
+                      src={b.image || b.coverImage}
                       alt={b.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />

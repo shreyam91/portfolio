@@ -11,6 +11,18 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "img.youtube.com",
       },
+      {
+        protocol: "https",
+        hostname: "cdn-images-1.medium.com",
+      },
+      {
+        protocol: "https",
+        hostname: "miro.medium.com",
+      },
+      {
+        protocol: "https",
+        hostname: "medium.com",
+      },
     ],
   },
   async headers() {

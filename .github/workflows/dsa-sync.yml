@@ -1,6 +1,7 @@
 name: Sync DSA
 
 on:
+  workflow_dispatch:
   repository_dispatch:
     types:
       - dsa-updated
@@ -11,6 +12,8 @@ on:
 jobs:
   sync-dsa:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout Portfolio
