@@ -24,7 +24,7 @@ const STAGES = [
   },
   {
     tag: "03",
-    stage: "Independent product builder",
+    stage: "Learning, Improving, Building",
   },
   {
     tag: "04",
@@ -111,20 +111,18 @@ export default function Timeline({ experience }: { experience: Experience[] }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6, ease: EASE }}
-              className={`relative flex flex-col md:flex-row gap-6 md:gap-14 pb-16 pl-10 md:pl-0 ${
-                i % 2 === 1 ? "md:flex-row-reverse" : ""
-              }`}
+              className={`relative flex flex-col md:flex-row gap-6 md:gap-14 pb-16 pl-10 md:pl-0 ${i % 2 === 1 ? "md:flex-row-reverse" : ""
+                }`}
             >
               {/* Spine dot */}
               <span className="absolute left-[3px] md:left-1/2 md:-translate-x-1/2 top-2 h-2.5 w-2.5 rounded-full bg-[#3b82f6] shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
 
               {/* Stage label (opposite side of card on desktop) */}
               <div
-                className={`hidden md:flex w-1/2 md:pr-14 items-start ${
-                  i % 2 === 1
+                className={`hidden md:flex w-1/2 md:pr-14 items-start ${i % 2 === 1
                     ? "md:order-none md:justify-start md:pl-14 md:pr-0"
                     : "justify-end"
-                }`}
+                  }`}
               >
                 <div className="text-right">
                   <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500">
