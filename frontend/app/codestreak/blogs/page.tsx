@@ -188,7 +188,7 @@ export default function BlogsPage() {
                       </span>
                     </div>
                   </div>
-                </a>
+                </Link>
               </motion.div>
             ))}
           </div>
