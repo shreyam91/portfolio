@@ -19,6 +19,8 @@ module.exports = {
   port: process.env.PORT || 4000,
   nodeEnv: process.env.NODE_ENV || 'development',
   mongodbUri: process.env.MONGODB_URI,
+  mediumRssUrl: process.env.MEDIUM_RSS_URL,
+  adminSyncToken: process.env.ADMIN_SYNC_TOKEN,
 
   cors: {
     frontendUrl: process.env.FRONTEND_URL,

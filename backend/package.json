@@ -22,7 +22,6 @@
     "mongoose": "^7.0.3",
     "node-cron": "^4.6.0",
     "rss-parser": "^3.13.0",
-    "turndown": "^7.2.4",
     "validator": "^13.9.0",
     "zod": "^4.4.3"
   },

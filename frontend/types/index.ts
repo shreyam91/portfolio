@@ -70,3 +70,21 @@ export interface PaginatedResponse<T> {
     };
   };
 }
+
+export interface Blog {
+  _id: string;
+  title: string;
+  excerpt?: string;
+  category?: string;
+  readTime?: string;
+  author?: string;
+  image?: string;
+  content: string;
+  tags?: string[];
+  published?: boolean;
+  sourceUrl?: string;
+  source?: "manual" | "medium" | string;
+  publishedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}

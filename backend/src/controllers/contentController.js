@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const DSAQuestion = require('../../models/DSAQuestion');
 const MachineCodingQuestion = require('../../models/MachineCodingQuestion');
 const SystemDesignQuestion = require('../../models/SystemDesignQuestion');
@@ -6,6 +7,7 @@ const Blog = require('../../models/Blog');
 const Project = require('../../models/Project');
 const Resource = require('../../models/Resource');
 
+const { syncMedium } = require('../services/mediumSync');
 const { sendSuccess } = require('../utils/apiResponse');
 const paginate = require('../utils/pagination');
 const AppError = require('../utils/AppError');
@@ -27,6 +29,9 @@ const getList = (Model) => async (req, res, next) => {
 // Generic public getSingle
 const getSingle = (Model) => async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return next(new AppError('Item not found', 404));
+    }
     const item = await Model.findById(req.params.id);
     if (!item) {
       return next(new AppError('Item not found', 404));
@@ -320,6 +325,18 @@ exports.getSingleSystemDesign = getSingle(SystemDesignQuestion);
 
 exports.getBlogs = getList(Blog);
 exports.getSingleBlog = getSingle(Blog);
+
+exports.syncMedium = async (req, res, next) => {
+  try {
+    const result = await syncMedium(req.body?.rssUrl);
+    if (result.error) {
+      return next(new AppError(`Medium sync failed: ${result.error}`, 502));
+    }
+    sendSuccess(res, result);
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.getProjects = getList(Project);
 exports.getSingleProject = getSingle(Project);

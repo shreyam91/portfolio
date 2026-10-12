@@ -19,6 +19,7 @@ router.get('/system-design/:id', contentController.getSingleSystemDesign);
 
 // Blogs
 router.get('/blogs', contentController.getBlogs);
+router.post('/blogs/sync-medium', contentController.syncMedium);
 router.get('/blogs/:id', contentController.getSingleBlog);
 
 

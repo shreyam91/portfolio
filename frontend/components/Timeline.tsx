@@ -24,7 +24,7 @@ const STAGES = [
   },
   {
     tag: "03",
-    stage: "Independent product builder",
+    stage: "Learning, Improving, Building",
   },
   {
     tag: "04",
@@ -155,9 +155,25 @@ export default function Timeline({ experience }: { experience: Experience[] }) {
                       <p className="text-[11px] font-mono text-gray-400 dark:text-gray-500 mt-3 mb-3">
                         {node.exp.duration}
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 font-light leading-relaxed">
-                        {node.exp.description[0]}
-                      </p>
+                      {node.exp.description.length === 1 ? (
+                        <p className="text-sm text-gray-600 dark:text-gray-400 font-light leading-relaxed">
+                          {node.exp.description[0]}
+                        </p>
+                      ) : (
+                        <ul className="space-y-2 mt-2">
+                          {node.exp.description.map((point, idx) => (
+                            <li
+                              key={idx}
+                              className="text-sm text-gray-600 dark:text-gray-400 font-light leading-relaxed flex items-start gap-2"
+                            >
+                              <span className="text-[#3b82f6] mt-1.5 text-xs shrink-0">
+                                •
+                              </span>
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </>
                   ) : (
                     <p className="text-base text-gray-500 dark:text-gray-400 font-light italic leading-relaxed">

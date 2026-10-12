@@ -11,10 +11,18 @@ const blogSchema = new mongoose.Schema({
   content: { type: String, required: true },
   tags: [{ type: String }],
   published: { type: Boolean, default: false },
-  mediumId: { type: String, unique: true, sparse: true },
-  mediumUrl: { type: String },
-  source: { type: String, default: "medium" },
-  publishedAt: { type: Date }
+  sourceUrl: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  source: {
+    type: String,
+    default: "manual"
+  },
+  publishedAt: {
+    type: Date
+  }
 }, { timestamps: true, strict: false });
 
 module.exports = mongoose.model('Blog', blogSchema);
