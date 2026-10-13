@@ -164,9 +164,15 @@ async function syncMedium(customRssUrl = null) {
       const image = extractImage(item);
       const tags = Array.isArray(item.categories) ? item.categories : [];
       const readTime = calculateReadTime(content);
+      const slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '');
 
       const updateData = {
         title,
+        slug,
+        mediumUrl: sourceUrl,
         excerpt,
         content,
         author,

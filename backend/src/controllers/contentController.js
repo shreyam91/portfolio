@@ -323,12 +323,79 @@ exports.getSingleSystemDesign = getSingle(SystemDesignQuestion);
 
 
 
-exports.getBlogs = getList(Blog);
-exports.getSingleBlog = getSingle(Blog);
+exports.getBlogs = async (req, res, next) => {
+  try {
+    if (req.query.sync === 'true' || req.query.sync === '1') {
+      try {
+        await syncMedium();
+      } catch (err) {
+        logger.warn('On-demand Medium sync failed:', err.message);
+      }
+    }
+
+    const result = await paginate(Blog, {}, {
+      page: req.query.page,
+      limit: req.query.limit,
+      sort: { publishedAt: -1, createdAt: -1 },
+      select: '-content'
+    });
+
+    if (result.data.length === 0 && !req.query.sync) {
+      try {
+        await syncMedium();
+        const refreshed = await paginate(Blog, {}, {
+          page: req.query.page,
+          limit: req.query.limit,
+          sort: { publishedAt: -1, createdAt: -1 },
+          select: '-content'
+        });
+        res.set('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+        return sendSuccess(res, refreshed);
+      } catch (err) {
+        logger.warn('Auto-sync on empty blogs list failed:', err.message);
+      }
+    }
+
+    res.set('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+    sendSuccess(res, result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getSingleBlog = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    let blog = null;
+
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      blog = await Blog.findById(id);
+    }
+
+    if (!blog) {
+      blog = await Blog.findOne({
+        $or: [
+          { slug: id },
+          { sourceUrl: id }
+        ]
+      });
+    }
+
+    if (!blog) {
+      return next(new AppError('Item not found', 404));
+    }
+
+    res.set('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+    sendSuccess(res, blog);
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.syncMedium = async (req, res, next) => {
   try {
-    const result = await syncMedium(req.body?.rssUrl);
+    const rssUrl = req.body?.rssUrl || req.query?.rssUrl;
+    const result = await syncMedium(rssUrl);
     if (result.error) {
       return next(new AppError(`Medium sync failed: ${result.error}`, 502));
     }

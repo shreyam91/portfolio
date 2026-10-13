@@ -11,5 +11,11 @@
       "src": "/(.*)",
       "dest": "index.js"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/v1/blogs/sync-medium",
+      "schedule": "0 */2 * * *"
+    }
   ]
 }

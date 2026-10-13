@@ -16,6 +16,7 @@ import Thoughts from "@/components/Thoughts";
 import Timeline from "@/components/Timeline";
 import WhyWorkWithMe from "@/components/WhyWorkWithMe";
 import { contentApi } from "@/lib/api";
+import { initialBlogs } from "./data/blogsData";
 import { liveProjects } from "./data/liveProjects";
 import { portfolioData } from "./data/portfolioData";
 import { projects } from "./data/projectsData";
@@ -24,7 +25,7 @@ export default function AdventurePage() {
   const [mounted, setMounted] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
   const [revealed, setRevealed] = useState(false);
-  const [dbBlogs, setDbBlogs] = useState<any[]>([]);
+  const [dbBlogs, setDbBlogs] = useState<any[]>(initialBlogs);
   const [dbProjects, setDbProjects] = useState(projects);
 
   useEffect(() => {

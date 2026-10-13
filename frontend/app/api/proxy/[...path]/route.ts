@@ -18,23 +18,34 @@ async function functionProxy(
   headers.delete("host"); // Let fetch set the correct host
 
   try {
+    const isGet = req.method === "GET" || req.method === "HEAD";
     const response = await fetch(url.toString(), {
       method: req.method,
       headers,
-      body:
-        req.method !== "GET" && req.method !== "HEAD"
-          ? await req.text()
-          : undefined,
+      body: !isGet ? await req.text() : undefined,
     });
 
     const data = await response.text();
 
+    const responseHeaders = new Headers();
+    responseHeaders.set(
+      "Content-Type",
+      response.headers.get("Content-Type") || "application/json"
+    );
+
+    const backendCacheControl = response.headers.get("Cache-Control");
+    if (backendCacheControl) {
+      responseHeaders.set("Cache-Control", backendCacheControl);
+    } else if (isGet && response.ok) {
+      responseHeaders.set(
+        "Cache-Control",
+        "public, s-maxage=60, stale-while-revalidate=300"
+      );
+    }
+
     return new NextResponse(data, {
       status: response.status,
-      headers: {
-        "Content-Type":
-          response.headers.get("Content-Type") || "application/json",
-      },
+      headers: responseHeaders,
     });
   } catch (error: any) {
     console.error("Proxy error:", error);

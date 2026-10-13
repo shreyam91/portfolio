@@ -61,10 +61,24 @@ export default function Thoughts({ blogs }: { blogs: any[] }) {
             {visibleBlogs.map((blog, i) => (
               <motion.a
                 layout
-                key={blog._id || blog.id}
-                href={blog.mediumUrl || `/codestreak/blogs/${blog.slug}`}
-                target="_blank"
-                rel="noopener noreferrer"
+                key={blog._id || blog.id || blog.title}
+                href={
+                  blog.sourceUrl ||
+                  blog.mediumUrl ||
+                  (blog._id
+                    ? `/codestreak/blogs/${blog._id}`
+                    : blog.slug
+                      ? `/codestreak/blogs/${blog.slug}`
+                      : "/codestreak/blogs")
+                }
+                target={
+                  (blog.sourceUrl || blog.mediumUrl) ? "_blank" : undefined
+                }
+                rel={
+                  (blog.sourceUrl || blog.mediumUrl)
+                    ? "noopener noreferrer"
+                    : undefined
+                }
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}

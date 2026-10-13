@@ -5,6 +5,7 @@ import { ArrowUpRight, Clock, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { initialBlogs } from "@/app/data/blogsData";
 import { CodeStreakNav } from "@/components/shared/CodeStreakNav";
 import { EASE, PageHeader, TagPill } from "@/components/shared/codestreak-ui";
 import { contentApi } from "@/lib/api";
@@ -29,8 +30,8 @@ type Blog = {
 
 export default function BlogsPage() {
   const basePath = useCodeStreakBasePath();
-  const [items, setItems] = useState<Blog[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [items, setItems] = useState<Blog[]>(initialBlogs as Blog[]);
+  const [isLoading, setIsLoading] = useState(false);
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
@@ -40,7 +41,9 @@ export default function BlogsPage() {
       try {
         const res = await contentApi.getBlogs();
         const data = res.data?.data ?? res.data ?? [];
-        setItems(Array.isArray(data) ? data : []);
+        if (Array.isArray(data) && data.length > 0) {
+          setItems(data);
+        }
       } catch (err) {
         console.error("Failed to load blogs", err);
       } finally {
